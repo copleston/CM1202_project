@@ -18,7 +18,7 @@ class dqsLearn(Frame): # include inheritance as parameters
         # collection of frames i.e. login, menu, lesson, test
         self.frames = {}
 
-        for page in (login, studentMenu, lesson_1, lecturerMenu, view_results):
+        for page in (login, studentMenu, lesson_1, test_1, lecturerMenu, view_results):
             # set the current frame
             frame = page(container, self) # Assign the login screen to the first frame to be passed
 
@@ -35,6 +35,7 @@ class dqsLearn(Frame): # include inheritance as parameters
 
 # **** COMMON REUSABLE CODE ****
 
+# Classes for each page in the software
 
 class login(Frame):
     def __init__(self, parent, controller):
@@ -50,6 +51,7 @@ class login(Frame):
         button2 = Button(self, text="Lecturer Login", command=lambda: controller.show_frame(lecturerMenu))  # only calls the function when the button is pressed
         button2.pack(padx=10, pady=10)
 
+
 class studentMenu(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
@@ -62,6 +64,32 @@ class studentMenu(Frame):
 
         button2 = Button(self, text="Begin lesson", command=lambda: controller.show_frame(lesson_1))
         button2.pack(padx=10, pady=10)
+
+        # ?? This should be disabled (greyed out) until the lesson has been completed ??
+        button3 = Button(self, text="Begin test", command=lambda: controller.show_frame(test_1))
+        button3.pack(padx=10, pady=10)
+
+
+class lesson_1(Frame):
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+
+        label = Label(self, text="Logic - Lesson", font=LARGE_FONT)
+        label.pack(padx=10, pady=10) # temp placement
+
+        button1 = Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))  # only calls the function when the button is pressed
+        button1.pack(padx=10, pady=10)
+
+class test_1(Frame):
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+
+        label = Label(self, text="Logic - Test", font=LARGE_FONT)
+        label.pack(padx=10, pady=10) # temp placement
+
+        button1 = Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))  # only calls the function when the button is pressed
+        button1.pack(padx=10, pady=10)
+
 
 class lecturerMenu(Frame):
     def __init__(self, parent, controller):
@@ -76,15 +104,6 @@ class lecturerMenu(Frame):
         button2 = Button(self, text="View Results", command=lambda: controller.show_frame(view_results))
         button2.pack(padx=10, pady=10)
 
-class lesson_1(Frame):
-    def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
-
-        label = Label(self, text="Logic - Lesson", font=LARGE_FONT)
-        label.pack(padx=10, pady=10) # temp placement
-
-        button1 = Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))  # only calls the function when the button is pressed
-        button1.pack(padx=10, pady=10)
 
 class view_results(Frame):
     def __init__(self, parent, controller):
