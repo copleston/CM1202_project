@@ -37,7 +37,7 @@ class Login(Frame):
         Frame.__init__(self, parent)
         label = Label(self, text="Login Page", font=LARGE_FONT)
         label.pack(padx=10, pady=10)
-        #test
+        #testing
 
 # Application window
 root.title("DQS - Learn")
