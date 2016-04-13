@@ -18,29 +18,50 @@ class dqsLearn(Frame): # include inheritance as parameters
         # collection of frames i.e. login, menu, lesson, test
         self.frames = {}
 
-        # set the current frame
-        frame = Login(container, self) # Assign the login screen to the first frame to be passed
+        for page in (login, studentMenu):
+            # set the current frame
+            frame = page(container, self) # Assign the login screen to the first frame to be passed
 
-        self.frames[Login] = frame # Set initial frame to the login screen
+            # Set initial frame to the login screen
+            self.frames[page] = frame
 
-        frame.grid(row=0, column=0, sticky="nsew") # nsew stretches everything to all edges, fits to size of window
+            frame.grid(row=0, column=0, sticky="nsew") # nsew stretches everything to all edges, fits to size of window
 
-        self.show_frame(Login)
+        self.show_frame(login)
 
     def show_frame(self, cont): # cont = controller (unused)
         frame = self.frames[cont] # retrieves the frame with key "cont" from frames dictionary
         frame.tkraise() # Moves called frame to top
 
-class Login(Frame):
+def studentMenuMethod():
+    print("to student section...")
+
+def qf(param):
+    print(param)
+
+class login(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
+
         label = Label(self, text="Login Page", font=LARGE_FONT)
         label.pack(padx=10, pady=10)
 
-# Application window
-#root.title("DQS - Learn")
-#root = Tk()
-# can change value of app to change screen??
+        # button1 = Button(self, text="Student Login", command=studentMenu) # calls the function immediately
+        button1 = Button(self, text="Student Login", command=lambda: controller.show_frame(studentMenu)) # only calls the function when the button is pressed
+        button1.pack()
+
+class studentMenu(Frame):
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+
+        label = Label(self, text="Student Menu", font=LARGE_FONT)
+        label.pack(padx=10, pady=10)
+
+        button1 = Button(self, text="Back to login", command=lambda: controller.show_frame(login))  # only calls the function when the button is pressed
+        button1.pack()
+
+
+
 
 root = Tk()
 root.title("DQS - Learn")
