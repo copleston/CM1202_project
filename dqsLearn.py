@@ -1,13 +1,12 @@
 from tkinter import *
 
-root = Tk()
 LARGE_FONT = ("Verdana", 12)
 
 class dqsLearn(Frame): # include inheritance as parameters
     def __init__(self, *args, **kwargs): # args(arguments) = any number of variables kwargs(kewyword arguments) = passing dictionaries/data structures
         # tk.Tk.__init__(self, *args, **kwargs)
         Frame.__init__(self, *args, **kwargs) # Initialise the frame
-        container = Frame(self) # Assign container as a frame which we can alter
+        container = Frame() # Assign container as a frame which we can alter
 
         # allow the container to expand into the entire window
         container.pack(side="top", fill="both", expand=True)
@@ -37,11 +36,13 @@ class Login(Frame):
         Frame.__init__(self, parent)
         label = Label(self, text="Login Page", font=LARGE_FONT)
         label.pack(padx=10, pady=10)
-        #testing
 
 # Application window
-root.title("DQS - Learn")
-
+#root.title("DQS - Learn")
+#root = Tk()
 # can change value of app to change screen??
+
+root = Tk()
+root.title("DQS - Learn")
 app = dqsLearn(root)
 root.mainloop()
