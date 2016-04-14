@@ -481,6 +481,9 @@ class test_1(Frame):    #Dom Routley
         button = ttk.Button(self, text="Finish", command=self.submitTest())
         button.grid(padx=10, pady=10)
 
+        button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))
+        button1.grid(padx=10, pady=10)
+
     def submitTest(self):
         questions = {
                'Q1': ('t1', self.varQ1A),
