@@ -3,6 +3,8 @@ from tkinter import ttk  # css for tkinter
 from tkinter import messagebox
 
 LARGE_FONT = ("Verdana", 12)
+BACKGROUND_COLOUR_DARK = "#283F44"
+BACKGROUND_COLOUR_DARKER = "#393B3F"
 
 class dqsLearn(Frame): # include inheritance as parameters
     def __init__(self, *args, **kwargs): # args(arguments) = any number of variables kwargs(kewyword arguments) = passing dictionaries/data structures
@@ -39,20 +41,18 @@ class dqsLearn(Frame): # include inheritance as parameters
 
 # Classes for each page in the software
 
+
 class login(Frame):
     def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
-
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARK)
         label = Label(self, text="Login Page", font=LARGE_FONT)
         label.pack(padx=10, pady=10)
 
         # button1 = Button(self, text="Student Login", command=studentMenu) # calls the function immediately
         button1 = ttk.Button(self, text="Student Login", command=lambda: controller.show_frame(studentMenu)) # only calls the function when the button is pressed
         button1.pack(padx=10, pady=10)
-
         button2 = ttk.Button(self, text="Lecturer Login", command=lambda: controller.show_frame(lecturerMenu))  # only calls the function when the button is pressed
         button2.pack(padx=10, pady=10)
-
 
 class studentMenu(Frame):
     def __init__(self, parent, controller):
@@ -74,9 +74,9 @@ class studentMenu(Frame):
 
 class lesson_1(Frame):
     def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
-        label = Label(self, text="Logic - Lesson", font=LARGE_FONT)
+        label = Label(self, text="Logic - Lesson", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
         label.pack(padx=10, pady=10) # temp placement
         #label.grid(row=0, column=0, columnspan=10, sticky=N)
 
@@ -87,7 +87,7 @@ class lesson_1(Frame):
         canvas_width = 750
         canvas_height = 600
 
-        canvas = Canvas(self, width=canvas_width, height=canvas_height)
+        canvas = Canvas(self, width=canvas_width, height=canvas_height, bg=BACKGROUND_COLOUR_DARK)
         canvas.pack(expand=YES, fill=Y)
         #canvas.grid(row=2, column=0)            
 
