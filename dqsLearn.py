@@ -69,10 +69,15 @@ class login(Frame):
         self.entry_2.grid(row=2, column=1)
 
         self.checkbox = Checkbutton(self, text="Keep me logged in", fg="white", bg=BACKGROUND_COLOUR_DARKER)
-        self.checkbox.grid(columnspan=2)
+        self.checkbox.grid(row=3, columnspan=2)
 
-        self.logbtn = Button(self, text="Login", command=self._login_btn_clickked)
-        self.logbtn.grid(columnspan=2)
+        self.logbtn = ttk.Button(self, text="Login", command=self._login_btn_clickked)
+        self.logbtn.grid(row=4, rowspan=1, columnspan=2)
+
+        button1 = ttk.Button(self, text="Student Login", command=lambda: controller.show_frame(studentMenu)) # only calls the function when the button is pressed
+        button1.grid(row=5, rowspan=1, column=1)
+        button2 = ttk.Button(self, text="Lecturer Login", command=lambda: controller.show_frame(lecturerMenu))  # only calls the function when the button is pressed
+        button2.grid(row=5, rowspan=1, column=2)
 
         self.pack()
 
@@ -103,19 +108,7 @@ class login(Frame):
             tm.showerror("Login error", "Incorrect information")
 
 
-
-
-
-
-        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
-        label = Label(self, text="Login Page", font=LARGE_FONT, bg=BACKGROUND_COLOUR_DARKER, fg="white")
-        label.pack(padx=10, pady=10)
-
         # button1 = Button(self, text="Student Login", command=studentMenu) # calls the function immediately
-        button1 = ttk.Button(self, text="Student Login", command=lambda: controller.show_frame(studentMenu)) # only calls the function when the button is pressed
-        button1.pack(padx=10, pady=10)
-        button2 = ttk.Button(self, text="Lecturer Login", command=lambda: controller.show_frame(lecturerMenu))  # only calls the function when the button is pressed
-        button2.pack(padx=10, pady=10)
 
 class studentMenu(Frame):
     def __init__(self, parent, controller):
@@ -265,7 +258,7 @@ class lesson_2(Frame):
                     4 : "SlideA4.png",
                     5 : "SlideA5.png",
                     6 : "SlideA6.png",
-                    7 : "SlideA7.png}
+                    7 : "SlideA7.png"}
 
         self.slide_index = 0
 
