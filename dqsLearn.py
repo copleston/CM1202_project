@@ -234,8 +234,8 @@ class lesson_2(Frame):
         button1.pack(padx=10, pady=10)
         #button1.grid(row=1, column=0, columnspan=2, sticky=N)
 
-        canvas_width = 750
-        canvas_height = 600
+        canvas_width = 960
+        canvas_height = 720
 
         canvas = Canvas(self, width=canvas_width, height=canvas_height, bg=BACKGROUND_COLOUR_DARK)
         canvas.pack(expand=YES, fill=Y, side=LEFT, padx=10, pady=10)
@@ -554,7 +554,7 @@ class view_results(Frame):  #Dom Routley
         buttonL2.pack(padx=10, pady=6)
 
 
-widthpixels = "1000"
+widthpixels = "1280"
 heightpixels = "800"
 
 root = Tk()
