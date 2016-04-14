@@ -1,9 +1,12 @@
 from tkinter import *
 from tkinter import ttk  # css for tkinter
-from tkinter import messagebox
+from tkinter import messagebox as tm
 from datetime import datetime
 import dqsClass
 import shelve
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 LARGE_FONT = ("Verdana", 16, "bold")
 BACKGROUND_COLOUR_DARK = "#283F44"
@@ -27,7 +30,7 @@ class dqsLearn(Frame): # include inheritance as parameters
         # collection of frames i.e. login, menu, lesson, test
         self.frames = {}
 
-        for page in (login, studentMenu, lesson_1, test_1, lecturerMenu, view_results):
+        for page in (login, studentMenu, lesson_1, lesson_2, test_1, lecturerMenu, view_results):
             # set the current frame
             frame = page(container, self) # Assign the login screen to the first frame to be passed
 
@@ -50,32 +53,39 @@ class dqsLearn(Frame): # include inheritance as parameters
 class login(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
+        label = Label(self, text="Login Page", font=LARGE_FONT, bg=BACKGROUND_COLOUR_DARKER, fg="white")
+        label.grid(row=0, sticky=N, padx=10, pady=10)
 
-        self.label_1 = Label(self, text="Username")
-        self.label_2 = Label(self, text="Password")
+        self.label_1 = Label(self, text="Username", fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        self.label_2 = Label(self, text="Password", fg="white", bg=BACKGROUND_COLOUR_DARKER)
 
         self.entry_1 = Entry(self)
         self.entry_2 = Entry(self, show="*")
 
-        self.label_1.grid(row=0, sticky=E)
-        self.label_2.grid(row=1, sticky=E)
-        self.entry_1.grid(row=0, column=1)
-        self.entry_2.grid(row=1, column=1)
+        self.label_1.grid(row=1, sticky=E)
+        self.label_2.grid(row=2, sticky=E)
+        self.entry_1.grid(row=1, column=1)
+        self.entry_2.grid(row=2, column=1)
 
-        self.checkbox = Checkbutton(self, text="Keep me logged in")
-        self.checkbox.grid(columnspan=2)
+        self.checkbox = Checkbutton(self, text="Keep me logged in", fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        self.checkbox.grid(row=3, columnspan=2)
 
-        self.logbtn = Button(self, text="Login", command = self._login_btn_clickked)
-        self.logbtn.grid(columnspan=2)
+        self.logbtn = ttk.Button(self, text="Login", command=self._login_btn_clickked)
+        self.logbtn.grid(row=4, rowspan=1, columnspan=2)
+
+        button1 = ttk.Button(self, text="Student Login", command=lambda: controller.show_frame(studentMenu)) # only calls the function when the button is pressed
+        button1.grid(row=5, rowspan=1, column=1)
+        button2 = ttk.Button(self, text="Lecturer Login", command=lambda: controller.show_frame(lecturerMenu))  # only calls the function when the button is pressed
+        button2.grid(row=5, rowspan=1, column=2)
 
         self.pack()
 
     def _login_btn_clickked(self):
-        #print("Clicked")
+        # print("Clicked")
         username = self.entry_1.get()
         password = self.entry_2.get()
 
-        #print(username, password)
+        # print(username, password)
 
         student_usernames = ("C100", "C200", "C300")
         student_passwords = ("PASS", "PASS1", "PASS2")
@@ -84,17 +94,20 @@ class login(Frame):
         teacher_passwords = ("TPASS", "TPASS1", "TPASS3")
 
         if username in student_usernames and password in student_passwords:
-            if ( student_usernames.index(username) == student_passwords.index(password) ):
+            if (student_usernames.index(username) == student_passwords.index(password)):
                 tm.showinfo("Login info", "Welcome Student")
             else:
                 tm.showerror("Login error", "Incorrect information")
         elif username in teacher_usernames and password in teacher_passwords:
-            if ( teacher_usernames.index(username) == teacher_passwords.index(password) ):
+            if (teacher_usernames.index(username) == teacher_passwords.index(password)):
                 tm.showinfo("Login info", "Welcome Teacher")
             else:
                 tm.showerror("Login error", "Incorrect information")
-        else: 
+        else:
             tm.showerror("Login error", "Incorrect information")
+
+
+        # button1 = Button(self, text="Student Login", command=studentMenu) # calls the function immediately
 
 class studentMenu(Frame):
     def __init__(self, parent, controller):
@@ -106,12 +119,15 @@ class studentMenu(Frame):
         button1 = ttk.Button(self, text="Back to login", command=lambda: controller.show_frame(login))  # only calls the function when the button is pressed
         button1.pack(padx=10, pady=10)
 
-        button2 = ttk.Button(self, text="Begin lesson", command=lambda: controller.show_frame(lesson_1))
+        button2 = ttk.Button(self, text="Begin logic lesson", command=lambda: controller.show_frame(lesson_1))
         button2.pack(padx=10, pady=10)
 
         # ?? This should be disabled (greyed out) until the lesson has been completed ??
-        button3 = ttk.Button(self, text="Begin test", command=lambda: controller.show_frame(test_1))
+        button3 = ttk.Button(self, text="Begin logic test", command=lambda: controller.show_frame(test_1))
         button3.pack(padx=10, pady=10)
+
+        button4 = ttk.Button(self, text="Begin sets lesson", command=lambda: controller.show_frame(lesson_2))
+        button4.pack(padx=10, pady=10)
 
 
 class lesson_1(Frame):
@@ -178,7 +194,7 @@ class lesson_1(Frame):
             button2.config(state="normal")
 
             # if moving onto the last slide, disable "next" button
-            if self.slide_index == 5:
+            if self.slide_index == 6:
                 button3.config(state=DISABLED)
             
             Lb1.selection_clear(self.slide_index-1)
@@ -202,6 +218,98 @@ class lesson_1(Frame):
         next_slide(self)
         button2.config(state=DISABLED)
 
+class lesson_2(Frame):
+    # ****EDIT THIS CLASS FOR YOUR LESSON ALEX****
+
+
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
+
+        label = Label(self, text="Logic - Lesson", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        label.pack(padx=10, pady=10) # temp placement
+        #label.grid(row=0, column=0, columnspan=10, sticky=N)
+
+        button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))  # only calls the function when the button is pressed
+        button1.pack(padx=10, pady=10)
+        #button1.grid(row=1, column=0, columnspan=2, sticky=N)
+
+        canvas_width = 960
+        canvas_height = 720
+
+        canvas = Canvas(self, width=canvas_width, height=canvas_height, bg=BACKGROUND_COLOUR_DARK)
+        canvas.pack(expand=YES, fill=Y, side=LEFT, padx=10, pady=10)
+        #canvas.grid(row=2, column=0, rowspan=1)
+
+        Lb1 = Listbox(self, bg=BACKGROUND_RED, selectmode=SINGLE, selectbackground="#AD423E")#create listbox object,
+        Lb1.insert(1, "Sets")
+        Lb1.insert(2, "Special sets")#add the listbox options
+        Lb1.insert(3, "Notation")
+        Lb1.insert(4, "Python and sets")
+        Lb1.insert(5, "Types of sets, and venn diagrams")
+        Lb1.insert(6, "Types of sets, and venn diagrams")
+        Lb1.insert(7, "Inclusion-exclusion principle")
+        Lb1.pack(side=RIGHT, anchor=N, padx=10, pady=10) #display listbox to screen, hug left of lesson slide
+
+        self.slides = {
+                    1 : "SlideA1.png",
+                    2 : "SlideA2.png",
+                    3 : "SlideA3.png",
+                    4 : "SlideA4.png",
+                    5 : "SlideA5.png",
+                    6 : "SlideA6.png",
+                    7 : "SlideA7.png"}
+
+        self.slide_index = 0
+
+        # set slide
+        def set_slide(self):
+            pass
+
+        def previous_slide(self):
+            # if on last slide, re-activate "next" button
+            button3.config(state="normal")
+
+            # if moving onto the first slide, disable "previous" button
+            if self.slide_index == 2:
+                button2.config(state=DISABLED)
+
+            Lb1.selection_clear(self.slide_index-1) #clear highlighted listbox item, -1 for string indexing
+
+            self.slide_index -= 1
+            Lb1.selection_set(self.slide_index-1) #highlight current listbox item, -1 for string indexing
+
+            self.img = PhotoImage(file=self.slides.get(self.slide_index))
+            canvas.create_image(0, 0, anchor=NW, image=self.img)
+            print(self.slide_index)
+
+        def next_slide(self):
+            # if on first slide, re-activate "previous" button
+            button2.config(state="normal")
+
+            # if moving onto the last slide, disable "next" button
+            if self.slide_index == 6:
+                button3.config(state=DISABLED)
+
+            Lb1.selection_clear(self.slide_index-1)
+
+            self.slide_index += 1
+            Lb1.selection_set(self.slide_index-1)
+
+            self.img = PhotoImage(file=self.slides.get(self.slide_index))
+            canvas.create_image(0, 0, anchor=NW, image=self.img)
+            print(self.slide_index)
+
+        button2 = ttk.Button(self, text="Previous", command=lambda: previous_slide(self))
+        button2.pack(side=TOP, padx=10, pady=10, anchor=NE)
+        #button2.grid(row=4, column=2)
+
+        button3 = ttk.Button(self, text="Next", command=lambda: next_slide(self))
+        button3.pack(side=TOP, padx=10, pady=10, anchor=NE)
+        #button3.grid(row=4, column=4)
+
+
+        next_slide(self)
+        button2.config(state=DISABLED)
 
 class test_1(Frame):    #Dom Routley
     def __init__(self, parent, controller):
@@ -210,26 +318,26 @@ class test_1(Frame):    #Dom Routley
         self.tstart = datetime.now()  # get current time
 
         label = Label(self, text="Logic - Test", font=LARGE_FONT)
-        label.grid(row=1, column=1, columnspan=3)
+        label.pack(padx=10, pady=10)
 
         #button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))  # only calls the function when the button is pressed
         #button1.pack(padx=10, pady=10)
 
         # test questions===============================================================
         label = Label(self, text="What is a tautology?", font=LARGE_FONT)
-        label.grid(row=2, column=3)
+        label.pack(padx=10, pady=10)
 
         label = Label(self, text="De Morgans Law states that...", font=LARGE_FONT)
-        label.grid(row=7, column=3)
+        label.pack(padx=10, pady=10)
 
         label = Label(self, text="Select the logical equivalent.", font=LARGE_FONT)
-        label.grid(row=12, column=3)
+        label.pack(padx=10, pady=10)
 
         label = Label(self, text="Select ALL propositions.", font=LARGE_FONT)
-        label.grid(row=17, column=3)
+        label.pack(padx=10, pady=10)
 
         label = Label(self, text="Finish this truth table.", font=LARGE_FONT)
-        label.grid(row=22, column=3)
+        label.pack(padx=10, pady=10)
         # ============================================================================
 
         # variable initilisation
@@ -247,77 +355,77 @@ class test_1(Frame):    #Dom Routley
 
         # test answer area============================================================
         Q1R = Radiobutton(self, text="A correct proposition.", variable=self.varQ1A, value="x1")
-        Q1R.grid(row=3, column=3, sticky=W)
+        Q1R.pack(padx=10, pady=10)
         Q1R = Radiobutton(self, text="A incorrect proposition.", variable=self.varQ1A, value="y1")
-        Q1R.grid(row=4, column=3, sticky=W)
+        Q1R.pack(padx=10, pady=10)
         Q1R = Radiobutton(self, text="A always correct proposition.", variable=self.varQ1A, value="t1")
-        Q1R.grid(row=5, column=3, sticky=W)
+        Q1R.pack(padx=10, pady=10)
         Q1R = Radiobutton(self, text="A always incorrect proposition.", variable=self.varQ1A, value="z1")
-        Q1R.grid(row=6, column=3, sticky=W)
+        Q1R.pack(padx=10, pady=10)
 
         Q2R = Radiobutton(self, text="¬qV¬p => ¬(p^q)", variable=self.varQ2A, value="t2")
-        Q2R.grid(row=8, column=3, sticky=W)
+        Q2R.pack(padx=10, pady=10)
         Q2R = Radiobutton(self, text="p => ¬q", variable=self.varQ2A, value="y2")
-        Q2R.grid(row=9, column=3, sticky=W)
+        Q2R.pack(padx=10, pady=10)
         Q2R = Radiobutton(self, text="p^q = qVp", variable=self.varQ2A, value="x2")
-        Q2R.grid(row=10, column=3, sticky=W)
+        Q2R.pack(padx=10, pady=10)
         Q2R = Radiobutton(self, text="q = ¬(¬q)", variable=self.varQ2A, value="z2")
-        Q2R.grid(row=11, column=3, sticky=W)
+        Q2R.pack(padx=10, pady=10)
 
         Q3R = Radiobutton(self, text="q^¬p => ¬(q^p)", variable=self.varQ3A, value="x3")
-        Q3R.grid(row=13, column=3, sticky=W)
+        Q3R.pack(padx=10, pady=10)
         Q3R = Radiobutton(self, text="q => ¬q^¬q", variable=self.varQ3A, value="y3")
-        Q3R.grid(row=14, column=3, sticky=W)
+        Q3R.pack(padx=10, pady=10)
         Q3R = Radiobutton(self, text="q => p", variable=self.varQ3A, value="z3")
-        Q3R.grid(row=15, column=3, sticky=W)
+        Q3R.pack(padx=10, pady=10)
         Q3R = Radiobutton(self, text="¬pV¬q => ¬(p^q)", variable=self.varQ3A, value="t3")
-        Q3R.grid(row=16, column=3, sticky=W)
+        Q3R.pack(padx=10, pady=10)
 
         Q4C = Checkbutton(self, text="x+y-(f(j/k*67.462)) > 1067", variable=self.varQ4T1)
-        Q4C.grid(row=18, column=3, sticky=W)
+        Q4C.pack(padx=10, pady=10)
         Q4C = Checkbutton(self, text="The sky is blue", variable=self.varQ4T2)
-        Q4C.grid(row=19, column=3, sticky=W)
+        Q4C.pack(padx=10, pady=10)
         Q4C = Checkbutton(self, text="Star Wars or Star Trek", variable=self.varQ4F1)
-        Q4C.grid(row=20, column=3, sticky=W)
+        Q4C.pack(padx=10, pady=10)
         Q4C = Checkbutton(self, text="Can I have a drink", variable=self.varQ4F2)
-        Q4C.grid(row=21, column=3, sticky=W)
+        Q4C.pack(padx=10, pady=10)
 
         # truth table, header
         Q5L = Label(self, text="P")
-        Q5L.grid(row=23, column=1, sticky=W)
+        Q5L.pack(padx=10, pady=10)
         Q5L = Label(self, text="Q")
-        Q5L.grid(row=23, column=2, sticky=W)
+        Q5L.pack(padx=10, pady=10)
         Q5L = Label(self, text="AND")
-        Q5L.grid(row=23, column=3, sticky=W)
+        Q5L.pack(padx=10, pady=10)
 
         # truth table, data
         Q5Tr1 = Label(self, text="T")
-        Q5Tr1.grid(row=24, column=1, sticky=W)
+        Q5Tr1.pack(padx=10, pady=10)
         Q5Tr2 = Label(self, text="T")
-        Q5Tr2.grid(row=25, column=1, sticky=W)
+        Q5Tr2.pack(padx=10, pady=10)
         Q5Tr3 = Label(self, text="T")
-        Q5Tr3.grid(row=24, column=2, sticky=W)
+        Q5Tr3.pack(padx=10, pady=10)
         Q5Tr4 = Label(self, text="T")
-        Q5Tr4.grid(row=26, column=2, sticky=W)
+        Q5Tr4.pack(padx=10, pady=10)
 
         Q5F1 = Label(self, text="F")
-        Q5F1.grid(row=26, column=1, sticky=W)
+        Q5F1.pack(padx=10, pady=10)
         Q5F2 = Label(self, text="F")
-        Q5F2.grid(row=27, column=1, sticky=W)
+        Q5F2.pack(padx=10, pady=10)
         Q5F3 = Label(self, text="F")
-        Q5F3.grid(row=25, column=2, sticky=W)
+        Q5F3.pack(padx=10, pady=10)
         Q5F4 = Label(self, text="F")
-        Q5F4.grid(row=27, column=2, sticky=W)
+        Q5F4.pack(padx=10, pady=10)
 
         # truth table input
         Q5I = Entry(self, width=1, textvariable=self.varQ5T)
-        Q5I.grid(row=24, column=3)
+        Q5I.pack(padx=10, pady=10)
         Q5I = Entry(self, width=1, textvariable=self.varQ5F1)
-        Q5I.grid(row=25, column=3)
+        Q5I.pack(padx=10, pady=10)
         Q5I = Entry(self, width=1, textvariable=self.varQ5F2)
-        Q5I.grid(row=26, column=3)
+        Q5I.pack(padx=10, pady=10)
         Q5I = Entry(self, width=1, textvariable=self.varQ5F3)
-        Q5I.grid(row=27, column=3)
+        Q5I.pack(padx=10, pady=10)
         # ====================================================================================================
 
 
@@ -361,7 +469,7 @@ class test_1(Frame):    #Dom Routley
             self.question5 = 0
 
         button = ttk.Button(self, text="Finish", command=self.submitTest())
-        button.grid(row=28, column=2, padx=10, pady=10)
+        button.pack(padx=10, pady=10)
 
     def submitTest(self):
         questions = {
@@ -374,16 +482,16 @@ class test_1(Frame):    #Dom Routley
         tfinish = datetime.now()
         timeElapsed = tfinish - self.tstart
 
-        newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
+        #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
 
-        db = shelve.open("shelved")
 
-        #db[newResult.userID] = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
-        print(newResult.userID)
+        #db = shelve.open("shelved.dat", 'r')
 
-        db.close()
+        #db['0001'] = newResult
 
-        controller.show_frame(studentMenu)
+        #d.close()
+
+        #controller.show_frame(studentMenu)
 
 class lecturerMenu(Frame):
     def __init__(self, parent, controller):
@@ -446,7 +554,7 @@ class view_results(Frame):  #Dom Routley
         buttonL2.pack(padx=10, pady=6)
 
 
-widthpixels = "1000"
+widthpixels = "1280"
 heightpixels = "800"
 
 root = Tk()
