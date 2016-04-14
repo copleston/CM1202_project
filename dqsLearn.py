@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import ttk  # css for tkinter
 from tkinter import messagebox
+from datetime import datetime
+#from dqsClass import *
 
 LARGE_FONT = ("Verdana", 16, "bold")
 BACKGROUND_COLOUR_DARK = "#283F44"
@@ -59,9 +61,9 @@ class login(Frame):
 
 class studentMenu(Frame):
     def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
-        label = Label(self, text="Student Menu", font=LARGE_FONT)
+        label = Label(self, text="Student Menu", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
         label.pack(padx=10, pady=10) # temp placement
 
         button1 = ttk.Button(self, text="Back to login", command=lambda: controller.show_frame(login))  # only calls the function when the button is pressed
@@ -91,7 +93,7 @@ class lesson_1(Frame):
         canvas_height = 600
 
         canvas = Canvas(self, width=canvas_width, height=canvas_height, bg=BACKGROUND_COLOUR_DARK)
-        canvas.pack(expand=YES, fill=Y, side=LEFT)
+        canvas.pack(expand=YES, fill=Y, side=LEFT, padx=10, pady=10)
         #canvas.grid(row=2, column=0, rowspan=1)            
 
         Lb1 = Listbox(self, bg=BACKGROUND_RED, selectmode=SINGLE, selectbackground="#AD423E")#create listbox object,
@@ -101,7 +103,7 @@ class lesson_1(Frame):
         Lb1.insert(4, "Implication")
         Lb1.insert(5, "Tautologies")
         Lb1.insert(6, "De Morgan's Laws")
-        Lb1.pack(side=LEFT) #display listbox to screen, hug left of lesson slide
+        Lb1.pack(side=RIGHT, anchor=N, padx=10, pady=10) #display listbox to screen, hug left of lesson slide
 
         self.slides = {
                     1 : "Slide1.png",
@@ -152,11 +154,11 @@ class lesson_1(Frame):
             print(self.slide_index)
 
         button2 = ttk.Button(self, text="Previous", command=lambda: previous_slide(self))
-        button2.pack(side=BOTTOM, anchor=SE, padx=10, pady=10)
+        button2.pack(side=TOP, padx=10, pady=10, anchor=NE)
         #button2.grid(row=4, column=2)
 
         button3 = ttk.Button(self, text="Next", command=lambda: next_slide(self))
-        button3.pack(side=BOTTOM, anchor=SE, padx=10, pady=10)
+        button3.pack(side=TOP, padx=10, pady=10, anchor=NE)
         #button3.grid(row=4, column=4)
 
 
@@ -168,11 +170,166 @@ class test_1(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
 
-        label = Label(self, text="Logic - Test", font=LARGE_FONT)
-        label.pack(padx=10, pady=10) # temp placement
+        tstart = datetime.now()  # get current time
 
-        button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))  # only calls the function when the button is pressed
-        button1.pack(padx=10, pady=10)
+        label = Label(self, text="Logic - Test", font=LARGE_FONT)
+        label.grid(row=1, column=1, columnspan=3)
+
+        #button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))  # only calls the function when the button is pressed
+        #button1.pack(padx=10, pady=10)
+
+        # test questions===============================================================
+        label = Label(self, text="What is a tautology?", font=LARGE_FONT)
+        label.grid(row=2, column=3)
+
+        label = Label(self, text="De Morgans Law states that...", font=LARGE_FONT)
+        label.grid(row=7, column=3)
+
+        label = Label(self, text="Select the logical equivalent.", font=LARGE_FONT)
+        label.grid(row=12, column=3)
+
+        label = Label(self, text="Select ALL propositions.", font=LARGE_FONT)
+        label.grid(row=17, column=3)
+
+        label = Label(self, text="Finish this truth table.", font=LARGE_FONT)
+        label.grid(row=22, column=3)
+        # ============================================================================
+
+        # variable initilisation
+        self.varQ1A = StringVar()
+        self.varQ2A = StringVar()
+        self.varQ3A = StringVar()
+        self.varQ4T1 = IntVar()
+        self.varQ4T2 = IntVar()
+        self.varQ4F1 = IntVar()
+        self.varQ4F2 = IntVar()
+        self.varQ5T = StringVar()
+        self.varQ5F1 = StringVar()
+        self.varQ5F2 = StringVar()
+        self.varQ5F3 = StringVar()
+
+        # test answer area============================================================
+        Q1R = Radiobutton(self, text="A correct proposition.", variable=self.varQ1A, value="x1")
+        Q1R.grid(row=3, column=3, sticky=W)
+        Q1R = Radiobutton(self, text="A incorrect proposition.", variable=self.varQ1A, value="y1")
+        Q1R.grid(row=4, column=3, sticky=W)
+        Q1R = Radiobutton(self, text="A always correct proposition.", variable=self.varQ1A, value="t1")
+        Q1R.grid(row=5, column=3, sticky=W)
+        Q1R = Radiobutton(self, text="A always incorrect proposition.", variable=self.varQ1A, value="z1")
+        Q1R.grid(row=6, column=3, sticky=W)
+
+        Q2R = Radiobutton(self, text="¬qV¬p => ¬(p^q)", variable=self.varQ2A, value="t2")
+        Q2R.grid(row=8, column=3, sticky=W)
+        Q2R = Radiobutton(self, text="p => ¬q", variable=self.varQ2A, value="y2")
+        Q2R.grid(row=9, column=3, sticky=W)
+        Q2R = Radiobutton(self, text="p^q = qVp", variable=self.varQ2A, value="x2")
+        Q2R.grid(row=10, column=3, sticky=W)
+        Q2R = Radiobutton(self, text="q = ¬(¬q)", variable=self.varQ2A, value="z2")
+        Q2R.grid(row=11, column=3, sticky=W)
+
+        Q3R = Radiobutton(self, text="q^¬p => ¬(q^p)", variable=self.varQ3A, value="x3")
+        Q3R.grid(row=13, column=3, sticky=W)
+        Q3R = Radiobutton(self, text="q => ¬q^¬q", variable=self.varQ3A, value="y3")
+        Q3R.grid(row=14, column=3, sticky=W)
+        Q3R = Radiobutton(self, text="q => p", variable=self.varQ3A, value="z3")
+        Q3R.grid(row=15, column=3, sticky=W)
+        Q3R = Radiobutton(self, text="¬pV¬q => ¬(p^q)", variable=self.varQ3A, value="t3")
+        Q3R.grid(row=16, column=3, sticky=W)
+
+        Q4C = Checkbutton(self, text="x+y-(f(j/k*67.462)) > 1067", variable=self.varQ4T1)
+        Q4C.grid(row=18, column=3, sticky=W)
+        Q4C = Checkbutton(self, text="The sky is blue", variable=self.varQ4T2)
+        Q4C.grid(row=19, column=3, sticky=W)
+        Q4C = Checkbutton(self, text="Star Wars or Star Trek", variable=self.varQ4F1)
+        Q4C.grid(row=20, column=3, sticky=W)
+        Q4C = Checkbutton(self, text="Can I have a drink", variable=self.varQ4F2)
+        Q4C.grid(row=21, column=3, sticky=W)
+
+        # truth table, header
+        Q5L = Label(self, text="P")
+        Q5L.grid(row=23, column=1, sticky=W)
+        Q5L = Label(self, text="Q")
+        Q5L.grid(row=23, column=2, sticky=W)
+        Q5L = Label(self, text="AND")
+        Q5L.grid(row=23, column=3, sticky=W)
+
+        # truth table, data
+        Q5Tr1 = Label(self, text="T")
+        Q5Tr1.grid(row=24, column=1, sticky=W)
+        Q5Tr2 = Label(self, text="T")
+        Q5Tr2.grid(row=25, column=1, sticky=W)
+        Q5Tr3 = Label(self, text="T")
+        Q5Tr3.grid(row=24, column=2, sticky=W)
+        Q5Tr4 = Label(self, text="T")
+        Q5Tr4.grid(row=26, column=2, sticky=W)
+
+        Q5F1 = Label(self, text="F")
+        Q5F1.grid(row=26, column=1, sticky=W)
+        Q5F2 = Label(self, text="F")
+        Q5F2.grid(row=27, column=1, sticky=W)
+        Q5F3 = Label(self, text="F")
+        Q5F3.grid(row=25, column=2, sticky=W)
+        Q5F4 = Label(self, text="F")
+        Q5F4.grid(row=27, column=2, sticky=W)
+
+        # truth table input
+        Q5I = Entry(self, width=1, textvariable=self.varQ5T)
+        Q5I.grid(row=24, column=3)
+        Q5I = Entry(self, width=1, textvariable=self.varQ5F1)
+        Q5I.grid(row=25, column=3)
+        Q5I = Entry(self, width=1, textvariable=self.varQ5F2)
+        Q5I.grid(row=26, column=3)
+        Q5I = Entry(self, width=1, textvariable=self.varQ5F3)
+        Q5I.grid(row=27, column=3)
+        # ====================================================================================================
+
+
+        # sort variables
+        # LIAM LIAM LIAM==============================================================================================================================================
+        # THIS THIS THIS==============================================================================================================================================
+        # BIT BIT BIT=================================================================================================================================================
+        # the variables are saved as question numbers, they contain a number that pertains to the number of points that the user has scored from that question.
+        # variables you want are question1, question2, question3, question4, question5, time
+
+        if self.varQ1A == "t1":
+            self.question1 = 1
+        else:
+            self.question1 = 0
+
+        if self.varQ2A == "t2":
+            self.question2 = 1
+        else:
+            self.question2 = 0
+
+        if self.varQ3A == "t3":
+            self.question3 = 1
+        else:
+            self.question3 = 0
+
+        question4 = 0
+        if self.varQ4T1.get() == 1:
+            self.question4 = 1
+        if self.varQ4T2.get() == 1:
+            self.question4 = question4 + 1
+        if self.varQ4F1.get() == 1:
+            self.question4 = question4 - 1
+        if self.varQ4F2.get() == 1:
+            self.question4 = question4 - 1
+        if question4 < 0:
+            self.question4 = 0
+
+        if self.varQ5T == "T" and self.varQ5F1 == "F" and self.varQ5F2 == "F" and self.varQ5F3 == "F":
+            self.question5 = 4
+        else:
+            self.question5 = 0
+
+        button = ttk.Button(self, text="Finish", command=lambda: controller.show_frame(studentMenu))
+        button.grid(row=28, column=2, padx=10, pady=10)
+
+        def submitTest():
+            questions = {
+                "Q1": ("t1",)
+            }
 
 
 class lecturerMenu(Frame):
