@@ -170,8 +170,14 @@ class lesson_1(Frame):
         self.slide_index = 0
 
         # set slide
-        def set_slide(self):
-            pass
+        def set_slide(evt):
+            # J : function for listbox onclick
+            Lb1.selection_clear(self.slide_index-1) # J: clear highlighted list box item
+            temp_tuple = Lb1.curselection() # J: get index of clicked listbox item 
+            self.slide_index = temp_tuple[0]+1 #J: set slide index
+            self.img = PhotoImage(file=self.slides.get(self.slide_index))
+            canvas.create_image(0, 0, anchor=NW, image=self.img)
+            print(self.slide_index)
 
         def previous_slide(self):
             # if on last slide, re-activate "next" button
@@ -207,6 +213,7 @@ class lesson_1(Frame):
             canvas.create_image(0, 0, anchor=NW, image=self.img)
             print(self.slide_index)
 
+        Lb1.bind('<<ListboxSelect>>', set_slide) # J: bind set_slide function to listbox onclick event
         button2 = ttk.Button(self, text="Previous", command=lambda: previous_slide(self))
         button2.pack(side=TOP, padx=10, pady=10, anchor=NE)
         #button2.grid(row=4, column=2)
@@ -263,8 +270,14 @@ class lesson_2(Frame):
         self.slide_index = 0
 
         # set slide
-        def set_slide(self):
-            pass
+        def set_slide(evt):
+            # J : function for listbox onclick
+            Lb1.selection_clear(self.slide_index-1) # J: clear highlighted list box item
+            temp_tuple = Lb1.curselection() # J: get index of clicked listbox item 
+            self.slide_index = temp_tuple[0]+1 #J: set slide index
+            self.img = PhotoImage(file=self.slides.get(self.slide_index))
+            canvas.create_image(0, 0, anchor=NW, image=self.img)
+            print(self.slide_index)
 
         def previous_slide(self):
             # if on last slide, re-activate "next" button
@@ -300,6 +313,8 @@ class lesson_2(Frame):
             canvas.create_image(0, 0, anchor=NW, image=self.img)
             print(self.slide_index)
 
+
+        Lb1.bind('<<ListboxSelect>>', set_slide) # J: bind set_slide function to listbox onclick event
         button2 = ttk.Button(self, text="Previous", command=lambda: previous_slide(self))
         button2.pack(side=TOP, padx=10, pady=10, anchor=NE)
         #button2.grid(row=4, column=2)
