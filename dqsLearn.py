@@ -55,6 +55,60 @@ class login(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
         label = Label(self, text="Login Page", font=LARGE_FONT, bg=BACKGROUND_COLOUR_DARKER, fg="white")
+        label.grid(row=0, sticky=N, padx=10, pady=10)
+
+        self.label_1 = Label(self, text="Username", fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        self.label_2 = Label(self, text="Password", fg="white", bg=BACKGROUND_COLOUR_DARKER)
+
+        self.entry_1 = Entry(self)
+        self.entry_2 = Entry(self, show="*")
+
+        self.label_1.grid(row=1, sticky=E)
+        self.label_2.grid(row=2, sticky=E)
+        self.entry_1.grid(row=1, column=1)
+        self.entry_2.grid(row=2, column=1)
+
+        self.checkbox = Checkbutton(self, text="Keep me logged in", fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        self.checkbox.grid(columnspan=2)
+
+        self.logbtn = Button(self, text="Login", command=self._login_btn_clickked)
+        self.logbtn.grid(columnspan=2)
+
+        self.pack()
+
+    def _login_btn_clickked(self):
+        # print("Clicked")
+        username = self.entry_1.get()
+        password = self.entry_2.get()
+
+        # print(username, password)
+
+        student_usernames = ("C100", "C200", "C300")
+        student_passwords = ("PASS", "PASS1", "PASS2")
+
+        teacher_usernames = ("T100", "T200", "T300")
+        teacher_passwords = ("TPASS", "TPASS1", "TPASS3")
+
+        if username in student_usernames and password in student_passwords:
+            if (student_usernames.index(username) == student_passwords.index(password)):
+                tm.showinfo("Login info", "Welcome Student")
+            else:
+                tm.showerror("Login error", "Incorrect information")
+        elif username in teacher_usernames and password in teacher_passwords:
+            if (teacher_usernames.index(username) == teacher_passwords.index(password)):
+                tm.showinfo("Login info", "Welcome Teacher")
+            else:
+                tm.showerror("Login error", "Incorrect information")
+        else:
+            tm.showerror("Login error", "Incorrect information")
+
+
+
+
+
+
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
+        label = Label(self, text="Login Page", font=LARGE_FONT, bg=BACKGROUND_COLOUR_DARKER, fg="white")
         label.pack(padx=10, pady=10)
 
         # button1 = Button(self, text="Student Login", command=studentMenu) # calls the function immediately
@@ -434,7 +488,7 @@ class test_1(Frame):    #Dom Routley
         tfinish = datetime.now()
         timeElapsed = tfinish - self.tstart
 
-        newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
+        #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
 
         #db = shelve.open("shelved.dat", 'r')
 
