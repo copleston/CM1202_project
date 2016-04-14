@@ -177,29 +177,11 @@ class test_1(Frame):    #Dom Routley
         self.tstart = datetime.now()  # get current time
 
         label = Label(self, text="Logic - Test", font=LARGE_FONT)
-        label.pack(padx=10, pady=10)
+        label.grid(row=0, column=1, padx=10, pady=10)
 
         #button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))  # only calls the function when the button is pressed
-        #button1.pack(padx=10, pady=10)
+        #button1.grid(padx=10, pady=10)
 
-        # test questions===============================================================
-        label = Label(self, text="What is a tautology?", font=LARGE_FONT)
-        label.pack(padx=10, pady=10)
-
-        label = Label(self, text="De Morgans Law states that...", font=LARGE_FONT)
-        label.pack(padx=10, pady=10)
-
-        label = Label(self, text="Select the logical equivalent.", font=LARGE_FONT)
-        label.pack(padx=10, pady=10)
-
-        label = Label(self, text="Select ALL propositions.", font=LARGE_FONT)
-        label.pack(padx=10, pady=10)
-
-        label = Label(self, text="Finish this truth table.", font=LARGE_FONT)
-        label.pack(padx=10, pady=10)
-        # ============================================================================
-
-        # variable initilisation
         self.varQ1A = StringVar()
         self.varQ2A = StringVar()
         self.varQ3A = StringVar()
@@ -212,79 +194,121 @@ class test_1(Frame):    #Dom Routley
         self.varQ5F2 = StringVar()
         self.varQ5F3 = StringVar()
 
-        # test answer area============================================================
+        # test questions===============================================================
+        label = Label(self, text="What is a tautology?", font=LARGE_FONT, relief=RIDGE, width=30)
+        label.grid(row=1, column=0)
+
         Q1R = Radiobutton(self, text="A correct proposition.", variable=self.varQ1A, value="x1")
-        Q1R.pack(padx=10, pady=10)
+        Q1R.grid(row=1, column=1)
         Q1R = Radiobutton(self, text="A incorrect proposition.", variable=self.varQ1A, value="y1")
-        Q1R.pack(padx=10, pady=10)
+        Q1R.grid(row=1, column=2)
         Q1R = Radiobutton(self, text="A always correct proposition.", variable=self.varQ1A, value="t1")
-        Q1R.pack(padx=10, pady=10)
+        Q1R.grid(row=2, column=1)
         Q1R = Radiobutton(self, text="A always incorrect proposition.", variable=self.varQ1A, value="z1")
-        Q1R.pack(padx=10, pady=10)
+        Q1R.grid(row=2, column=2)
+
+        sep = ttk.Separator(self, orient=HORIZONTAL)
+        sep.grid(row=3, columnspan=4, sticky=EW)
+
+        label = Label(self, text="De Morgans Law states that...", font=LARGE_FONT, relief=RIDGE, width=30)
+        label.grid(row=4, column=0)
 
         Q2R = Radiobutton(self, text="¬qV¬p => ¬(p^q)", variable=self.varQ2A, value="t2")
-        Q2R.pack(padx=10, pady=10)
+        Q2R.grid(row=4, column=1)
         Q2R = Radiobutton(self, text="p => ¬q", variable=self.varQ2A, value="y2")
-        Q2R.pack(padx=10, pady=10)
+        Q2R.grid(row=4, column=2)
         Q2R = Radiobutton(self, text="p^q = qVp", variable=self.varQ2A, value="x2")
-        Q2R.pack(padx=10, pady=10)
+        Q2R.grid(row=5, column=1)
         Q2R = Radiobutton(self, text="q = ¬(¬q)", variable=self.varQ2A, value="z2")
-        Q2R.pack(padx=10, pady=10)
+        Q2R.grid(row=5, column=2)
+
+        sep = ttk.Separator(self, orient=HORIZONTAL)
+        sep.grid(row=6, columnspan=4, sticky=EW)
+
+        label = Label(self, text="Select the logical equivalent.", font=LARGE_FONT, relief=RIDGE, width=30)
+        label.grid(row=7, column=0)
 
         Q3R = Radiobutton(self, text="q^¬p => ¬(q^p)", variable=self.varQ3A, value="x3")
-        Q3R.pack(padx=10, pady=10)
+        Q3R.grid(row=7, column=1)
         Q3R = Radiobutton(self, text="q => ¬q^¬q", variable=self.varQ3A, value="y3")
-        Q3R.pack(padx=10, pady=10)
+        Q3R.grid(row=7, column=2)
         Q3R = Radiobutton(self, text="q => p", variable=self.varQ3A, value="z3")
-        Q3R.pack(padx=10, pady=10)
+        Q3R.grid(row=8, column=1)
         Q3R = Radiobutton(self, text="¬pV¬q => ¬(p^q)", variable=self.varQ3A, value="t3")
-        Q3R.pack(padx=10, pady=10)
+        Q3R.grid(row=8, column=2)
+
+        sep = ttk.Separator(self, orient=HORIZONTAL)
+        sep.grid(row=9, columnspan=4, sticky=EW)
+
+        label = Label(self, text="Select ALL propositions.", font=LARGE_FONT, relief=RIDGE, width=30)
+        label.grid(row=10, column=0)
 
         Q4C = Checkbutton(self, text="x+y-(f(j/k*67.462)) > 1067", variable=self.varQ4T1)
-        Q4C.pack(padx=10, pady=10)
+        Q4C.grid(row=10, column=1)
         Q4C = Checkbutton(self, text="The sky is blue", variable=self.varQ4T2)
-        Q4C.pack(padx=10, pady=10)
+        Q4C.grid(row=10, column=2)
         Q4C = Checkbutton(self, text="Star Wars or Star Trek", variable=self.varQ4F1)
-        Q4C.pack(padx=10, pady=10)
+        Q4C.grid(row=11, column=1)
         Q4C = Checkbutton(self, text="Can I have a drink", variable=self.varQ4F2)
-        Q4C.pack(padx=10, pady=10)
+        Q4C.grid(row=11, column=2)
+
+        sep = ttk.Separator(self, orient=HORIZONTAL)
+        sep.grid(row=12, columnspan=4, sticky=EW)
+
+        label = Label(self, text="Finish this truth table.", font=LARGE_FONT, relief=RIDGE, width=30)
+        label.grid(row=13, column=0)
 
         # truth table, header
         Q5L = Label(self, text="P")
-        Q5L.pack(padx=10, pady=10)
+        Q5L.grid(row=13, column=1)
         Q5L = Label(self, text="Q")
-        Q5L.pack(padx=10, pady=10)
+        Q5L.grid(row=13, column=2)
         Q5L = Label(self, text="AND")
-        Q5L.pack(padx=10, pady=10)
+        Q5L.grid(row=13, column=3)
 
         # truth table, data
         Q5Tr1 = Label(self, text="T")
-        Q5Tr1.pack(padx=10, pady=10)
+        Q5Tr1.grid(row=14, column=1)
         Q5Tr2 = Label(self, text="T")
-        Q5Tr2.pack(padx=10, pady=10)
+        Q5Tr2.grid(row=15, column=1)
         Q5Tr3 = Label(self, text="T")
-        Q5Tr3.pack(padx=10, pady=10)
+        Q5Tr3.grid(row=14, column=2)
         Q5Tr4 = Label(self, text="T")
-        Q5Tr4.pack(padx=10, pady=10)
+        Q5Tr4.grid(row=16, column=2)
 
         Q5F1 = Label(self, text="F")
-        Q5F1.pack(padx=10, pady=10)
+        Q5F1.grid(row=15, column=2)
         Q5F2 = Label(self, text="F")
-        Q5F2.pack(padx=10, pady=10)
+        Q5F2.grid(row=16, column=1)
         Q5F3 = Label(self, text="F")
-        Q5F3.pack(padx=10, pady=10)
+        Q5F3.grid(row=17, column=1)
         Q5F4 = Label(self, text="F")
-        Q5F4.pack(padx=10, pady=10)
+        Q5F4.grid(row=17, column=2)
 
         # truth table input
         Q5I = Entry(self, width=1, textvariable=self.varQ5T)
-        Q5I.pack(padx=10, pady=10)
+        Q5I.grid(row=14, column=3)
         Q5I = Entry(self, width=1, textvariable=self.varQ5F1)
-        Q5I.pack(padx=10, pady=10)
+        Q5I.grid(row=15, column=3)
         Q5I = Entry(self, width=1, textvariable=self.varQ5F2)
-        Q5I.pack(padx=10, pady=10)
+        Q5I.grid(row=16, column=3)
         Q5I = Entry(self, width=1, textvariable=self.varQ5F3)
-        Q5I.pack(padx=10, pady=10)
+        Q5I.grid(row=17, column=3)
+        # ============================================================================
+
+        # variable initilisation
+        
+
+        # test answer area============================================================
+        
+
+        
+
+        
+
+        
+
+        
         # ====================================================================================================
 
 
@@ -328,7 +352,7 @@ class test_1(Frame):    #Dom Routley
             self.question5 = 0
 
         button = ttk.Button(self, text="Finish", command=self.submitTest())
-        button.pack(padx=10, pady=10)
+        button.grid(padx=10, pady=10)
 
     def submitTest(self):
         questions = {
