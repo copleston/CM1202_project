@@ -205,13 +205,13 @@ class lesson_2(Frame):
         Lb1.pack(side=RIGHT, anchor=N, padx=10, pady=10) #display listbox to screen, hug left of lesson slide
 
         self.slides = {
-                    1 : "Slide1.png",
-                    2 : "Slide2.png",
-                    3 : "Slide3.png",
-                    4 : "Slide4.png",
-                    5 : "Slide5.png",
-                    6 : "Slide6.png",
-                    7 : "Slide7.png}
+                    1 : "SlideA1.png",
+                    2 : "SlideA2.png",
+                    3 : "SlideA3.png",
+                    4 : "SlideA4.png",
+                    5 : "SlideA5.png",
+                    6 : "SlideA6.png",
+                    7 : "SlideA7.png}
 
         self.slide_index = 0
 
