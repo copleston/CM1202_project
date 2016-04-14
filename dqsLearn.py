@@ -436,22 +436,7 @@ class test_1(Frame):    #Dom Routley
         Q5I.grid(row=16, column=3)
         Q5I = Entry(self, width=1, textvariable=self.varQ5F3)
         Q5I.grid(row=17, column=3)
-        # ============================================================================
 
-        # variable initilisation
-        
-
-        # test answer area============================================================
-        
-
-        
-
-        
-
-        
-
-        
-        # ====================================================================================================
 
 
         # sort variables
