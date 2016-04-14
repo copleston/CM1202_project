@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk  # css for tkinter
 from tkinter import messagebox
 from datetime import datetime
-#from dqsClass import *
+from dqsClass import *
 
 LARGE_FONT = ("Verdana", 16, "bold")
 BACKGROUND_COLOUR_DARK = "#283F44"
@@ -323,30 +323,29 @@ class test_1(Frame):
         else:
             self.question5 = 0
 
-        button = ttk.Button(self, text="Finish", command=lambda: controller.show_frame(studentMenu))
+        button = ttk.Button(self, text="Finish", command=submitTest())
         button.grid(row=28, column=2, padx=10, pady=10)
 
-        def submitTest(self):
-            questions = {
-                'Q1': ('t1', self.varQ1A),
-                'Q2': ('t2', self.varQ2A),
-                'Q3': ('t3', self.varQ3A),
-                'Q4': ('1:1:1:1',
-                       str(self.varQ4T1) + ':' + str(self.varQ4T2) + ':' + str(self.varQ4F1) + ':' + str(self.varQ4F2))
+    def submitTest(self):
+        questions = {
+               'Q1': ('t1', self.varQ1A),
+               'Q2': ('t2', self.varQ2A),
+               'Q3': ('t3', self.varQ3A),
+               'Q4': ('1:1:1:1', str(self.varQ4T1) + ':' + str(self.varQ4T2) + ':' + str(self.varQ4F1) + ':' + str(self.varQ4F2))
             }
 
-            tfinish = datetime.now()
-            timeElapsed = tfinish - self.tstart
+        tfinish = datetime.now()
+        timeElapsed = tfinish - self.tstart
 
-            newResult = dqsClass.UserResult("0001", userID, timeElapsed, questions)
+        newResult = dqsClass.UserResult("0001", userID, timeElapsed, questions)
 
-            db = shelve.open("shelved.dat")
+        db = shelve.open("shelved.dat")
 
-            db[userID] = newResult
+        db[userID] = newResult
 
-            d.close()
+        d.close()
 
-            controller.show_frame(studentMenu)
+        controller.show_frame(studentMenu)
 
 class lecturerMenu(Frame):
     def __init__(self, parent, controller):
