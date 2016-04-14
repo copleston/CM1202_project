@@ -438,46 +438,6 @@ class test_1(Frame):    #Dom Routley
         Q5I.grid(row=17, column=3, sticky=N+E+S+W)
 
 
-
-        # sort variables
-        # LIAM LIAM LIAM==============================================================================================================================================
-        # THIS THIS THIS==============================================================================================================================================
-        # BIT BIT BIT=================================================================================================================================================
-        # the variables are saved as question numbers, they contain a number that pertains to the number of points that the user has scored from that question.
-        # variables you want are question1, question2, question3, question4, question5, time
-
-        if self.varQ1A == "t1":
-            self.question1 = 1
-        else:
-            self.question1 = 0
-
-        if self.varQ2A == "t2":
-            self.question2 = 1
-        else:
-            self.question2 = 0
-
-        if self.varQ3A == "t3":
-            self.question3 = 1
-        else:
-            self.question3 = 0
-
-        question4 = 0
-        if self.varQ4T1.get() == 1:
-            self.question4 = 1
-        if self.varQ4T2.get() == 1:
-            self.question4 = question4 + 1
-        if self.varQ4F1.get() == 1:
-            self.question4 = question4 - 1
-        if self.varQ4F2.get() == 1:
-            self.question4 = question4 - 1
-        if question4 < 0:
-            self.question4 = 0
-
-        if self.varQ5T == "T" and self.varQ5F1 == "F" and self.varQ5F2 == "F" and self.varQ5F3 == "F":
-            self.question5 = 4
-        else:
-            self.question5 = 0
-
         button = ttk.Button(self, text="Finish", command=self.submitTest())
         button.grid(padx=10, pady=10)
 
