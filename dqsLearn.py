@@ -326,17 +326,33 @@ class test_1(Frame):
         button = ttk.Button(self, text="Finish", command=lambda: controller.show_frame(studentMenu))
         button.grid(row=28, column=2, padx=10, pady=10)
 
-        def submitTest():
+        def submitTest(self):
             questions = {
-                "Q1": ("t1",)
+                'Q1': ('t1', self.varQ1A),
+                'Q2': ('t2', self.varQ2A),
+                'Q3': ('t3', self.varQ3A),
+                'Q4': ('1:1:1:1',
+                       str(self.varQ4T1) + ':' + str(self.varQ4T2) + ':' + str(self.varQ4F1) + ':' + str(self.varQ4F2))
             }
 
+            tfinish = datetime.now()
+            timeElapsed = tfinish - self.tstart
+
+            newResult = dqsClass.UserResult("0001", userID, timeElapsed, questions)
+
+            db = shelve.open("shelved.dat")
+
+            db[userID] = newResult
+
+            d.close()
+
+            controller.show_frame(studentMenu)
 
 class lecturerMenu(Frame):
     def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
-        label = Label(self, text="Lecturer Menu", font=LARGE_FONT)
+        label = Label(self, text="Lecturer Menu", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
         label.pack(padx=10, pady=10) # temp placement
 
         button1 = ttk.Button(self, text="Back to login", command=lambda: controller.show_frame(login))  # only calls the function when the button is pressed
