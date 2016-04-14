@@ -3,10 +3,10 @@ from tkinter import ttk  # css for tkinter
 from tkinter import messagebox
 from datetime import datetime
 import dqsClass
-<<<<<<< HEAD
-=======
 import shelve
->>>>>>> 910064e93b741e95421733cbf79ced977ea0e40b
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 LARGE_FONT = ("Verdana", 16, "bold")
 BACKGROUND_COLOUR_DARK = "#283F44"
@@ -343,13 +343,13 @@ class test_1(Frame):    #Dom Routley
 
         newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
 
-        db = shelve.open("shelved.dat")
+        #db = shelve.open("shelved.dat")
 
-        db['0001'] = newResult
+        #db['0001'] = newResult
 
-        d.close()
+        #d.close()
 
-        controller.show_frame(studentMenu)
+        #controller.show_frame(studentMenu)
 
 class lecturerMenu(Frame):
     def __init__(self, parent, controller):
