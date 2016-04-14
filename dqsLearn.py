@@ -195,12 +195,13 @@ class lesson_2(Frame):
         #canvas.grid(row=2, column=0, rowspan=1)
 
         Lb1 = Listbox(self, bg=BACKGROUND_RED, selectmode=SINGLE, selectbackground="#AD423E")#create listbox object,
-        Lb1.insert(1, "Propositional Logic")
-        Lb1.insert(2, "Combining Propositions")#add the listbox options
-        Lb1.insert(3, "Truth Tables")
-        Lb1.insert(4, "Implication")
-        Lb1.insert(5, "Tautologies")
-        Lb1.insert(6, "De Morgan's Laws")
+        Lb1.insert(1, "Sets")
+        Lb1.insert(2, "Special sets")#add the listbox options
+        Lb1.insert(3, "Notation")
+        Lb1.insert(4, "Python and sets")
+        Lb1.insert(5, "Types of sets, and venn diagrams")
+        Lb1.insert(6, "Types of sets, and venn diagrams")
+        Lb1.insert(7, "Inclusion-exclusion principle")
         Lb1.pack(side=RIGHT, anchor=N, padx=10, pady=10) #display listbox to screen, hug left of lesson slide
 
         self.slides = {
@@ -209,7 +210,8 @@ class lesson_2(Frame):
                     3 : "Slide3.png",
                     4 : "Slide4.png",
                     5 : "Slide5.png",
-                    6 : "Slide6.png"}
+                    6 : "Slide6.png",
+                    7 : "Slide7.png}
 
         self.slide_index = 0
 
