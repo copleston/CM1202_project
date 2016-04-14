@@ -30,7 +30,7 @@ class dqsLearn(Frame): # include inheritance as parameters
         # collection of frames i.e. login, menu, lesson, test
         self.frames = {}
 
-        for page in (login, studentMenu, lesson_1, test_1, lecturerMenu, view_results):
+        for page in (login, studentMenu, lesson_1, lesson_2, test_1, lecturerMenu, view_results):
             # set the current frame
             frame = page(container, self) # Assign the login screen to the first frame to be passed
 
@@ -73,12 +73,15 @@ class studentMenu(Frame):
         button1 = ttk.Button(self, text="Back to login", command=lambda: controller.show_frame(login))  # only calls the function when the button is pressed
         button1.pack(padx=10, pady=10)
 
-        button2 = ttk.Button(self, text="Begin lesson", command=lambda: controller.show_frame(lesson_1))
+        button2 = ttk.Button(self, text="Begin logic lesson", command=lambda: controller.show_frame(lesson_1))
         button2.pack(padx=10, pady=10)
 
         # ?? This should be disabled (greyed out) until the lesson has been completed ??
-        button3 = ttk.Button(self, text="Begin test", command=lambda: controller.show_frame(test_1))
+        button3 = ttk.Button(self, text="Begin logic test", command=lambda: controller.show_frame(test_1))
         button3.pack(padx=10, pady=10)
+
+        button4 = ttk.Button(self, text="Begin sets lesson", command=lambda: controller.show_frame(lesson_2))
+        button4.pack(padx=10, pady=10)
 
 
 class lesson_1(Frame):
@@ -169,6 +172,96 @@ class lesson_1(Frame):
         next_slide(self)
         button2.config(state=DISABLED)
 
+class lesson_2(Frame):
+    # ****EDIT THIS CLASS FOR YOUR LESSON ALEX****
+
+
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
+
+        label = Label(self, text="Logic - Lesson", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        label.pack(padx=10, pady=10) # temp placement
+        #label.grid(row=0, column=0, columnspan=10, sticky=N)
+
+        button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))  # only calls the function when the button is pressed
+        button1.pack(padx=10, pady=10)
+        #button1.grid(row=1, column=0, columnspan=2, sticky=N)
+
+        canvas_width = 750
+        canvas_height = 600
+
+        canvas = Canvas(self, width=canvas_width, height=canvas_height, bg=BACKGROUND_COLOUR_DARK)
+        canvas.pack(expand=YES, fill=Y, side=LEFT, padx=10, pady=10)
+        #canvas.grid(row=2, column=0, rowspan=1)
+
+        Lb1 = Listbox(self, bg=BACKGROUND_RED, selectmode=SINGLE, selectbackground="#AD423E")#create listbox object,
+        Lb1.insert(1, "Propositional Logic")
+        Lb1.insert(2, "Combining Propositions")#add the listbox options
+        Lb1.insert(3, "Truth Tables")
+        Lb1.insert(4, "Implication")
+        Lb1.insert(5, "Tautologies")
+        Lb1.insert(6, "De Morgan's Laws")
+        Lb1.pack(side=RIGHT, anchor=N, padx=10, pady=10) #display listbox to screen, hug left of lesson slide
+
+        self.slides = {
+                    1 : "Slide1.png",
+                    2 : "Slide2.png",
+                    3 : "Slide3.png",
+                    4 : "Slide4.png",
+                    5 : "Slide5.png",
+                    6 : "Slide6.png"}
+
+        self.slide_index = 0
+
+        # set slide
+        def set_slide(self):
+            pass
+
+        def previous_slide(self):
+            # if on last slide, re-activate "next" button
+            button3.config(state="normal")
+
+            # if moving onto the first slide, disable "previous" button
+            if self.slide_index == 2:
+                button2.config(state=DISABLED)
+
+            Lb1.selection_clear(self.slide_index-1) #clear highlighted listbox item, -1 for string indexing
+
+            self.slide_index -= 1
+            Lb1.selection_set(self.slide_index-1) #highlight current listbox item, -1 for string indexing
+
+            self.img = PhotoImage(file=self.slides.get(self.slide_index))
+            canvas.create_image(0, 0, anchor=NW, image=self.img)
+            print(self.slide_index)
+
+        def next_slide(self):
+            # if on first slide, re-activate "previous" button
+            button2.config(state="normal")
+
+            # if moving onto the last slide, disable "next" button
+            if self.slide_index == 5:
+                button3.config(state=DISABLED)
+
+            Lb1.selection_clear(self.slide_index-1)
+
+            self.slide_index += 1
+            Lb1.selection_set(self.slide_index-1)
+
+            self.img = PhotoImage(file=self.slides.get(self.slide_index))
+            canvas.create_image(0, 0, anchor=NW, image=self.img)
+            print(self.slide_index)
+
+        button2 = ttk.Button(self, text="Previous", command=lambda: previous_slide(self))
+        button2.pack(side=TOP, padx=10, pady=10, anchor=NE)
+        #button2.grid(row=4, column=2)
+
+        button3 = ttk.Button(self, text="Next", command=lambda: next_slide(self))
+        button3.pack(side=TOP, padx=10, pady=10, anchor=NE)
+        #button3.grid(row=4, column=4)
+
+
+        next_slide(self)
+        button2.config(state=DISABLED)
 
 class test_1(Frame):    #Dom Routley
     def __init__(self, parent, controller):
@@ -343,7 +436,7 @@ class test_1(Frame):    #Dom Routley
 
         newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
 
-        #db = shelve.open("shelved.dat")
+        #db = shelve.open("shelved.dat", 'r')
 
         #db['0001'] = newResult
 
