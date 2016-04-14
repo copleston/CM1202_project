@@ -167,7 +167,7 @@ class lesson_1(Frame):
         button2.config(state=DISABLED)
 
 
-class test_1(Frame):
+class test_1(Frame):    #Dom Routley
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
 
@@ -362,15 +362,51 @@ class lecturerMenu(Frame):
         button2.pack(padx=10, pady=10)
 
 
-class view_results(Frame):
+class view_results(Frame):  #Dom Routley
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
+
+        #PLACEHOLDER DATA
+        userIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        score = [4, 6, 2, 8, 9, 0, 5, 6, 5, 6]
+        testId = "1"
+        #PLACEHOLDER DATA
+
+        maxGrade = 9
+        userIdLength = len(userIds)
+        plt.bar(userIds, score, align="center")
+
+        plt.xlabel("Students")
+        plt.ylabel("Score in test")
+        #plt.xticks(userIds)
+        plt.title("Results from test " + str(testId))
+        plt.axis([1, userIdLength, 0, maxGrade])
+        plt.grid(True)
+        plt.savefig("plots/plotsaveTest_" + str(testId))
+
+
+        canvas_width = 750
+        canvas_height = 600
+
+        canvas = Canvas(self, width=canvas_width, height=canvas_height)
+        canvas.pack(expand=YES, fill=Y, side=LEFT, padx=10, pady=10)
+
+        self.img = PhotoImage(file="plots/plotsaveTest_" + testId + ".png")
+        canvas.create_image(0, 0, anchor=NW, image=self.img)
+
+
 
         label = Label(self, text="View Results", font=LARGE_FONT)
         label.pack(padx=10, pady=10) # temp placement
 
         button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(lecturerMenu))  # only calls the function when the button is pressed
         button1.pack(padx=10, pady=10)
+
+        buttonL1 = ttk.Button(self, text="Lesson 1 test", state=DISABLED)
+        buttonL1.pack(padx=10, pady=6)
+
+        buttonL2 = ttk.Button(self, text="Lesson 2 test", state=DISABLED)
+        buttonL2.pack(padx=10, pady=6)
 
 
 widthpixels = "1000"
