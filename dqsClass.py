@@ -1,6 +1,3 @@
-import pickle
-import shelve
-
 class UserResult:
 	def __init__(self,lessonID, userID, timeElapsed, questions):
 		self.lessonID = lessonID

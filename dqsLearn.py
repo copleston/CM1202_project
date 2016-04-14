@@ -3,6 +3,10 @@ from tkinter import ttk  # css for tkinter
 from tkinter import messagebox
 from datetime import datetime
 import dqsClass
+<<<<<<< HEAD
+=======
+import shelve
+>>>>>>> 910064e93b741e95421733cbf79ced977ea0e40b
 
 LARGE_FONT = ("Verdana", 16, "bold")
 BACKGROUND_COLOUR_DARK = "#283F44"
@@ -337,11 +341,11 @@ class test_1(Frame):    #Dom Routley
         tfinish = datetime.now()
         timeElapsed = tfinish - self.tstart
 
-        newResult = dqsClass.UserResult("0001", userID, timeElapsed, questions)
+        newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
 
         db = shelve.open("shelved.dat")
 
-        db[userID] = newResult
+        db['0001'] = newResult
 
         d.close()
 
