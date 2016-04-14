@@ -288,7 +288,7 @@ class lesson_2(Frame):
             button2.config(state="normal")
 
             # if moving onto the last slide, disable "next" button
-            if self.slide_index == 5:
+            if self.slide_index == 6:
                 button3.config(state=DISABLED)
 
             Lb1.selection_clear(self.slide_index-1)
