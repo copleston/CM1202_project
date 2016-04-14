@@ -47,18 +47,54 @@ class dqsLearn(Frame): # include inheritance as parameters
 
 # Classes for each page in the software
 
-
 class login(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
-        label = Label(self, text="Login Page", font=LARGE_FONT, bg=BACKGROUND_COLOUR_DARKER, fg="white")
-        label.pack(padx=10, pady=10)
 
-        # button1 = Button(self, text="Student Login", command=studentMenu) # calls the function immediately
-        button1 = ttk.Button(self, text="Student Login", command=lambda: controller.show_frame(studentMenu)) # only calls the function when the button is pressed
-        button1.pack(padx=10, pady=10)
-        button2 = ttk.Button(self, text="Lecturer Login", command=lambda: controller.show_frame(lecturerMenu))  # only calls the function when the button is pressed
-        button2.pack(padx=10, pady=10)
+        self.label_1 = Label(self, text="Username")
+        self.label_2 = Label(self, text="Password")
+
+        self.entry_1 = Entry(self)
+        self.entry_2 = Entry(self, show="*")
+
+        self.label_1.grid(row=0, sticky=E)
+        self.label_2.grid(row=1, sticky=E)
+        self.entry_1.grid(row=0, column=1)
+        self.entry_2.grid(row=1, column=1)
+
+        self.checkbox = Checkbutton(self, text="Keep me logged in")
+        self.checkbox.grid(columnspan=2)
+
+        self.logbtn = Button(self, text="Login", command = self._login_btn_clickked)
+        self.logbtn.grid(columnspan=2)
+
+        self.pack()
+
+    def _login_btn_clickked(self):
+        #print("Clicked")
+        username = self.entry_1.get()
+        password = self.entry_2.get()
+
+        #print(username, password)
+
+        student_usernames = ("C100", "C200", "C300")
+        student_passwords = ("PASS", "PASS1", "PASS2")
+
+        teacher_usernames = ("T100", "T200", "T300")
+        teacher_passwords = ("TPASS", "TPASS1", "TPASS3")
+
+        if username in student_usernames and password in student_passwords:
+            if ( student_usernames.index(username) == student_passwords.index(password) ):
+                tm.showinfo("Login info", "Welcome Student")
+            else:
+                tm.showerror("Login error", "Incorrect information")
+        elif username in teacher_usernames and password in teacher_passwords:
+            if ( teacher_usernames.index(username) == teacher_passwords.index(password) ):
+                tm.showinfo("Login info", "Welcome Teacher")
+            else:
+                tm.showerror("Login error", "Incorrect information")
+        else: 
+            tm.showerror("Login error", "Incorrect information")
 
 class studentMenu(Frame):
     def __init__(self, parent, controller):
@@ -340,11 +376,12 @@ class test_1(Frame):    #Dom Routley
 
         newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
 
-        db = shelve.open("shelved.dat")
+        db = shelve.open("shelved")
 
-        db['0001'] = newResult
+        #db[newResult.userID] = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
+        print(newResult.userID)
 
-        d.close()
+        db.close()
 
         controller.show_frame(studentMenu)
 
