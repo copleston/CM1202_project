@@ -446,17 +446,17 @@ class test_1(Frame):    #Dom Routley
         Q5F4.grid(row=17, column=2, sticky=N+E+S+W)
 
         # truth table input
-        Q5I = Entry(self, width=1, textvariable=self.varQ5T)
-        Q5I.grid(row=14, column=3, sticky=N+E+S+W)
-        Q5I = Entry(self, width=1, textvariable=self.varQ5F1)
-        Q5I.grid(row=15, column=3, sticky=N+E+S+W)
-        Q5I = Entry(self, width=1, textvariable=self.varQ5F2)
-        Q5I.grid(row=16, column=3, sticky=N+E+S+W)
-        Q5I = Entry(self, width=1, textvariable=self.varQ5F3)
-        Q5I.grid(row=17, column=3, sticky=N+E+S+W)
+        Q5I = Entry(self, width=5, textvariable=self.varQ5T)
+        Q5I.grid(row=14, column=3, sticky=E)
+        Q5I = Entry(self, width=5, textvariable=self.varQ5F1)
+        Q5I.grid(row=15, column=3, sticky=E)
+        Q5I = Entry(self, width=5, textvariable=self.varQ5F2)
+        Q5I.grid(row=16, column=3, sticky=E)
+        Q5I = Entry(self, width=5, textvariable=self.varQ5F3)
+        Q5I.grid(row=17, column=3, sticky=E)
 
 
-        button = ttk.Button(self, text="Finish", command=self.submitTest())
+        button = ttk.Button(self, text="Finish", command=self.submitTest)
         button.grid(padx=10, pady=10)
 
         button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))
@@ -506,6 +506,8 @@ class test_1(Frame):    #Dom Routley
             q5 = "incorrect"
 
         messagebox.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3 + "\n" + q4 + "\n" + q5)
+
+        print(self.varQ1A, self.varQ2A, self.varQ3A, questions['Q4'], questions['Q5'])
 
         #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
 
