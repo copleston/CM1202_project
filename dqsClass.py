@@ -8,7 +8,8 @@ class UserResult:
     def getTotalMarks():
         total = 0
         for question, answers in questions:
-            total += answers[1]
+            if answers[0] == answers[1]:
+                total = total + 1
         return total
 
     def getTimeElapsed():
