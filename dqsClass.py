@@ -1,8 +1,9 @@
 import shelve
 
 class UserResult:
-	def __init__(self,testID, timeElapsed, questions):
+	def __init__(self,testID, userID, timeElapsed, questions):
 		self.testID = testID
+		self.userID = userID
 		self.timeElapsed = timeElapsed
 		self.questions = questions
 
@@ -27,9 +28,8 @@ class ClassResult:
 	def getResults():
 		return self.results
 
-	def addResult(self, userID, timeElapsed, questions):
-		new_result = UserResult(self.lessonID + userID, timeElapsed, questions)
-		self.results[userID] = new_result
+	def addResult(self, new_result):
+		self.results[new_result.userID] = new_result
 
 	def store():
 		self.results.close()

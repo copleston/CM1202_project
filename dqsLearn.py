@@ -533,29 +533,20 @@ class test_1(Frame):    #Dom Routley
             timeElapsed = datetime.now() - self.tstart
             # timeElapsed = "00:00:00"
 
-<<<<<<< HEAD
-            class_result = dqsClass.ClassResult(self.lessonID)
-
-            class_result.addResult(username, timeElapsed, questions)
-
-=======
-            newResult = dqsClass.UserResult("0001", "0001", timeElapsed, questions)
+            newResult = dqsClass.UserResult("Logic", username, timeElapsed, questions)
+            #class_result = dqsClass.ClassResult("Logic")
+            #class_result.addResult(username, timeElapsed, questions)
 
             print(newResult.lessonID)
             print(newResult.userID)
             print(newResult.timeElapsed)
             print(newResult.questions)
 
-            #creating object
+            # opening logic response database
             db = shelve.open("responses1.dat", 'n')
             # storing object in Pickle db
-            db[newResult.lessonID] = newResult
+            db[username] = newResult
             db.close()
-            #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
-            #db = shelve.open("shelved.dat", 'r')
-            #db['0001'] = newResult
-            #d.close()
->>>>>>> 2747977a0da04aa20dbaa60f42bf3cee8380ea00
 
             controller.show_frame(studentMenu)
         else:
