@@ -3,7 +3,6 @@ from tkinter import ttk  # css for tkinter
 from tkinter import messagebox as tm
 from datetime import datetime
 import dqsClass
-import shelve
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -12,6 +11,8 @@ LARGE_FONT = ("Verdana", 16, "bold")
 BACKGROUND_COLOUR_DARK = "#283F44"
 BACKGROUND_COLOUR_DARKER = "#393B3F"
 BACKGROUND_RED = "#AD423E"
+
+username = ""
 
 class dqsLearn(Frame): # include inheritance as parameters
     def __init__(self, *args, **kwargs): # args(arguments) = any number of variables kwargs(kewyword arguments) = passing dictionaries/data structures
@@ -339,6 +340,7 @@ class test_1(Frame):    #Dom Routley
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
         self.tstart = datetime.now()  # get current time
+        self.lessonID = "0001"
 
         label = Label(self, text="Logic - Test", font=LARGE_FONT)
         label.grid(row=0, column=1, padx=10, pady=10)
@@ -526,26 +528,13 @@ class test_1(Frame):    #Dom Routley
 
             #print(questions['Q1'], questions['Q2'], questions['Q3'], questions['Q4'], questions['Q5'])
 
-            tfinish = datetime.now()
-            timeElapsed = tfinish - self.tstart
+            timeElapsed = datetime.now() - self.tstart
             # timeElapsed = "00:00:00"
 
-            newResult = dqsClass.UserResult("0001", "0001", timeElapsed, questions)
+            class_result = dqsClass.ClassResult(self.lessonID)
 
-            print(newResult.lessonID)
-            print(newResult.userID)
-            print(newResult.timeElapsed)
-            print(newResult.questions)
+            class_result.addResult(username, timeElapsed, questions)
 
-            #creating object
-            db = shelve.open("responses.dat", 'n')
-            # storing object in Pickle db
-            db[newResult.lessonID] = newResult
-            db.close()
-            #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
-            #db = shelve.open("shelved.dat", 'r')
-            #db['0001'] = newResult
-            #d.close()
 
             controller.show_frame(studentMenu)
         else:

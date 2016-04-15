@@ -1,7 +1,8 @@
+import shelve
+
 class UserResult:
-	def __init__(self,lessonID, userID, timeElapsed, questions):
-		self.lessonID = lessonID
-		self.userID = userID
+	def __init__(self,testID, timeElapsed, questions):
+		self.testID = testID
 		self.timeElapsed = timeElapsed
 		self.questions = questions
 
@@ -16,13 +17,19 @@ class UserResult:
 
 
 class ClassResult:
-	def __init__(self, testID, results):
-		testID = 0
-		results = []
+	def __init__(self, lessonID):
+		self.lessonID = lessonID
+		if self.lessonID == "0001":
+			self.results = shelve.open("responses1.dat", "n")
+		elif self.lessonID == "0002":
+			self.results = shelve.open("responses2.dat", "n")
 
 	def getResults():
-		return results
+		return self.results
 
-	def addResult(userID, timeElapsed, questions):
-		new_result = UserResult(self.testID, userID, timeElapsed, questions)
-		results.append(new_result)
+	def addResult(self, userID, timeElapsed, questions):
+		new_result = UserResult(self.lessonID + userID, timeElapsed, questions)
+		self.results[userID] = new_result
+
+	def store():
+		self.results.close()
