@@ -30,7 +30,7 @@ class dqsLearn(Frame): # include inheritance as parameters
         # collection of frames i.e. login, menu, lesson, test
         self.frames = {}
 
-        for page in (login, studentMenu, lesson_1, lesson_2, test_1, lecturerMenu, view_results):
+        for page in (login, studentMenu, lesson_1, lesson_2, test_1, test_2, lecturerMenu, view_results):
             # set the current frame
             frame = page(container, self) # Assign the login screen to the first frame to be passed
 
@@ -45,6 +45,10 @@ class dqsLearn(Frame): # include inheritance as parameters
         frame = self.frames[cont] # retrieves the frame with key "cont" from frames dictionary
         frame.tkraise() # Moves called frame to top
 
+
+# **** COMMON REUSABLE CODE ****
+
+# Classes for each page in the software
 
 
 class login(Frame):
@@ -126,6 +130,9 @@ class studentMenu(Frame):
         button4 = ttk.Button(self, text="Begin sets lesson", command=lambda: controller.show_frame(lesson_2))
         button4.pack(padx=10, pady=10)
 
+        button5 = ttk.Button(self, text="Begin sets test", command=lambda: controller.show_frame(test_2))
+        button5.pack(padx=10, pady=10)
+
 
 class lesson_1(Frame):
     def __init__(self, parent, controller):
@@ -166,8 +173,14 @@ class lesson_1(Frame):
         self.slide_index = 0
 
         # set slide
-        def set_slide(self):
-            pass
+        def set_slide(evt):
+            # J : function for listbox onclick
+            Lb1.selection_clear(self.slide_index-1) # J: clear highlighted list box item
+            temp_tuple = Lb1.curselection() # J: get index of clicked listbox item 
+            self.slide_index = temp_tuple[0]+1 #J: set slide index
+            self.img = PhotoImage(file=self.slides.get(self.slide_index))
+            canvas.create_image(0, 0, anchor=NW, image=self.img)
+            print(self.slide_index)
 
         def previous_slide(self):
             # if on last slide, re-activate "next" button
@@ -203,6 +216,7 @@ class lesson_1(Frame):
             canvas.create_image(0, 0, anchor=NW, image=self.img)
             print(self.slide_index)
 
+        Lb1.bind('<<ListboxSelect>>', set_slide) # J: bind set_slide function to listbox onclick event
         button2 = ttk.Button(self, text="Previous", command=lambda: previous_slide(self))
         button2.pack(side=TOP, padx=10, pady=10, anchor=NE)
         #button2.grid(row=4, column=2)
@@ -222,7 +236,7 @@ class lesson_2(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
-        label = Label(self, text="Sets - Lesson", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        label = Label(self, text="Logic - Lesson", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
         label.pack(padx=10, pady=10) # temp placement
         #label.grid(row=0, column=0, columnspan=10, sticky=N)
 
@@ -259,8 +273,14 @@ class lesson_2(Frame):
         self.slide_index = 0
 
         # set slide
-        def set_slide(self):
-            pass
+        def set_slide(evt):
+            # J : function for listbox onclick
+            Lb1.selection_clear(self.slide_index-1) # J: clear highlighted list box item
+            temp_tuple = Lb1.curselection() # J: get index of clicked listbox item 
+            self.slide_index = temp_tuple[0]+1 #J: set slide index
+            self.img = PhotoImage(file=self.slides.get(self.slide_index))
+            canvas.create_image(0, 0, anchor=NW, image=self.img)
+            print(self.slide_index)
 
         def previous_slide(self):
             # if on last slide, re-activate "next" button
@@ -296,6 +316,8 @@ class lesson_2(Frame):
             canvas.create_image(0, 0, anchor=NW, image=self.img)
             print(self.slide_index)
 
+
+        Lb1.bind('<<ListboxSelect>>', set_slide) # J: bind set_slide function to listbox onclick event
         button2 = ttk.Button(self, text="Previous", command=lambda: previous_slide(self))
         button2.pack(side=TOP, padx=10, pady=10, anchor=NE)
         #button2.grid(row=4, column=2)
@@ -310,7 +332,7 @@ class lesson_2(Frame):
 
 class test_1(Frame):    #Dom Routley
     def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
         self.tstart = datetime.now()  # get current time
 
@@ -337,13 +359,13 @@ class test_1(Frame):    #Dom Routley
         label.grid(row=1, column=0)
 
         Q1R = Radiobutton(self, text="A correct proposition.", variable=self.varQ1A, value="x1")
-        Q1R.grid(row=1, column=1)
+        Q1R.grid(row=1, column=1, sticky=N+E+S+W)
         Q1R = Radiobutton(self, text="A incorrect proposition.", variable=self.varQ1A, value="y1")
-        Q1R.grid(row=1, column=2)
+        Q1R.grid(row=1, column=2, sticky=N+E+S+W)
         Q1R = Radiobutton(self, text="A always correct proposition.", variable=self.varQ1A, value="t1")
-        Q1R.grid(row=2, column=1)
+        Q1R.grid(row=2, column=1, sticky=N+E+S+W)
         Q1R = Radiobutton(self, text="A always incorrect proposition.", variable=self.varQ1A, value="z1")
-        Q1R.grid(row=2, column=2)
+        Q1R.grid(row=2, column=2, sticky=N+E+S+W)
 
         sep = ttk.Separator(self, orient=HORIZONTAL)
         sep.grid(row=3, columnspan=4, sticky=EW)
@@ -352,13 +374,13 @@ class test_1(Frame):    #Dom Routley
         label.grid(row=4, column=0)
 
         Q2R = Radiobutton(self, text="¬qV¬p => ¬(p^q)", variable=self.varQ2A, value="t2")
-        Q2R.grid(row=4, column=1)
+        Q2R.grid(row=4, column=1, sticky=N+E+S+W)
         Q2R = Radiobutton(self, text="p => ¬q", variable=self.varQ2A, value="y2")
-        Q2R.grid(row=4, column=2)
+        Q2R.grid(row=4, column=2, sticky=N+E+S+W)
         Q2R = Radiobutton(self, text="p^q = qVp", variable=self.varQ2A, value="x2")
-        Q2R.grid(row=5, column=1)
+        Q2R.grid(row=5, column=1, sticky=N+E+S+W)
         Q2R = Radiobutton(self, text="q = ¬(¬q)", variable=self.varQ2A, value="z2")
-        Q2R.grid(row=5, column=2)
+        Q2R.grid(row=5, column=2, sticky=N+E+S+W)
 
         sep = ttk.Separator(self, orient=HORIZONTAL)
         sep.grid(row=6, columnspan=4, sticky=EW)
@@ -367,13 +389,13 @@ class test_1(Frame):    #Dom Routley
         label.grid(row=7, column=0)
 
         Q3R = Radiobutton(self, text="q^¬p => ¬(q^p)", variable=self.varQ3A, value="x3")
-        Q3R.grid(row=7, column=1)
+        Q3R.grid(row=7, column=1, sticky=N+E+S+W)
         Q3R = Radiobutton(self, text="q => ¬q^¬q", variable=self.varQ3A, value="y3")
-        Q3R.grid(row=7, column=2)
+        Q3R.grid(row=7, column=2, sticky=N+E+S+W)
         Q3R = Radiobutton(self, text="q => p", variable=self.varQ3A, value="z3")
-        Q3R.grid(row=8, column=1)
+        Q3R.grid(row=8, column=1, sticky=N+E+S+W)
         Q3R = Radiobutton(self, text="¬pV¬q => ¬(p^q)", variable=self.varQ3A, value="t3")
-        Q3R.grid(row=8, column=2)
+        Q3R.grid(row=8, column=2, sticky=N+E+S+W)
 
         sep = ttk.Separator(self, orient=HORIZONTAL)
         sep.grid(row=9, columnspan=4, sticky=EW)
@@ -382,13 +404,13 @@ class test_1(Frame):    #Dom Routley
         label.grid(row=10, column=0)
 
         Q4C = Checkbutton(self, text="x+y-(f(j/k*67.462)) > 1067", variable=self.varQ4T1)
-        Q4C.grid(row=10, column=1)
+        Q4C.grid(row=10, column=1, sticky=N+E+S+W)
         Q4C = Checkbutton(self, text="The sky is blue", variable=self.varQ4T2)
-        Q4C.grid(row=10, column=2)
+        Q4C.grid(row=10, column=2, sticky=N+E+S+W)
         Q4C = Checkbutton(self, text="Star Wars or Star Trek", variable=self.varQ4F1)
-        Q4C.grid(row=11, column=1)
+        Q4C.grid(row=11, column=1, sticky=N+E+S+W)
         Q4C = Checkbutton(self, text="Can I have a drink", variable=self.varQ4F2)
-        Q4C.grid(row=11, column=2)
+        Q4C.grid(row=11, column=2, sticky=N+E+S+W)
 
         sep = ttk.Separator(self, orient=HORIZONTAL)
         sep.grid(row=12, columnspan=4, sticky=EW)
@@ -398,49 +420,41 @@ class test_1(Frame):    #Dom Routley
 
         # truth table, header
         Q5L = Label(self, text="P")
-        Q5L.grid(row=13, column=1)
+        Q5L.grid(row=13, column=1, sticky=N+E+S+W)
         Q5L = Label(self, text="Q")
-        Q5L.grid(row=13, column=2)
+        Q5L.grid(row=13, column=2, sticky=N+E+S+W)
         Q5L = Label(self, text="AND")
-        Q5L.grid(row=13, column=3)
+        Q5L.grid(row=13, column=3, sticky=N+E+S+W)
 
         # truth table, data
         Q5Tr1 = Label(self, text="T")
-        Q5Tr1.grid(row=14, column=1)
+        Q5Tr1.grid(row=14, column=1, sticky=N+E+S+W)
         Q5Tr2 = Label(self, text="T")
-        Q5Tr2.grid(row=15, column=1)
+        Q5Tr2.grid(row=15, column=1, sticky=N+E+S+W)
         Q5Tr3 = Label(self, text="T")
-        Q5Tr3.grid(row=14, column=2)
+        Q5Tr3.grid(row=14, column=2, sticky=N+E+S+W)
         Q5Tr4 = Label(self, text="T")
-        Q5Tr4.grid(row=16, column=2)
+        Q5Tr4.grid(row=16, column=2, sticky=N+E+S+W)
 
         Q5F1 = Label(self, text="F")
-        Q5F1.grid(row=15, column=2)
+        Q5F1.grid(row=15, column=2, sticky=N+E+S+W)
         Q5F2 = Label(self, text="F")
-        Q5F2.grid(row=16, column=1)
+        Q5F2.grid(row=16, column=1, sticky=N+E+S+W)
         Q5F3 = Label(self, text="F")
-        Q5F3.grid(row=17, column=1)
+        Q5F3.grid(row=17, column=1, sticky=N+E+S+W)
         Q5F4 = Label(self, text="F")
-        Q5F4.grid(row=17, column=2)
+        Q5F4.grid(row=17, column=2, sticky=N+E+S+W)
 
         # truth table input
         Q5I = Entry(self, width=1, textvariable=self.varQ5T)
-        Q5I.grid(row=14, column=3)
+        Q5I.grid(row=14, column=3, sticky=N+E+S+W)
         Q5I = Entry(self, width=1, textvariable=self.varQ5F1)
-        Q5I.grid(row=15, column=3)
+        Q5I.grid(row=15, column=3, sticky=N+E+S+W)
         Q5I = Entry(self, width=1, textvariable=self.varQ5F2)
-        Q5I.grid(row=16, column=3)
+        Q5I.grid(row=16, column=3, sticky=N+E+S+W)
         Q5I = Entry(self, width=1, textvariable=self.varQ5F3)
-        Q5I.grid(row=17, column=3)
+        Q5I.grid(row=17, column=3, sticky=N+E+S+W)
 
-
-
-        # sort variables
-        # LIAM LIAM LIAM==============================================================================================================================================
-        # THIS THIS THIS==============================================================================================================================================
-        # BIT BIT BIT=================================================================================================================================================
-        # the variables are saved as question numbers, they contain a number that pertains to the number of points that the user has scored from that question.
-        # variables you want are question1, question2, question3, question4, question5, time
 
         button = ttk.Button(self, text="Finish", command=self.submitTest())
         button.grid(padx=10, pady=10)
@@ -469,6 +483,99 @@ class test_1(Frame):    #Dom Routley
 
         #controller.show_frame(studentMenu)
 
+class test_2(Frame):    #Dom Routley
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
+
+        self.tstart2 = datetime.now()  # get current time
+
+        label = Label(self, text="Sets - Test", font=LARGE_FONT)
+        label.grid(row=0, column=1, padx=10, pady=10)
+
+        #button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))  # only calls the function when the button is pressed
+        #button1.grid(padx=10, pady=10)
+
+        self.SvarQ1A = StringVar()
+        self.SvarQ2A = StringVar()
+        self.SvarQ3A = StringVar()
+
+        # test questions===============================================================
+        label = Label(self, text="What is cardinality?", font=LARGE_FONT, relief=RIDGE, width=30)
+        label.grid(row=1, column=0)
+
+        Q1R = Radiobutton(self, text="A large set.", variable=self.SvarQ1A, value="x1")
+        Q1R.grid(row=1, column=1, sticky=N+E+S+W)
+        Q1R = Radiobutton(self, text="The length of a set.", variable=self.SvarQ1A, value="t1")
+        Q1R.grid(row=1, column=2, sticky=N+E+S+W)
+        Q1R = Radiobutton(self, text="A mini Pope.", variable=self.SvarQ1A, value="y1")
+        Q1R.grid(row=2, column=1, sticky=N+E+S+W)
+        Q1R = Radiobutton(self, text="A method of intersection.", variable=self.SvarQ1A, value="z1")
+        Q1R.grid(row=2, column=2, sticky=N+E+S+W)
+
+        sep = ttk.Separator(self, orient=HORIZONTAL)
+        sep.grid(row=3, columnspan=4, sticky=EW)
+
+        label = Label(self, text="What is a subset?", font=LARGE_FONT, relief=RIDGE, width=30)
+        label.grid(row=4, column=0)
+
+        Q2R = Radiobutton(self, text="A set containing items that are ALL in another set.", variable=self.SvarQ2A, value="t2")
+        Q2R.grid(row=4, column=1, sticky=N+E+S+W)
+        Q2R = Radiobutton(self, text="A underwater set.", variable=self.SvarQ2A, value="y2")
+        Q2R.grid(row=4, column=2, sticky=N+E+S+W)
+        Q2R = Radiobutton(self, text="U+VC", variable=self.SvarQ2A, value="x2")
+        Q2R.grid(row=5, column=1, sticky=N+E+S+W)
+        Q2R = Radiobutton(self, text="Z or {0,1,2,3}", variable=self.SvarQ2A, value="z2")
+        Q2R.grid(row=5, column=2, sticky=N+E+S+W)
+
+        sep = ttk.Separator(self, orient=HORIZONTAL)
+        sep.grid(row=6, columnspan=4, sticky=EW)
+
+        label = Label(self, text="In python, a = set([1,2,3]), what is the result of a.add(3)", font=LARGE_FONT, relief=RIDGE, width=30)
+        label.grid(row=7, column=0)
+
+        Q3R = Radiobutton(self, text="[1,2,3,3]", variable=self.SvarQ3A, value="x3")
+        Q3R.grid(row=7, column=1, sticky=N+E+S+W)
+        Q3R = Radiobutton(self, text="[NaN]", variable=self.SvarQ3A, value="y3")
+        Q3R.grid(row=7, column=2, sticky=N+E+S+W)
+        Q3R = Radiobutton(self, text="[1,2,3] + 3", variable=self.SvarQ3A, value="z3")
+        Q3R.grid(row=8, column=1, sticky=N+E+S+W)
+        Q3R = Radiobutton(self, text="[1,2,3]", variable=self.SvarQ3A, value="t3")
+        Q3R.grid(row=8, column=2, sticky=N+E+S+W)
+
+        sep = ttk.Separator(self, orient=HORIZONTAL)
+        sep.grid(row=9, columnspan=4, sticky=EW)
+
+
+        button = ttk.Button(self, text="Finish", command=self.submitTest())
+        button.grid(padx=10, pady=10)
+
+        button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))
+        button1.grid(padx=10, pady=10)
+
+
+    def submitTest(self):
+        questions = {
+               'Q1': ('t1', self.SvarQ1A),
+               'Q2': ('t2', self.SvarQ2A),
+               'Q3': ('t3', self.SvarQ3A),
+            }
+
+        tfinish = datetime.now()
+        timeElapsed = tfinish - self.tstart2
+
+        #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
+
+        #db = shelve.open("shelved.dat", 'r')
+
+        #db['0001'] = newResult
+
+        #d.close()
+
+        #controller.show_frame(studentMenu)
+
+
+
+
 class lecturerMenu(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
@@ -485,7 +592,7 @@ class lecturerMenu(Frame):
 
 class view_results(Frame):  #Dom Routley
     def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
         #PLACEHOLDER DATA
         userIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
