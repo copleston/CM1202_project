@@ -731,23 +731,31 @@ class view_average(Frame):  # Alex Mumford
         button3 = ttk.Button(self, text="View Logic Average", command=lambda: controller.show_frame(view_average_logic)) 
         button3.pack(padx=10, pady=10)
 
-class view_average_sets(Frame):  # Alex Mumford
+class view_average_sets(Frame): 
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
         label = Label(self, text="Average Sets Menu", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
         label.pack(padx=10, pady=10) 
+        label = Label(self, text="45%", font=LARGE_FONT)# temp placement
+        label.pack(padx=10, pady=10) 
+        button1 = ttk.Button(self, text="Logic Average", command=lambda: controller.show_frame(view_average_logic))  
+        button1.pack(padx=10, pady=10)
         button1 = ttk.Button(self, text="Back to Average Menu", command=lambda: controller.show_frame(view_average))  
         button1.pack(padx=10, pady=10)
 
 
 
-class view_average_logic(Frame):  # Alex Mumford
+class view_average_logic(Frame):  
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
         label = Label(self, text="Average Logic Menu", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
         label.pack(padx=10, pady=10) 
+        label = Label(self, text="78%", font=LARGE_FONT) # temp placement
+        label.pack(padx=10, pady=10) 
+        button1 = ttk.Button(self, text="Sets Average", command=lambda: controller.show_frame(view_average_sets))  
+        button1.pack(padx=10, pady=10)
         button1 = ttk.Button(self, text="Back to Average Menu", command=lambda: controller.show_frame(view_average))  
         button1.pack(padx=10, pady=10)
 
