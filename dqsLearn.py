@@ -30,7 +30,7 @@ class dqsLearn(Frame): # include inheritance as parameters
         # collection of frames i.e. login, menu, lesson, test
         self.frames = {}
 
-        for page in (login, studentMenu, lesson_1, lesson_2, test_1, test_2, lecturerMenu, view_results1, view_results2):
+        for page in (login, studentMenu, lesson_1, lesson_2, test_1, test_2, lecturerMenu, view_results1, view_results2, view_average, view_average_sets, view_average_logic):
             # set the current frame
             frame = page(container, self) # Assign the login screen to the first frame to be passed
 
@@ -685,11 +685,50 @@ class lecturerMenu(Frame):
         button1 = ttk.Button(self, text="Back to login", command=lambda: controller.show_frame(login))  # only calls the function when the button is pressed
         button1.pack(padx=10, pady=10)
 
-        button2 = ttk.Button(self, text="View Results for logic test", command=lambda: controller.show_frame(view_results1))
+        button2 = ttk.Button(self, text="View Results for test 1", command=lambda: controller.show_frame(view_results1))
         button2.pack(padx=10, pady=10)
 
-        button3 = ttk.Button(self, text="View Results for sets test", command=lambda: controller.show_frame(view_results2))
+        button3 = ttk.Button(self, text="View Results for test 2", command=lambda: controller.show_frame(view_results2))
         button3.pack(padx=10, pady=10)
+        
+        button4 = ttk.Button(self, text="View Average Mark ", command=lambda: controller.show_frame(view_average))
+        button4.pack(padx=10, pady=10)
+        
+class view_average(Frame):  # Alex Mumford
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
+
+        label = Label(self, text="Average Mark Menu", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        label.pack(padx=10, pady=10) 
+
+        button1 = ttk.Button(self, text="Back to Lecturer Menu", command=lambda: controller.show_frame(lecturerMenu))  
+        button1.pack(padx=10, pady=10)
+
+        button2 = ttk.Button(self, text="View Sets Average", command=lambda: controller.show_frame(view_average_sets))
+        button2.pack(padx=10, pady=10)
+
+        button3 = ttk.Button(self, text="View Logic Average", command=lambda: controller.show_frame(view_average_logic)) 
+        button3.pack(padx=10, pady=10)
+
+class view_average_sets(Frame):  # Alex Mumford
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
+
+        label = Label(self, text="Average Sets Menu", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        label.pack(padx=10, pady=10) 
+        button1 = ttk.Button(self, text="Back to Average Menu", command=lambda: controller.show_frame(view_average))  
+        button1.pack(padx=10, pady=10)
+
+
+
+class view_average_logic(Frame):  # Alex Mumford
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
+
+        label = Label(self, text="Average Logic Menu", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        label.pack(padx=10, pady=10) 
+        button1 = ttk.Button(self, text="Back to Average Menu", command=lambda: controller.show_frame(view_average))  
+        button1.pack(padx=10, pady=10)
 
 
 class view_results1(Frame):  #Dom Routley
