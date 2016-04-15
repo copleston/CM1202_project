@@ -82,6 +82,7 @@ class login(Frame):
 
     def _login_btn_clicked(self):
         # print("Clicked")
+        global username
         username = self.entry_1.get()
         password = self.entry_2.get()
 
@@ -97,8 +98,6 @@ class login(Frame):
             if (student_usernames.index(username) == student_passwords.index(password)):
                 tm.showinfo("Login info", "Welcome Student")
                 self.controller.show_frame(studentMenu)
-                self.line1.destroy()
-                self.line2.destroy()
             else:
                 tm.showerror("Login error", "This user does not exist, perhaps you've entered the wrong user ID")
         elif username in teacher_usernames and password in teacher_passwords:
@@ -757,11 +756,10 @@ class view_results1(Frame):  #Dom Routley
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
         #PLACEHOLDER DATA
-        userIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        score = [4, 6, 2, 8, 9, 0, 5, 6, 5, 6]
-        testId = "1"
+        if 
         #PLACEHOLDER DATA
 
+        testId = "1"
         maxGrade = 9
         userIdLength = len(userIds)
         plt.bar(userIds, score, align="center")
