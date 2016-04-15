@@ -14,7 +14,7 @@ class UserResult:
     def getTimeElapsed():
         return timeElapsed
 
-
+"""
 class ClassResult:
     def __init__(self, userResultIn):
         self.userResult = userResultIn
@@ -22,7 +22,7 @@ class ClassResult:
         self.lessonID = lessonID
         if self.lessonID == "Logic":
             self.results = shelve.open("responses1.dat", "n")
-        elif self.lessonID == "Tests":
+        elif self.lessonID == "Sets":
             self.results = shelve.open("responses2.dat", "n")
 
     def getResults():
@@ -33,3 +33,4 @@ class ClassResult:
 
     def store():
         self.results.close()
+"""

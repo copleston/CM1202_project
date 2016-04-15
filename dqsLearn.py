@@ -104,8 +104,6 @@ class login(Frame):
             if (teacher_usernames.index(username) == teacher_passwords.index(password)):
                 tm.showinfo("Login info", "Welcome Teacher")
                 self.controller.show_frame(lecturerMenu)
-                self.line1.destroy()
-                self.line2.destroy()
             else:
                 tm.showerror("Login error", "This user does not exist, perhaps you've entered the wrong user ID")
         else:
@@ -677,15 +675,18 @@ class test_2(Frame):    #Dom Routley
             tfinish = datetime.now()
             timeElapsed = tfinish - self.tstart2
 
-            newResult = dqsClass.UserResult("Sets", "0001", timeElapsed, questions)
+            newResult = dqsClass.UserResult("Sets", username, timeElapsed, questions)
 
-            print(newResult.lessonID)
-            print(newResult.userID)
+            # testing object
+            print(newResult.testID)
+            print(newResult.studentID)
             print(newResult.timeElapsed)
             print(newResult.questions)
 
-            db = shelve.open("responses2.dat", "n")
-            db[newResult.lessonID] = newResult
+            # creating object
+            db = shelve.open("responses2.dat", 'n')
+            # storing object in Pickle db
+            db[username] = newResult
             db.close()
 
             controller.show_frame(studentMenu)
