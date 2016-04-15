@@ -182,7 +182,7 @@ class lesson_1(Frame):
             self.slide_index = temp_tuple[0]+1 #J: set slide index
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
+            #print(self.slide_index)
 
         def previous_slide(self):
             # if on last slide, re-activate "next" button
@@ -199,7 +199,7 @@ class lesson_1(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
+            #print(self.slide_index)
 
         def next_slide(self):
             # if on first slide, re-activate "previous" button
@@ -216,7 +216,7 @@ class lesson_1(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
+            #print(self.slide_index)
 
         Lb1.bind('<<ListboxSelect>>', set_slide) # J: bind set_slide function to listbox onclick event
         button2 = ttk.Button(self, text="Previous", command=lambda: previous_slide(self))
@@ -283,7 +283,7 @@ class lesson_2(Frame):
             self.slide_index = temp_tuple[0]+1 #J: set slide index
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
+            #print(self.slide_index)
 
         def previous_slide(self):
             # if on last slide, re-activate "next" button
@@ -300,7 +300,7 @@ class lesson_2(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
+            #print(self.slide_index)
 
         def next_slide(self):
             # if on first slide, re-activate "previous" button
@@ -317,7 +317,7 @@ class lesson_2(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
+            #print(self.slide_index)
 
 
         Lb1.bind('<<ListboxSelect>>', set_slide) # J: bind set_slide function to listbox onclick event
