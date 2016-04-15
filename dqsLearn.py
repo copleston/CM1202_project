@@ -6,13 +6,13 @@ import dqsClass
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import shelve
 
 LARGE_FONT = ("Verdana", 16, "bold")
 BACKGROUND_COLOUR_DARK = "#283F44"
 BACKGROUND_COLOUR_DARKER = "#393B3F"
 BACKGROUND_RED = "#AD423E"
 
-username = ""
 
 class dqsLearn(Frame): # include inheritance as parameters
     def __init__(self, *args, **kwargs): # args(arguments) = any number of variables kwargs(kewyword arguments) = passing dictionaries/data structures
@@ -81,6 +81,7 @@ class login(Frame):
 
     def _login_btn_clicked(self):
         # print("Clicked")
+        global username
         username = self.entry_1.get()
         password = self.entry_2.get()
 
@@ -96,16 +97,12 @@ class login(Frame):
             if (student_usernames.index(username) == student_passwords.index(password)):
                 tm.showinfo("Login info", "Welcome Student")
                 self.controller.show_frame(studentMenu)
-                self.line1.destroy()
-                self.line2.destroy()
             else:
                 tm.showerror("Login error", "This user does not exist, perhaps you've entered the wrong user ID")
         elif username in teacher_usernames and password in teacher_passwords:
             if (teacher_usernames.index(username) == teacher_passwords.index(password)):
                 tm.showinfo("Login info", "Welcome Teacher")
                 self.controller.show_frame(lecturerMenu)
-                self.line1.destroy()
-                self.line2.destroy()
             else:
                 tm.showerror("Login error", "This user does not exist, perhaps you've entered the wrong user ID")
         else:
@@ -342,7 +339,7 @@ class test_1(Frame):    #Dom Routley
         self.tstart = datetime.now()  # get current time
         self.lessonID = "0001"
 
-        label = Label(self, text="Logic - Test", font=LARGE_FONT)
+        label = Label(self, text="Logic - Test", font=LARGE_FONT, bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         label.grid(row=0, column=1, padx=10, pady=10)
 
         #button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))  # only calls the function when the button is pressed
@@ -361,94 +358,95 @@ class test_1(Frame):    #Dom Routley
         self.varQ5F3 = StringVar()
 
         # test questions===============================================================
-        label = Label(self, text="What is a tautology?", font=LARGE_FONT, relief=RIDGE, width=30)
+        label = Label(self, text="What is a tautology?", font=LARGE_FONT, relief=RIDGE, width=30, bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
+
         label.grid(row=1, column=0)
 
-        Q1R = Radiobutton(self, text="A correct proposition.", variable=self.varQ1A, value="x1")
+        Q1R = Radiobutton(self, text="A correct proposition.", variable=self.varQ1A, value="x1", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q1R.grid(row=1, column=1, sticky=N+E+S+W)
-        Q1R = Radiobutton(self, text="A incorrect proposition.", variable=self.varQ1A, value="y1")
+        Q1R = Radiobutton(self, text="A incorrect proposition.", variable=self.varQ1A, value="y1", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q1R.grid(row=1, column=2, sticky=N+E+S+W)
-        Q1R = Radiobutton(self, text="A always correct proposition.", variable=self.varQ1A, value="t1")
+        Q1R = Radiobutton(self, text="A always correct proposition.", variable=self.varQ1A, value="t1", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q1R.grid(row=2, column=1, sticky=N+E+S+W)
-        Q1R = Radiobutton(self, text="A always incorrect proposition.", variable=self.varQ1A, value="z1")
+        Q1R = Radiobutton(self, text="A always incorrect proposition.", variable=self.varQ1A, value="z1", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q1R.grid(row=2, column=2, sticky=N+E+S+W)
 
         sep = ttk.Separator(self, orient=HORIZONTAL)
         sep.grid(row=3, columnspan=4, sticky=EW)
 
-        label = Label(self, text="De Morgans Law states that...", font=LARGE_FONT, relief=RIDGE, width=30)
+        label = Label(self, text="De Morgans Law states that...", font=LARGE_FONT, relief=RIDGE, width=30, bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         label.grid(row=4, column=0)
 
-        Q2R = Radiobutton(self, text="¬qV¬p => ¬(p^q)", variable=self.varQ2A, value="t2")
+        Q2R = Radiobutton(self, text="¬qV¬p => ¬(p^q)", variable=self.varQ2A, value="t2", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q2R.grid(row=4, column=1, sticky=N+E+S+W)
-        Q2R = Radiobutton(self, text="p => ¬q", variable=self.varQ2A, value="y2")
+        Q2R = Radiobutton(self, text="p => ¬q", variable=self.varQ2A, value="y2", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q2R.grid(row=4, column=2, sticky=N+E+S+W)
-        Q2R = Radiobutton(self, text="p^q = qVp", variable=self.varQ2A, value="x2")
+        Q2R = Radiobutton(self, text="p^q = qVp", variable=self.varQ2A, value="x2", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q2R.grid(row=5, column=1, sticky=N+E+S+W)
-        Q2R = Radiobutton(self, text="q = ¬(¬q)", variable=self.varQ2A, value="z2")
+        Q2R = Radiobutton(self, text="q = ¬(¬q)", variable=self.varQ2A, value="z2", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q2R.grid(row=5, column=2, sticky=N+E+S+W)
 
         sep = ttk.Separator(self, orient=HORIZONTAL)
         sep.grid(row=6, columnspan=4, sticky=EW)
 
-        label = Label(self, text="Select the logical equivalent.", font=LARGE_FONT, relief=RIDGE, width=30)
+        label = Label(self, text="Select the logical equivalent.", font=LARGE_FONT, relief=RIDGE, width=30, bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         label.grid(row=7, column=0)
 
-        Q3R = Radiobutton(self, text="q^¬p => ¬(q^p)", variable=self.varQ3A, value="x3")
+        Q3R = Radiobutton(self, text="q^¬p => ¬(q^p)", variable=self.varQ3A, value="x3", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q3R.grid(row=7, column=1, sticky=N+E+S+W)
-        Q3R = Radiobutton(self, text="q => ¬q^¬q", variable=self.varQ3A, value="y3")
+        Q3R = Radiobutton(self, text="q => ¬q^¬q", variable=self.varQ3A, value="y3", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q3R.grid(row=7, column=2, sticky=N+E+S+W)
-        Q3R = Radiobutton(self, text="q => p", variable=self.varQ3A, value="z3")
+        Q3R = Radiobutton(self, text="q => p", variable=self.varQ3A, value="z3", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q3R.grid(row=8, column=1, sticky=N+E+S+W)
-        Q3R = Radiobutton(self, text="¬pV¬q => ¬(p^q)", variable=self.varQ3A, value="t3")
+        Q3R = Radiobutton(self, text="¬pV¬q => ¬(p^q)", variable=self.varQ3A, value="t3", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q3R.grid(row=8, column=2, sticky=N+E+S+W)
 
         sep = ttk.Separator(self, orient=HORIZONTAL)
         sep.grid(row=9, columnspan=4, sticky=EW)
 
-        label = Label(self, text="Select ALL propositions.", font=LARGE_FONT, relief=RIDGE, width=30)
+        label = Label(self, text="Select ALL propositions.", font=LARGE_FONT, relief=RIDGE, width=30, bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         label.grid(row=10, column=0)
 
-        Q4C = Checkbutton(self, text="x+y-(f(j/k*67.462)) > 1067", variable=self.varQ4T1)
+        Q4C = Checkbutton(self, text="x+y-(f(j/k*67.462)) > 1067", variable=self.varQ4T1, bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q4C.grid(row=10, column=1, sticky=N+E+S+W)
-        Q4C = Checkbutton(self, text="The sky is blue", variable=self.varQ4T2)
+        Q4C = Checkbutton(self, text="The sky is blue", variable=self.varQ4T2, bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q4C.grid(row=10, column=2, sticky=N+E+S+W)
-        Q4C = Checkbutton(self, text="Star Wars or Star Trek", variable=self.varQ4F1)
+        Q4C = Checkbutton(self, text="Star Wars or Star Trek", variable=self.varQ4F1, bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q4C.grid(row=11, column=1, sticky=N+E+S+W)
-        Q4C = Checkbutton(self, text="Can I have a drink", variable=self.varQ4F2)
+        Q4C = Checkbutton(self, text="Can I have a drink", variable=self.varQ4F2, bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q4C.grid(row=11, column=2, sticky=N+E+S+W)
 
         sep = ttk.Separator(self, orient=HORIZONTAL)
         sep.grid(row=12, columnspan=4, sticky=EW)
 
-        label = Label(self, text="Finish this truth table.", font=LARGE_FONT, relief=RIDGE, width=30)
+        label = Label(self, text="Finish this truth table.", font=LARGE_FONT, relief=RIDGE, width=30, bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         label.grid(row=13, column=0)
 
         # truth table, header
-        Q5L = Label(self, text="P")
+        Q5L = Label(self, text="P", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q5L.grid(row=13, column=1, sticky=N+E+S+W)
-        Q5L = Label(self, text="Q")
+        Q5L = Label(self, text="Q", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q5L.grid(row=13, column=2, sticky=N+E+S+W)
-        Q5L = Label(self, text="AND")
+        Q5L = Label(self, text="AND", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q5L.grid(row=13, column=3, sticky=N+E+S+W)
 
         # truth table, data
-        Q5Tr1 = Label(self, text="T")
+        Q5Tr1 = Label(self, text="T", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q5Tr1.grid(row=14, column=1, sticky=N+E+S+W)
-        Q5Tr2 = Label(self, text="T")
+        Q5Tr2 = Label(self, text="T", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q5Tr2.grid(row=15, column=1, sticky=N+E+S+W)
-        Q5Tr3 = Label(self, text="T")
+        Q5Tr3 = Label(self, text="T", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q5Tr3.grid(row=14, column=2, sticky=N+E+S+W)
-        Q5Tr4 = Label(self, text="T")
+        Q5Tr4 = Label(self, text="T", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q5Tr4.grid(row=16, column=2, sticky=N+E+S+W)
 
-        Q5F1 = Label(self, text="F")
+        Q5F1 = Label(self, text="F", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q5F1.grid(row=15, column=2, sticky=N+E+S+W)
-        Q5F2 = Label(self, text="F")
+        Q5F2 = Label(self, text="F", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q5F2.grid(row=16, column=1, sticky=N+E+S+W)
-        Q5F3 = Label(self, text="F")
+        Q5F3 = Label(self, text="F", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q5F3.grid(row=17, column=1, sticky=N+E+S+W)
-        Q5F4 = Label(self, text="F")
+        Q5F4 = Label(self, text="F", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q5F4.grid(row=17, column=2, sticky=N+E+S+W)
 
         # truth table input
@@ -534,11 +532,11 @@ class test_1(Frame):    #Dom Routley
             # timeElapsed = "00:00:00"
 
             newResult = dqsClass.UserResult("Logic", username, timeElapsed, questions)
-            #class_result = dqsClass.ClassResult("Logic")
             #class_result.addResult(username, timeElapsed, questions)
 
-            print(newResult.lessonID)
-            print(newResult.userID)
+            # testing object
+            print(newResult.testID)
+            print(newResult.studentID)
             print(newResult.timeElapsed)
             print(newResult.questions)
 
@@ -570,48 +568,48 @@ class test_2(Frame):    #Dom Routley
         self.SvarQ3A = StringVar()
 
         # test questions===============================================================
-        label = Label(self, text="What is cardinality?", font=LARGE_FONT, relief=RIDGE, width=30)
+        label = Label(self, text="What is cardinality?", font=LARGE_FONT, relief=RIDGE, width=30, bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         label.grid(row=1, column=0)
 
-        Q1R = Radiobutton(self, text="A large set.", variable=self.SvarQ1A, value="x1")
+        Q1R = Radiobutton(self, text="A large set.", variable=self.SvarQ1A, value="x1", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q1R.grid(row=1, column=1, sticky=N+E+S+W)
-        Q1R = Radiobutton(self, text="The length of a set.", variable=self.SvarQ1A, value="t1")
+        Q1R = Radiobutton(self, text="The length of a set.", variable=self.SvarQ1A, value="t1", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q1R.grid(row=1, column=2, sticky=N+E+S+W)
-        Q1R = Radiobutton(self, text="A mini Pope.", variable=self.SvarQ1A, value="y1")
+        Q1R = Radiobutton(self, text="A mini Pope.", variable=self.SvarQ1A, value="y1", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q1R.grid(row=2, column=1, sticky=N+E+S+W)
-        Q1R = Radiobutton(self, text="A method of intersection.", variable=self.SvarQ1A, value="z1")
+        Q1R = Radiobutton(self, text="A method of intersection.", variable=self.SvarQ1A, value="z1", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q1R.grid(row=2, column=2, sticky=N+E+S+W)
 
         sep = ttk.Separator(self, orient=HORIZONTAL)
         sep.grid(row=3, columnspan=4, sticky=EW)
 
-        label = Label(self, text="What is a subset?", font=LARGE_FONT, relief=RIDGE, width=30)
+        label = Label(self, text="What is a subset?", font=LARGE_FONT, relief=RIDGE, width=30, bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         label.grid(row=4, column=0)
 
-        Q2R = Radiobutton(self, text="A set containing items that are ALL in another set.", variable=self.SvarQ2A, value="t2")
+        Q2R = Radiobutton(self, text="A set containing items that are ALL in another set.", variable=self.SvarQ2A, value="t2", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q2R.grid(row=4, column=1, sticky=N+E+S+W)
-        Q2R = Radiobutton(self, text="A underwater set.", variable=self.SvarQ2A, value="y2")
+        Q2R = Radiobutton(self, text="A underwater set.", variable=self.SvarQ2A, value="y2", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q2R.grid(row=4, column=2, sticky=N+E+S+W)
-        Q2R = Radiobutton(self, text="U+VC", variable=self.SvarQ2A, value="x2")
+        Q2R = Radiobutton(self, text="U+VC", variable=self.SvarQ2A, value="x2", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q2R.grid(row=5, column=1, sticky=N+E+S+W)
-        Q2R = Radiobutton(self, text="Z or {0,1,2,3}", variable=self.SvarQ2A, value="z2")
+        Q2R = Radiobutton(self, text="Z or {0,1,2,3}", variable=self.SvarQ2A, value="z2", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q2R.grid(row=5, column=2, sticky=N+E+S+W)
 
         sep = ttk.Separator(self, orient=HORIZONTAL)
         sep.grid(row=6, columnspan=4, sticky=EW)
 
-        label = Label(self, text="In python, a = set([1,2,3]),", font=LARGE_FONT, relief=RIDGE, width=30)
+        label = Label(self, text="In python, a = set([1,2,3]),", font=LARGE_FONT, relief=RIDGE, width=30, bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         label.grid(row=7, column=0)
-        label2 = Label(self, text="what is the result of a.add(3)", font=LARGE_FONT, relief=RIDGE, width=30)
+        label2 = Label(self, text="what is the result of a.add(3)", font=LARGE_FONT, relief=RIDGE, width=30, bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         label2.grid(row=8, column=0)
 
-        Q3R = Radiobutton(self, text="[1,2,3,3]", variable=self.SvarQ3A, value="x3")
+        Q3R = Radiobutton(self, text="[1,2,3,3]", variable=self.SvarQ3A, value="x3", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q3R.grid(row=7, column=1, sticky=N+E+S+W)
-        Q3R = Radiobutton(self, text="[NaN]", variable=self.SvarQ3A, value="y3")
+        Q3R = Radiobutton(self, text="[NaN]", variable=self.SvarQ3A, value="y3", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q3R.grid(row=7, column=2, sticky=N+E+S+W)
-        Q3R = Radiobutton(self, text="[1,2,3] + 3", variable=self.SvarQ3A, value="z3")
+        Q3R = Radiobutton(self, text="[1,2,3] + 3", variable=self.SvarQ3A, value="z3", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q3R.grid(row=8, column=1, sticky=N+E+S+W)
-        Q3R = Radiobutton(self, text="[1,2,3]", variable=self.SvarQ3A, value="t3")
+        Q3R = Radiobutton(self, text="[1,2,3]", variable=self.SvarQ3A, value="t3", bg = BACKGROUND_COLOUR_DARKER, fg = "lightgrey")
         Q3R.grid(row=8, column=2, sticky=N+E+S+W)
 
         sep = ttk.Separator(self, orient=HORIZONTAL)
@@ -670,7 +668,7 @@ class test_2(Frame):    #Dom Routley
             tfinish = datetime.now()
             timeElapsed = tfinish - self.tstart2
 
-            newResult = dqsClass.UserResult("0001", "0001", timeElapsed, questions)
+            newResult = dqsClass.UserResult("Sets", "0001", timeElapsed, questions)
 
             print(newResult.lessonID)
             print(newResult.userID)
