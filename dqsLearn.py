@@ -594,8 +594,10 @@ class test_2(Frame):    #Dom Routley
         sep = ttk.Separator(self, orient=HORIZONTAL)
         sep.grid(row=6, columnspan=4, sticky=EW)
 
-        label = Label(self, text="In python, a = set([1,2,3]), what is the result of a.add(3)", font=LARGE_FONT, relief=RIDGE, width=30)
+        label = Label(self, text="In python, a = set([1,2,3]),", font=LARGE_FONT, relief=RIDGE, width=30)
         label.grid(row=7, column=0)
+        label2 = Label(self, text="what is the result of a.add(3)", font=LARGE_FONT, relief=RIDGE, width=30)
+        label2.grid(row=8, column=0)
 
         Q3R = Radiobutton(self, text="[1,2,3,3]", variable=self.SvarQ3A, value="x3")
         Q3R.grid(row=7, column=1, sticky=N+E+S+W)
