@@ -740,6 +740,8 @@ class view_average_sets(Frame):  # Alex Mumford
         label.pack(padx=10, pady=10) 
         button1 = ttk.Button(self, text="Back to Average Menu", command=lambda: controller.show_frame(view_average))  
         button1.pack(padx=10, pady=10)
+                label = Label(self, text="45%", font=LARGE_FONT)
+        label.pack(padx=10, pady=10) # temp number
 
 
 
@@ -751,6 +753,8 @@ class view_average_logic(Frame):  # Alex Mumford
         label.pack(padx=10, pady=10) 
         button1 = ttk.Button(self, text="Back to Average Menu", command=lambda: controller.show_frame(view_average))  
         button1.pack(padx=10, pady=10)
+                label = Label(self, text="78%", font=LARGE_FONT)
+        label.pack(padx=10, pady=10) # temp number
 
 
 class view_results1(Frame):  #Dom Routley
