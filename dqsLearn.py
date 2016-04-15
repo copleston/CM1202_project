@@ -71,10 +71,10 @@ class login(Frame):
         self.logbtn = ttk.Button(self, text="Login", command=self._login_btn_clicked)
         self.logbtn.place(rely = .555, relx = .5, anchor = CENTER)
 
-        """button1 = ttk.Button(self, text="Student Login", command=lambda: controller.show_frame(studentMenu)) # only calls the function when the button is pressed
+        button1 = ttk.Button(self, text="Student Login", command=lambda: controller.show_frame(studentMenu)) # only calls the function when the button is pressed
         button1.pack()
         button2 = ttk.Button(self, text="Lecturer Login", command=lambda: controller.show_frame(lecturerMenu))  # only calls the function when the button is pressed
-        button2.pack()"""
+        button2.pack()
 
         self.pack()
 
@@ -253,6 +253,7 @@ class lesson_2(Frame):
         canvas = Canvas(self, width=canvas_width, height=canvas_height, bg=BACKGROUND_COLOUR_DARK)
         canvas.pack(expand=YES, fill=Y, side=LEFT, padx=10, pady=10)
         #canvas.grid(row=2, column=0, rowspan=1)
+        #
 
         Lb1 = Listbox(self, bg=BACKGROUND_RED, selectmode=SINGLE, selectbackground="#AD423E")#create listbox object,
         Lb1.insert(1, "Sets")
@@ -459,13 +460,13 @@ class test_1(Frame):    #Dom Routley
         Q5I.grid(row=17, column=3, sticky=E)
 
 
-        button = ttk.Button(self, text="Finish", command=self.submitTest)
+        button = ttk.Button(self, text="Finish", command=lambda: self.submitTest(controller))
         button.grid(padx=10, pady=10)
 
         button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))
         button1.grid(padx=10, pady=10)
 
-    def submitTest(self):
+    def submitTest(self, controller):
         questions = {
                'Q1': ('t1', self.varQ1A.get()),
                'Q2': ('t2', self.varQ2A.get()),
@@ -521,9 +522,9 @@ class test_1(Frame):    #Dom Routley
             else:
                 q5 = "incorrect"
 
-        tm.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3 + "\n" + q4 + "\n" + q5)
+            tm.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3 + "\n" + q4 + "\n" + q5)
 
-        #print(questions['Q1'], questions['Q2'], questions['Q3'], questions['Q4'], questions['Q5'])
+            #print(questions['Q1'], questions['Q2'], questions['Q3'], questions['Q4'], questions['Q5'])
 
             tfinish = datetime.now()
             timeElapsed = tfinish - self.tstart
@@ -549,6 +550,8 @@ class test_1(Frame):    #Dom Routley
             controller.show_frame(studentMenu)
         else:
             self.messagebox.showwarning("Entry Error", alertMsg)
+            controller.show_frame(studentMenu)
+
 
 class test_2(Frame):    #Dom Routley
     def __init__(self, parent, controller):
