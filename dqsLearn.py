@@ -46,10 +46,6 @@ class dqsLearn(Frame): # include inheritance as parameters
         frame.tkraise() # Moves called frame to top
 
 
-# **** COMMON REUSABLE CODE ****
-
-# Classes for each page in the software
-
 
 class login(Frame):
     def __init__(self, parent, controller):
