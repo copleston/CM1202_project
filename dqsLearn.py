@@ -467,11 +467,45 @@ class test_1(Frame):    #Dom Routley
                'Q1': ('t1', self.varQ1A),
                'Q2': ('t2', self.varQ2A),
                'Q3': ('t3', self.varQ3A),
-               'Q4': ('1:1:1:1', str(self.varQ4T1) + ':' + str(self.varQ4T2) + ':' + str(self.varQ4F1) + ':' + str(self.varQ4F2))
+               'Q4': ('1:1:0:0', str(self.varQ4T1) + ':' + str(self.varQ4T2) + ':' + str(self.varQ4F1) + ':' + str(self.varQ4F2)),
+               'Q5': ('T:F:F:F', str(self.varQ5T) + ':' + str(self.varQ5F1) + ':' + str(self.varQ5F2) + ':' + str(self.varQ5F3))
             }
 
         tfinish = datetime.now()
         timeElapsed = tfinish - self.tstart
+
+        q1 = ""
+        q2 = ""
+        q3 = ""
+        q4 = ""
+        q5 = ""
+
+        if questions['Q1'][0] == questions['Q1'][1]:
+            q1 = "correct"
+        else:
+            q1 = "incorrect"
+
+        if questions['Q2'][0] == questions['Q2'][1]:
+            q2 = "correct"
+        else:
+            q2 = "incorrect"
+
+        if questions['Q3'][0] == questions['Q3'][1]:
+            q3 = "correct"
+        else:
+            q3 = "incorrect"
+
+        if questions['Q4'][0] == questions['Q4'][1]:
+            q4 = "correct"
+        else:
+            q4 = "incorrect"
+
+        if questions['Q5'][0] == questions['Q5'][1]:
+            q5 = "correct"
+        else:
+            q5 = "incorrect"
+
+        messagebox.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3 + "\n" + q4 + "\n" + q5)
 
         #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
 
@@ -546,14 +580,14 @@ class test_2(Frame):    #Dom Routley
         sep.grid(row=9, columnspan=4, sticky=EW)
 
 
-        button = ttk.Button(self, text="Finish", command=self.submitTest())
+        button = ttk.Button(self, text="Finish", command=self.submitTest2())
         button.grid(padx=10, pady=10)
 
         button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))
         button1.grid(padx=10, pady=10)
 
 
-    def submitTest(self):
+    def submitTest2(self):
         questions = {
                'Q1': ('t1', self.SvarQ1A),
                'Q2': ('t2', self.SvarQ2A),
@@ -562,6 +596,8 @@ class test_2(Frame):    #Dom Routley
 
         tfinish = datetime.now()
         timeElapsed = tfinish - self.tstart2
+
+
 
         #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
 
