@@ -477,16 +477,15 @@ class test_1(Frame):    #Dom Routley
 
         alertMsg = ""
 
-
-        if questions['Q1'] == "":
+        if questions['Q1'][1] == "":
             alertMsg = "You must answer the first question"
-        if questions['Q2'] == "":
+        if questions['Q2'][1] == "":
             alertMsg = "You must answer the second question"
-        if questions['Q3'] == "":
+        if questions['Q3'][1] == "":
             alertMsg = "You must answer the third question"
-        if questions['Q4'] == "":
+        if questions['Q4'][1] == "0:0:0:0":
             alertMsg = "You must answer the fourth question"
-        if questions['Q5'] == "":
+        if questions['Q5'][1] == ":::":
             alertMsg = "You must answer the fifth question"
 
         # if alertMsg is blank, all questions been completed
@@ -538,7 +537,7 @@ class test_1(Frame):    #Dom Routley
             print(newResult.questions)
 
             #creating object
-            db = shelve.open("responses.dat", 'n')
+            db = shelve.open("responses1.dat", 'n')
             # storing object in Pickle db
             db[newResult.lessonID] = newResult
             db.close()
@@ -549,8 +548,7 @@ class test_1(Frame):    #Dom Routley
 
             controller.show_frame(studentMenu)
         else:
-            self.messagebox.showwarning("Entry Error", alertMsg)
-            controller.show_frame(studentMenu)
+            tm.showwarning("Entry Error", alertMsg)
 
 
 class test_2(Frame):    #Dom Routley
@@ -618,59 +616,72 @@ class test_2(Frame):    #Dom Routley
         sep.grid(row=9, columnspan=4, sticky=EW)
 
 
-        button = ttk.Button(self, text="Finish", command=self.submitTest2)
+        button = ttk.Button(self, text="Finish", command=lambda: self.submitTest2(controller))
         button.grid(padx=10, pady=10)
 
         button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))
         button1.grid(padx=10, pady=10)
 
 
-    def submitTest2(self):
+    def submitTest2(self, controller):
         questions = {
-                'Q1': ['t1', self.SvarQ1A],
-                'Q2': ['t2', self.SvarQ2A],
-                'Q3': ['t3', self.SvarQ3A]
+                'Q1': ['t1', self.SvarQ1A.get()],
+                'Q2': ['t2', self.SvarQ2A.get()],
+                'Q3': ['t3', self.SvarQ3A.get()]
             }
 
-        tfinish = datetime.now()
-        timeElapsed = tfinish - self.tstart2
+        alertMsg = ""
 
-        q1 = ""
-        q2 = ""
-        q3 = ""
+        if questions['Q1'][1] == "":
+            alertMsg = "You must answer the first question"
+        if questions['Q2'][1] == "":
+            alertMsg = "You must answer the second question"
+        if questions['Q3'][1] == "":
+            alertMsg = "You must answer the third question"
 
-        if questions['Q1'][0] == questions['Q1'][1]:
-            q1 = "correct"
+        # if alertMsg is blank, all questions been completed
+        if alertMsg == "":
+            q1 = ""
+            q2 = ""
+            q3 = ""
+
+            if questions['Q1'][0] == questions['Q1'][1]:
+                q1 = "correct"
+            else:
+                q1 = "incorrect"
+
+            if questions['Q2'][0] == questions['Q2'][1]:
+                q2 = "correct"
+            else:
+                q2 = "incorrect"
+
+            if questions['Q3'][0] == questions['Q3'][1]:
+                q3 = "correct"
+            else:
+                q3 = "incorrect"
+
+            tm.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3)
+
+            #print(questions['Q1'], questions['Q2'], questions['Q3'])
+
+            # get tiem teken on test
+            tfinish = datetime.now()
+            timeElapsed = tfinish - self.tstart2
+
+            newResult = dqsClass.UserResult("0001", "0001", timeElapsed, questions)
+
+            print(newResult.lessonID)
+            print(newResult.userID)
+            print(newResult.timeElapsed)
+            print(newResult.questions)
+
+            db = shelve.open("responses2.dat", "n")
+            db[newResult.lessonID] = newResult
+            db.close()
+
+            controller.show_frame(studentMenu)
         else:
-            q1 = "incorrect"
-
-        if questions['Q2'][0] == questions['Q2'][1]:
-            q2 = "correct"
-        else:
-            q2 = "incorrect"
-
-        if questions['Q3'][0] == questions['Q3'][1]:
-            q3 = "correct"
-        else:
-            q3 = "incorrect"
-
-
-        tm.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3)
-
-        print(questions['Q1'], questions['Q2'], questions['Q3'])
-
-
-
-        #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
-
-
-        #db = shelve.open("shelved.dat", 'r')
-
-        #db['0001'] = newResult
-
-        #d.close()
-
-        #controller.show_frame(studentMenu)
+            tm.showwarning("Entry Error", alertMsg)
 
 
 
