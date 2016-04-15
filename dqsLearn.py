@@ -46,6 +46,7 @@ class dqsLearn(Frame): # include inheritance as parameters
         frame.tkraise() # Moves called frame to top
 
 
+
 # **** COMMON REUSABLE CODE ****
 
 # Classes for each page in the software
@@ -53,30 +54,31 @@ class dqsLearn(Frame): # include inheritance as parameters
 class login(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
+        self.controller = controller
         label = Label(self, text="Login Page", font=LARGE_FONT, bg=BACKGROUND_COLOUR_DARKER, fg="white")
         label.place(rely = .425, relx = .5, anchor = CENTER)
 
-        line1 = Frame()
+        self.line1 = Frame()
 
-        self.label_1 = Label(line1, text="Username", fg="white", bg=BACKGROUND_COLOUR_DARKER)
-        self.entry_1 = Entry(line1)
+        self.label_1 = Label(self.line1, text="Username", fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        self.entry_1 = Entry(self.line1)
         self.label_1.pack(side = LEFT)
         self.entry_1.pack(side = LEFT)
-        line1.place(in_ =self,rely = .47, relx = .5, anchor = CENTER)
+        self.line1.place(in_ =self,rely = .47, relx = .5, anchor = CENTER)
 
-        line2 = Frame()
+        self.line2 = Frame()
 
-        self.label_2 = Label(line2, text="Password", fg="white", bg=BACKGROUND_COLOUR_DARKER)
-        self.entry_2 = Entry(line2, show="*")     
+        self.label_2 = Label(self.line2, text="Password", fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        self.entry_2 = Entry(self.line2, show="*")     
         self.label_2.pack(side = LEFT)
         self.entry_2.pack(side = LEFT)
 
-        line2.place(in_ = self, rely = .5, relx = .5, anchor = CENTER)
+        self.line2.place(in_ = self, rely = .5, relx = .5, anchor = CENTER)
         
         self.checkbox = Checkbutton(self, text="Keep me logged in", fg="white", bg=BACKGROUND_COLOUR_DARKER)
         self.checkbox.place(rely = .525, relx = .5, anchor = CENTER)
 
-        self.logbtn = ttk.Button(self, text="Login", command=self._login_btn_clickked)
+        self.logbtn = ttk.Button(self, text="Login", command=self._login_btn_clicked)
         self.logbtn.place(rely = .555, relx = .5, anchor = CENTER)
 
         """button1 = ttk.Button(self, text="Student Login", command=lambda: controller.show_frame(studentMenu)) # only calls the function when the button is pressed
@@ -86,7 +88,7 @@ class login(Frame):
 
         self.pack()
 
-    def _login_btn_clickked(self):
+    def _login_btn_clicked(self):
         # print("Clicked")
         username = self.entry_1.get()
         password = self.entry_2.get()
@@ -102,11 +104,17 @@ class login(Frame):
         if username in student_usernames and password in student_passwords:
             if (student_usernames.index(username) == student_passwords.index(password)):
                 tm.showinfo("Login info", "Welcome Student")
+                self.controller.show_frame(studentMenu)
+                self.line1.destroy()
+                self.line2.destroy()
             else:
                 tm.showerror("Login error", "Incorrect information")
         elif username in teacher_usernames and password in teacher_passwords:
             if (teacher_usernames.index(username) == teacher_passwords.index(password)):
                 tm.showinfo("Login info", "Welcome Teacher")
+                self.controller.show_frame(lecturerMenu)
+                self.line1.destroy()
+                self.line2.destroy()
             else:
                 tm.showerror("Login error", "Incorrect information")
         else:
@@ -611,12 +619,11 @@ class test_2(Frame):    #Dom Routley
 
     def submitTest2(self):
         questions = {
-<<<<<<< HEAD
-                'Q1': ['t1', self.SvarQ1A],
-                'Q2': ['t2', self.SvarQ2A],
-                'Q3': ['t3', self.SvarQ3A],
-                'Q4': ['1:1:1:1', str(self.SvarQ4T1) + ':' + str(self.varQ4T2) + ':' + str(self.varQ4F1) + ':' + str(self.varQ4F2)],
-                'Q5' : ['T:F:F:F',str(self.SvarQ5T)+":"+str(self.varQ5F1)+":"+str(self.varQ5F2)+":"+str(self.varQ5F3)]
+                'Q1': ['t1', self.varQ1A],
+                'Q2': ['t2', self.varQ2A],
+                'Q3': ['t3', self.varQ3A],
+                'Q4': ['1:1:1:1', str(self.varQ4T1) + ':' + str(self.varQ4T2) + ':' + str(self.varQ4F1) + ':' + str(self.varQ4F2)],
+                'Q5' : ['T:F:F:F',str(self.varQ5T)+":"+str(self.varQ5F1)+":"+str(self.varQ5F2)+":"+str(self.varQ5F3)]
             }
 
         tfinish = datetime.now()
