@@ -496,7 +496,7 @@ class test_1(Frame):    #Dom Routley
         else:
             q5 = "incorrect"
 
-        messagebox.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3 + "\n" + q4 + "\n" + q5)
+        tm.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3 + "\n" + q4 + "\n" + q5)
 
         print(questions['Q1'], questions['Q2'], questions['Q3'], questions['Q4'], questions['Q5'])
 
@@ -567,8 +567,10 @@ class test_2(Frame):    #Dom Routley
         sep = ttk.Separator(self, orient=HORIZONTAL)
         sep.grid(row=6, columnspan=4, sticky=EW)
 
-        label = Label(self, text="In python, a = set([1,2,3]), what is the result of a.add(3)", font=LARGE_FONT, relief=RIDGE, width=30)
+        label = Label(self, text="In python, a = set([1,2,3]),", font=LARGE_FONT, relief=RIDGE, width=30)
         label.grid(row=7, column=0)
+        label2 = Label(self, text="what is the result of a.add(3)", font=LARGE_FONT, relief=RIDGE, width=30)
+        label2.grid(row=8, column=0)
 
         Q3R = Radiobutton(self, text="[1,2,3,3]", variable=self.SvarQ3A, value="x3")
         Q3R.grid(row=7, column=1, sticky=N+E+S+W)
@@ -592,11 +594,9 @@ class test_2(Frame):    #Dom Routley
 
     def submitTest2(self):
         questions = {
-                'Q1': ['t1', self.varQ1A],
-                'Q2': ['t2', self.varQ2A],
-                'Q3': ['t3', self.varQ3A],
-                'Q4': ['1:1:1:1', str(self.varQ4T1) + ':' + str(self.varQ4T2) + ':' + str(self.varQ4F1) + ':' + str(self.varQ4F2)],
-                'Q5' : ['T:F:F:F',str(self.varQ5T)+":"+str(self.varQ5F1)+":"+str(self.varQ5F2)+":"+str(self.varQ5F3)]
+                'Q1': ['t1', self.SvarQ1A],
+                'Q2': ['t2', self.SvarQ2A],
+                'Q3': ['t3', self.SvarQ3A]
             }
 
         tfinish = datetime.now()
@@ -622,7 +622,7 @@ class test_2(Frame):    #Dom Routley
             q3 = "incorrect"
 
 
-        messagebox.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3)
+        tm.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3)
 
         print(questions['Q1'], questions['Q2'], questions['Q3'])
 
