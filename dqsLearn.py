@@ -596,7 +596,7 @@ class test_2(Frame):    #Dom Routley
         sep.grid(row=9, columnspan=4, sticky=EW)
 
 
-        button = ttk.Button(self, text="Finish", command=self.submitTest2())
+        button = ttk.Button(self, text="Finish", command=self.submitTest2)
         button.grid(padx=10, pady=10)
 
         button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))
@@ -612,6 +612,30 @@ class test_2(Frame):    #Dom Routley
 
         tfinish = datetime.now()
         timeElapsed = tfinish - self.tstart2
+
+        q1 = ""
+        q2 = ""
+        q3 = ""
+
+        if questions['Q1'][0] == questions['Q1'][1]:
+            q1 = "correct"
+        else:
+            q1 = "incorrect"
+
+        if questions['Q2'][0] == questions['Q2'][1]:
+            q2 = "correct"
+        else:
+            q2 = "incorrect"
+
+        if questions['Q3'][0] == questions['Q3'][1]:
+            q3 = "correct"
+        else:
+            q3 = "incorrect"
+
+
+        messagebox.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3)
+
+        print(questions['Q1'], questions['Q2'], questions['Q3'])
 
 
 
