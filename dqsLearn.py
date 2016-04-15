@@ -464,11 +464,11 @@ class test_1(Frame):    #Dom Routley
 
     def submitTest(self):
         questions = {
-               'Q1': ('t1', self.varQ1A),
-               'Q2': ('t2', self.varQ2A),
-               'Q3': ('t3', self.varQ3A),
-               'Q4': ('1:1:0:0', str(self.varQ4T1) + ':' + str(self.varQ4T2) + ':' + str(self.varQ4F1) + ':' + str(self.varQ4F2)),
-               'Q5': ('T:F:F:F', str(self.varQ5T) + ':' + str(self.varQ5F1) + ':' + str(self.varQ5F2) + ':' + str(self.varQ5F3))
+               'Q1': ('t1', self.varQ1A.get()),
+               'Q2': ('t2', self.varQ2A.get()),
+               'Q3': ('t3', self.varQ3A.get()),
+               'Q4': ('1:1:0:0', str(self.varQ4T1.get()) + ':' + str(self.varQ4T2.get()) + ':' + str(self.varQ4F1.get()) + ':' + str(self.varQ4F2.get())),
+               'Q5': ('T:F:F:F', str(self.varQ5T.get()) + ':' + str(self.varQ5F1.get()) + ':' + str(self.varQ5F2.get()) + ':' + str(self.varQ5F3.get()))
             }
 
         tfinish = datetime.now()
@@ -507,7 +507,7 @@ class test_1(Frame):    #Dom Routley
 
         messagebox.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3 + "\n" + q4 + "\n" + q5)
 
-        print(self.varQ1A, self.varQ2A, self.varQ3A, questions['Q4'], questions['Q5'])
+        print(questions['Q1'], questions['Q2'], questions['Q3'], questions['Q4'], questions['Q5'])
 
         #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
 
