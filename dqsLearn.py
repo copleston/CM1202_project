@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import ttk  # css for tkinter
-from tkinter import messagebox
+from tkinter import messagebox as tm
 from datetime import datetime
 import dqsClass
 import shelve
@@ -46,42 +46,49 @@ class dqsLearn(Frame): # include inheritance as parameters
         frame.tkraise() # Moves called frame to top
 
 
+
 # **** COMMON REUSABLE CODE ****
 
 # Classes for each page in the software
 
-
 class login(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
+        self.controller = controller
         label = Label(self, text="Login Page", font=LARGE_FONT, bg=BACKGROUND_COLOUR_DARKER, fg="white")
-        label.grid(row=0, sticky=N, padx=10, pady=10)
+        label.place(rely = .425, relx = .5, anchor = CENTER)
 
-        self.label_1 = Label(self, text="Username", fg="white", bg=BACKGROUND_COLOUR_DARKER)
-        self.label_2 = Label(self, text="Password", fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        self.line1 = Frame()
 
-        self.entry_1 = Entry(self)
-        self.entry_2 = Entry(self, show="*")
+        self.label_1 = Label(self.line1, text="Username", fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        self.entry_1 = Entry(self.line1)
+        self.label_1.pack(side = LEFT)
+        self.entry_1.pack(side = LEFT)
+        self.line1.place(in_ =self,rely = .47, relx = .5, anchor = CENTER)
 
-        self.label_1.grid(row=1, sticky=E)
-        self.label_2.grid(row=2, sticky=E)
-        self.entry_1.grid(row=1, column=1)
-        self.entry_2.grid(row=2, column=1)
+        self.line2 = Frame()
 
+        self.label_2 = Label(self.line2, text="Password", fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        self.entry_2 = Entry(self.line2, show="*")     
+        self.label_2.pack(side = LEFT)
+        self.entry_2.pack(side = LEFT)
+
+        self.line2.place(in_ = self, rely = .5, relx = .5, anchor = CENTER)
+        
         self.checkbox = Checkbutton(self, text="Keep me logged in", fg="white", bg=BACKGROUND_COLOUR_DARKER)
-        self.checkbox.grid(row=3, columnspan=2)
+        self.checkbox.place(rely = .525, relx = .5, anchor = CENTER)
 
-        self.logbtn = ttk.Button(self, text="Login", command=self._login_btn_clickked)
-        self.logbtn.grid(row=4, rowspan=1, columnspan=2)
+        self.logbtn = ttk.Button(self, text="Login", command=self._login_btn_clicked)
+        self.logbtn.place(rely = .555, relx = .5, anchor = CENTER)
 
-        button1 = ttk.Button(self, text="Student Login", command=lambda: controller.show_frame(studentMenu)) # only calls the function when the button is pressed
-        button1.grid(row=5, rowspan=1, column=1)
+        """button1 = ttk.Button(self, text="Student Login", command=lambda: controller.show_frame(studentMenu)) # only calls the function when the button is pressed
+        button1.pack()
         button2 = ttk.Button(self, text="Lecturer Login", command=lambda: controller.show_frame(lecturerMenu))  # only calls the function when the button is pressed
-        button2.grid(row=5, rowspan=1, column=2)
+        button2.pack()"""
 
         self.pack()
 
-    def _login_btn_clickked(self):
+    def _login_btn_clicked(self):
         # print("Clicked")
         username = self.entry_1.get()
         password = self.entry_2.get()
@@ -97,11 +104,17 @@ class login(Frame):
         if username in student_usernames and password in student_passwords:
             if (student_usernames.index(username) == student_passwords.index(password)):
                 tm.showinfo("Login info", "Welcome Student")
+                self.controller.show_frame(studentMenu)
+                self.line1.destroy()
+                self.line2.destroy()
             else:
                 tm.showerror("Login error", "Incorrect information")
         elif username in teacher_usernames and password in teacher_passwords:
             if (teacher_usernames.index(username) == teacher_passwords.index(password)):
                 tm.showinfo("Login info", "Welcome Teacher")
+                self.controller.show_frame(lecturerMenu)
+                self.line1.destroy()
+                self.line2.destroy()
             else:
                 tm.showerror("Login error", "Incorrect information")
         else:
@@ -620,9 +633,11 @@ class test_2(Frame):    #Dom Routley
 
     def submitTest2(self):
         questions = {
-               'Q1': ('t1', self.SvarQ1A),
-               'Q2': ('t2', self.SvarQ2A),
-               'Q3': ('t3', self.SvarQ3A),
+                'Q1': ['t1', self.varQ1A],
+                'Q2': ['t2', self.varQ2A],
+                'Q3': ['t3', self.varQ3A],
+                'Q4': ['1:1:1:1', str(self.varQ4T1) + ':' + str(self.varQ4T2) + ':' + str(self.varQ4F1) + ':' + str(self.varQ4F2)],
+                'Q5' : ['T:F:F:F',str(self.varQ5T)+":"+str(self.varQ5F1)+":"+str(self.varQ5F2)+":"+str(self.varQ5F3)]
             }
 
         tfinish = datetime.now()
@@ -655,6 +670,7 @@ class test_2(Frame):    #Dom Routley
 
 
         #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
+
 
         #db = shelve.open("shelved.dat", 'r')
 
