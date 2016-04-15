@@ -88,10 +88,10 @@ class login(Frame):
 
         # print(username, password)
 
-        student_usernames = ("C100", "C200", "C300")
+        student_usernames = ("C1", "C2", "C3")
         student_passwords = ("PASS", "PASS1", "PASS2")
 
-        teacher_usernames = ("T100", "T200", "T300")
+        teacher_usernames = ("T1", "T2", "T3")
         teacher_passwords = ("TPASS", "TPASS1", "TPASS3")
 
         if username in student_usernames and password in student_passwords:
@@ -498,29 +498,34 @@ class test_1(Frame):    #Dom Routley
             q3 = ""
             q4 = ""
             q5 = ""
-
+            totalMarks = 0
             if questions['Q1'][0] == questions['Q1'][1]:
                 q1 = "correct"
+                totalMarks += 1
             else:
                 q1 = "incorrect"
 
             if questions['Q2'][0] == questions['Q2'][1]:
                 q2 = "correct"
+                totalMarks += 1
             else:
                 q2 = "incorrect"
 
             if questions['Q3'][0] == questions['Q3'][1]:
                 q3 = "correct"
+                totalMarks += 1
             else:
                 q3 = "incorrect"
 
             if questions['Q4'][0] == questions['Q4'][1]:
                 q4 = "correct"
+                totalMarks += 1
             else:
                 q4 = "incorrect"
 
             if questions['Q5'][0] == questions['Q5'][1]:
                 q5 = "correct"
+                totalMarks += 1
             else:
                 q5 = "incorrect"
 
@@ -530,24 +535,20 @@ class test_1(Frame):    #Dom Routley
 
             timeElapsed = datetime.now() - self.tstart
             # timeElapsed = "00:00:00"
+            stringStr = "%" + str(username) + "&" + str(totalMarks)
 
-            newResult = dqsClass.UserResult("Logic", username, timeElapsed, questions)
-
-            #class_result = dqsClass.ClassResult("Logic")
-
-            #class_result.addResult(username, timeElapsed, questions)
-
-            # testing object
-            print(newResult.testID)
-            print(newResult.studentID)
-            print(newResult.timeElapsed)
-            print(newResult.questions)
-
-            #creating object
-            db = shelve.open("responses1.dat", 'n')
-            # storing object in Pickle db
-            db[username] = newResult
+            db = open('logicData.txt', 'r')
+            data = db.read()
             db.close()
+            
+            if username in data:
+                tm.showinfo("Error", "You cannot complete the test multiple times.")
+            else:
+                db = open('logicData.txt', 'a')
+                db.write(stringStr)
+
+            
+
             #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
             #db = shelve.open("shelved.dat", 'r')
             #db['0001'] = newResult
@@ -651,19 +652,22 @@ class test_2(Frame):    #Dom Routley
             q1 = ""
             q2 = ""
             q3 = ""
-
+            totalMarks = 0
             if questions['Q1'][0] == questions['Q1'][1]:
                 q1 = "correct"
+                totalMarks += 1
             else:
                 q1 = "incorrect"
 
             if questions['Q2'][0] == questions['Q2'][1]:
                 q2 = "correct"
+                totalMarks += 1
             else:
                 q2 = "incorrect"
 
             if questions['Q3'][0] == questions['Q3'][1]:
                 q3 = "correct"
+                totalMarks += 1
             else:
                 q3 = "incorrect"
 
@@ -675,19 +679,17 @@ class test_2(Frame):    #Dom Routley
             tfinish = datetime.now()
             timeElapsed = tfinish - self.tstart2
 
-            newResult = dqsClass.UserResult("Sets", username, timeElapsed, questions)
+            stringStr = "%" + str(username) + "&" + str(totalMarks)
 
-            # testing object
-            print(newResult.testID)
-            print(newResult.studentID)
-            print(newResult.timeElapsed)
-            print(newResult.questions)
-
-            # creating object
-            db = shelve.open("responses2.dat", 'n')
-            # storing object in Pickle db
-            db[username] = newResult
+            db = open('setsData.txt', 'r')
+            data = db.read()
             db.close()
+            
+            if username in data:
+                tm.showinfo("Error", "You cannot complete the test multiple times.")
+            else:
+                db = open('setsData.txt', 'a')
+                db.write(stringStr)
 
             controller.show_frame(studentMenu)
         else:
@@ -756,18 +758,35 @@ class view_results1(Frame):  #Dom Routley
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
+        userIds = []
+        score = []
+
         #PLACEHOLDER DATA
-        if 
+        db = open('logicData.txt', 'r')
+        data = db.read()
+        print(data)
+        data_list = data.split("%")
+        print(data_list)
+        for item in data_list:
+            if item == "":
+                continue
+            items = item.split("&")
+            items[0] = items[0][1:]
+            userIds.append(int(items[0]))
+            score.append(int(items[1]))
         #PLACEHOLDER DATA
 
+        print(score)
+        print(userIds)
+
         testId = "1"
-        maxGrade = 9
+        maxGrade = 5
         userIdLength = len(userIds)
         plt.bar(userIds, score, align="center")
 
         plt.xlabel("Students")
         plt.ylabel("Score in test")
-        #plt.xticks(userIds)
+        plt.xticks(userIds)
         plt.title("Results from test " + str(testId))
         plt.axis([1, userIdLength, 0, maxGrade])
         plt.grid(True)
@@ -798,11 +817,24 @@ class view_results2(Frame):  #Dom Routley
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
+        userIds = []
+        score = []
+
         #PLACEHOLDER DATA
-        userIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        score = [4, 6, 2, 8, 9, 0, 5, 6, 5, 6]
+        db = open('setsData.txt', 'r')
+        data = db.read()
+        print(data)
+        data_list = data.split("%")
+        print(data_list)
+        for item in data_list:
+            if item == "":
+                continue
+            items = item.split("&")
+            items[0] = items[0][1:]
+            userIds.append(int(items[0]))
+            score.append(int(items[1]))
+
         testId = "2"
-        #PLACEHOLDER DATA
 
         maxGrade = 3
         userIdLength = len(userIds)
@@ -810,7 +842,7 @@ class view_results2(Frame):  #Dom Routley
 
         plt.xlabel("Students")
         plt.ylabel("Score in test")
-        #plt.xticks(userIds)
+        plt.xticks(userIds)
         plt.title("Results from test " + str(testId))
         plt.axis([1, userIdLength, 0, maxGrade])
         plt.grid(True)
