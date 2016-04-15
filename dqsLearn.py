@@ -31,7 +31,7 @@ class dqsLearn(Frame): # include inheritance as parameters
         # collection of frames i.e. login, menu, lesson, test
         self.frames = {}
 
-        for page in (login, studentMenu, lesson_1, lesson_2, test_1, test_2, lecturerMenu, view_results):
+        for page in (login, studentMenu, lesson_1, lesson_2, test_1, test_2, lecturerMenu, view_results1, view_results2, view_average, view_average_sets, view_average_logic):
             # set the current frame
             frame = page(container, self) # Assign the login screen to the first frame to be passed
 
@@ -469,6 +469,7 @@ class test_1(Frame):    #Dom Routley
         button1.grid(padx=10, pady=10)
 
     def submitTest(self, controller):
+        # adding each response to a dictionary
         questions = {
                'Q1': ('t1', self.varQ1A.get()),
                'Q2': ('t2', self.varQ2A.get()),
@@ -477,18 +478,19 @@ class test_1(Frame):    #Dom Routley
                'Q5': ('T:F:F:F', str(self.varQ5T.get()) + ':' + str(self.varQ5F1.get()) + ':' + str(self.varQ5F2.get()) + ':' + str(self.varQ5F3.get()))
             }
 
+        # variable to possible error message
         alertMsg = ""
 
-
-        if questions['Q1'] == "":
+        # check if each individual question has been answered
+        if questions['Q1'][1] == "":
             alertMsg = "You must answer the first question"
-        if questions['Q2'] == "":
+        if questions['Q2'][1] == "":
             alertMsg = "You must answer the second question"
-        if questions['Q3'] == "":
+        if questions['Q3'][1] == "":
             alertMsg = "You must answer the third question"
-        if questions['Q4'] == "":
+        if questions['Q4'][1] == "0:0:0:0":
             alertMsg = "You must answer the fourth question"
-        if questions['Q5'] == "":
+        if questions['Q5'][1] == ":::":
             alertMsg = "You must answer the fifth question"
 
         # if alertMsg is blank, all questions been completed
@@ -531,15 +533,33 @@ class test_1(Frame):    #Dom Routley
             timeElapsed = datetime.now() - self.tstart
             # timeElapsed = "00:00:00"
 
+<<<<<<< HEAD
             class_result = dqsClass.ClassResult(self.lessonID)
 
             class_result.addResult(username, timeElapsed, questions)
 
+=======
+            newResult = dqsClass.UserResult("0001", "0001", timeElapsed, questions)
+
+            print(newResult.lessonID)
+            print(newResult.userID)
+            print(newResult.timeElapsed)
+            print(newResult.questions)
+
+            #creating object
+            db = shelve.open("responses1.dat", 'n')
+            # storing object in Pickle db
+            db[newResult.lessonID] = newResult
+            db.close()
+            #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
+            #db = shelve.open("shelved.dat", 'r')
+            #db['0001'] = newResult
+            #d.close()
+>>>>>>> 2747977a0da04aa20dbaa60f42bf3cee8380ea00
 
             controller.show_frame(studentMenu)
         else:
-            self.messagebox.showwarning("Entry Error", alertMsg)
-            controller.show_frame(studentMenu)
+            tm.showwarning("Entry Error", alertMsg)
 
 
 class test_2(Frame):    #Dom Routley
@@ -607,59 +627,72 @@ class test_2(Frame):    #Dom Routley
         sep.grid(row=9, columnspan=4, sticky=EW)
 
 
-        button = ttk.Button(self, text="Finish", command=self.submitTest2)
+        button = ttk.Button(self, text="Finish", command=lambda: self.submitTest2(controller))
         button.grid(padx=10, pady=10)
 
         button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))
         button1.grid(padx=10, pady=10)
 
 
-    def submitTest2(self):
+    def submitTest2(self, controller):
         questions = {
-                'Q1': ['t1', self.SvarQ1A],
-                'Q2': ['t2', self.SvarQ2A],
-                'Q3': ['t3', self.SvarQ3A]
+                'Q1': ['t1', self.SvarQ1A.get()],
+                'Q2': ['t2', self.SvarQ2A.get()],
+                'Q3': ['t3', self.SvarQ3A.get()]
             }
 
-        tfinish = datetime.now()
-        timeElapsed = tfinish - self.tstart2
+        alertMsg = ""
 
-        q1 = ""
-        q2 = ""
-        q3 = ""
+        if questions['Q1'][1] == "":
+            alertMsg = "You must answer the first question"
+        if questions['Q2'][1] == "":
+            alertMsg = "You must answer the second question"
+        if questions['Q3'][1] == "":
+            alertMsg = "You must answer the third question"
 
-        if questions['Q1'][0] == questions['Q1'][1]:
-            q1 = "correct"
+        # if alertMsg is blank, all questions been completed
+        if alertMsg == "":
+            q1 = ""
+            q2 = ""
+            q3 = ""
+
+            if questions['Q1'][0] == questions['Q1'][1]:
+                q1 = "correct"
+            else:
+                q1 = "incorrect"
+
+            if questions['Q2'][0] == questions['Q2'][1]:
+                q2 = "correct"
+            else:
+                q2 = "incorrect"
+
+            if questions['Q3'][0] == questions['Q3'][1]:
+                q3 = "correct"
+            else:
+                q3 = "incorrect"
+
+            tm.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3)
+
+            #print(questions['Q1'], questions['Q2'], questions['Q3'])
+
+            # get tiem teken on test
+            tfinish = datetime.now()
+            timeElapsed = tfinish - self.tstart2
+
+            newResult = dqsClass.UserResult("0001", "0001", timeElapsed, questions)
+
+            print(newResult.lessonID)
+            print(newResult.userID)
+            print(newResult.timeElapsed)
+            print(newResult.questions)
+
+            db = shelve.open("responses2.dat", "n")
+            db[newResult.lessonID] = newResult
+            db.close()
+
+            controller.show_frame(studentMenu)
         else:
-            q1 = "incorrect"
-
-        if questions['Q2'][0] == questions['Q2'][1]:
-            q2 = "correct"
-        else:
-            q2 = "incorrect"
-
-        if questions['Q3'][0] == questions['Q3'][1]:
-            q3 = "correct"
-        else:
-            q3 = "incorrect"
-
-
-        tm.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3)
-
-        print(questions['Q1'], questions['Q2'], questions['Q3'])
-
-
-
-        #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
-
-
-        #db = shelve.open("shelved.dat", 'r')
-
-        #db['0001'] = newResult
-
-        #d.close()
-
-        #controller.show_frame(studentMenu)
+            tm.showwarning("Entry Error", alertMsg)
 
 
 
@@ -674,11 +707,53 @@ class lecturerMenu(Frame):
         button1 = ttk.Button(self, text="Back to login", command=lambda: controller.show_frame(login))  # only calls the function when the button is pressed
         button1.pack(padx=10, pady=10)
 
-        button2 = ttk.Button(self, text="View Results", command=lambda: controller.show_frame(view_results))
+        button2 = ttk.Button(self, text="View Results for test 1", command=lambda: controller.show_frame(view_results1))
         button2.pack(padx=10, pady=10)
 
+        button3 = ttk.Button(self, text="View Results for test 2", command=lambda: controller.show_frame(view_results2))
+        button3.pack(padx=10, pady=10)
+        
+        button4 = ttk.Button(self, text="View Average Mark ", command=lambda: controller.show_frame(view_average))
+        button4.pack(padx=10, pady=10)
+        
+class view_average(Frame):  # Alex Mumford
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
-class view_results(Frame):  #Dom Routley
+        label = Label(self, text="Average Mark Menu", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        label.pack(padx=10, pady=10) 
+
+        button1 = ttk.Button(self, text="Back to Lecturer Menu", command=lambda: controller.show_frame(lecturerMenu))  
+        button1.pack(padx=10, pady=10)
+
+        button2 = ttk.Button(self, text="View Sets Average", command=lambda: controller.show_frame(view_average_sets))
+        button2.pack(padx=10, pady=10)
+
+        button3 = ttk.Button(self, text="View Logic Average", command=lambda: controller.show_frame(view_average_logic)) 
+        button3.pack(padx=10, pady=10)
+
+class view_average_sets(Frame):  # Alex Mumford
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
+
+        label = Label(self, text="Average Sets Menu", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        label.pack(padx=10, pady=10) 
+        button1 = ttk.Button(self, text="Back to Average Menu", command=lambda: controller.show_frame(view_average))  
+        button1.pack(padx=10, pady=10)
+
+
+
+class view_average_logic(Frame):  # Alex Mumford
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
+
+        label = Label(self, text="Average Logic Menu", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        label.pack(padx=10, pady=10) 
+        button1 = ttk.Button(self, text="Back to Average Menu", command=lambda: controller.show_frame(view_average))  
+        button1.pack(padx=10, pady=10)
+
+
+class view_results1(Frame):  #Dom Routley
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
@@ -718,11 +793,52 @@ class view_results(Frame):  #Dom Routley
         button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(lecturerMenu))  # only calls the function when the button is pressed
         button1.pack(padx=10, pady=10)
 
-        buttonL1 = ttk.Button(self, text="Lesson 1 test", state=DISABLED)
+        buttonL2 = ttk.Button(self, text="Sets test results", command=lambda: controller.show_frame(view_results2))
+        buttonL2.pack(padx=10, pady=6)
+
+class view_results2(Frame):  #Dom Routley
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
+
+        #PLACEHOLDER DATA
+        userIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        score = [4, 6, 2, 8, 9, 0, 5, 6, 5, 6]
+        testId = "2"
+        #PLACEHOLDER DATA
+
+        maxGrade = 3
+        userIdLength = len(userIds)
+        plt.bar(userIds, score, align="center")
+
+        plt.xlabel("Students")
+        plt.ylabel("Score in test")
+        #plt.xticks(userIds)
+        plt.title("Results from test " + str(testId))
+        plt.axis([1, userIdLength, 0, maxGrade])
+        plt.grid(True)
+        plt.savefig("plots/plotsaveTest_" + str(testId))
+
+
+        canvas_width = 750
+        canvas_height = 600
+
+        canvas = Canvas(self, width=canvas_width, height=canvas_height)
+        canvas.pack(expand=YES, fill=Y, side=LEFT, padx=10, pady=10)
+
+        self.img = PhotoImage(file="plots/plotsaveTest_" + testId + ".png")
+        canvas.create_image(0, 0, anchor=NW, image=self.img)
+
+
+
+        label = Label(self, text="View Results", font=LARGE_FONT)
+        label.pack(padx=10, pady=10) # temp placement
+
+        button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(lecturerMenu))  # only calls the function when the button is pressed
+        button1.pack(padx=10, pady=10)
+
+        buttonL1 = ttk.Button(self, text="Logic test results", command=lambda: controller.show_frame(view_results1))
         buttonL1.pack(padx=10, pady=6)
 
-        buttonL2 = ttk.Button(self, text="Lesson 2 test", state=DISABLED)
-        buttonL2.pack(padx=10, pady=6)
 
 
 widthpixels = "1280"
