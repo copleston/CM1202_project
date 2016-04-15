@@ -685,10 +685,10 @@ class lecturerMenu(Frame):
         button1 = ttk.Button(self, text="Back to login", command=lambda: controller.show_frame(login))  # only calls the function when the button is pressed
         button1.pack(padx=10, pady=10)
 
-        button2 = ttk.Button(self, text="View Results for test 1", command=lambda: controller.show_frame(view_results1))
+        button2 = ttk.Button(self, text="View Results for logic test", command=lambda: controller.show_frame(view_results1))
         button2.pack(padx=10, pady=10)
 
-        button3 = ttk.Button(self, text="View Results for test 2", command=lambda: controller.show_frame(view_results2))
+        button3 = ttk.Button(self, text="View Results for sets test", command=lambda: controller.show_frame(view_results2))
         button3.pack(padx=10, pady=10)
 
 
@@ -732,7 +732,7 @@ class view_results1(Frame):  #Dom Routley
         button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(lecturerMenu))  # only calls the function when the button is pressed
         button1.pack(padx=10, pady=10)
 
-        buttonL2 = ttk.Button(self, text="Lesson 2 test", command=lambda: controller.show_frame(view_results2))
+        buttonL2 = ttk.Button(self, text="Sets test results", command=lambda: controller.show_frame(view_results2))
         buttonL2.pack(padx=10, pady=6)
 
 class view_results2(Frame):  #Dom Routley
@@ -775,7 +775,7 @@ class view_results2(Frame):  #Dom Routley
         button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(lecturerMenu))  # only calls the function when the button is pressed
         button1.pack(padx=10, pady=10)
 
-        buttonL1 = ttk.Button(self, text="Lesson 1 test", command=lambda: controller.show_frame(view_results1))
+        buttonL1 = ttk.Button(self, text="Logic test results", command=lambda: controller.show_frame(view_results1))
         buttonL1.pack(padx=10, pady=6)
 
 
