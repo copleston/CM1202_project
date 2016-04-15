@@ -476,9 +476,6 @@ class test_1(Frame):    #Dom Routley
                'Q5': ('T:F:F:F', str(self.varQ5T.get()) + ':' + str(self.varQ5F1.get()) + ':' + str(self.varQ5F2.get()) + ':' + str(self.varQ5F3.get()))
             }
 
-        tfinish = datetime.now()
-        timeElapsed = tfinish - self.tstart
-
         q1 = ""
         q2 = ""
         q3 = ""
@@ -514,6 +511,24 @@ class test_1(Frame):    #Dom Routley
 
         print(questions['Q1'], questions['Q2'], questions['Q3'], questions['Q4'], questions['Q5'])
 
+        tfinish = datetime.now()
+        timeElapsed = tfinish - self.tstart
+        # timeElapsed = "00:00:00"
+
+        newResult = dqsClass.UserResult("0001", "0001", timeElapsed, questions)
+
+        print(newResult.lessonID)
+        print(newResult.userID)
+        print(newResult.timeElapsed)
+        print(newResult.questions)
+
+        #creating object
+        db = shelve.open("responses.dat", 'n')
+
+        db[newResult.lessonID] = newResult
+
+        db.close()
+
         #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
 
         #db = shelve.open("shelved.dat", 'r')
@@ -522,7 +537,7 @@ class test_1(Frame):    #Dom Routley
 
         #d.close()
 
-        #controller.show_frame(studentMenu)
+        controller.show_frame(studentMenu)
 
 class test_2(Frame):    #Dom Routley
     def __init__(self, parent, controller):

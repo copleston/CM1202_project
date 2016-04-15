@@ -14,6 +14,8 @@ class UserResult:
 	def getTimeElapsed():
 		return timeElapsed
 
+
+"""
 class ClassResult:
 	def __init__(self, testID, results):
 		testID = 0
@@ -26,3 +28,4 @@ class ClassResult:
 		new_result = UserResult(self.testID, userID, timeElapsed, questions)
 		results.append(new_result)
 
+"""
