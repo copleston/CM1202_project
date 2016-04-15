@@ -58,25 +58,15 @@ class login(Frame):
         label = Label(self, text="Login Page", font=LARGE_FONT, bg=BACKGROUND_COLOUR_DARKER, fg="white")
         label.place(rely = .425, relx = .5, anchor = CENTER)
 
-        self.line1 = Frame()
+        self.label_1 = Label(self, text="Username", fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        self.entry_1 = Entry(self)
+        self.label_1.place(rely = .47, relx = .45, anchor = CENTER)
+        self.entry_1.place(rely = .47, relx = .55, anchor = CENTER)
 
-        self.label_1 = Label(self.line1, text="Username", fg="white", bg=BACKGROUND_COLOUR_DARKER)
-        self.entry_1 = Entry(self.line1)
-        self.label_1.pack(side = LEFT)
-        self.entry_1.pack(side = LEFT)
-        self.line1.place(in_ =self,rely = .47, relx = .5, anchor = CENTER)
-
-        self.line2 = Frame()
-
-        self.label_2 = Label(self.line2, text="Password", fg="white", bg=BACKGROUND_COLOUR_DARKER)
-        self.entry_2 = Entry(self.line2, show="*")     
-        self.label_2.pack(side = LEFT)
-        self.entry_2.pack(side = LEFT)
-
-        self.line2.place(in_ = self, rely = .5, relx = .5, anchor = CENTER)
-        
-        self.checkbox = Checkbutton(self, text="Keep me logged in", fg="white", bg=BACKGROUND_COLOUR_DARKER)
-        self.checkbox.place(rely = .525, relx = .5, anchor = CENTER)
+        self.label_2 = Label(self, text="Password", fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        self.entry_2 = Entry(self, show="*")
+        self.label_2.place(rely = .5, relx = .45, anchor = CENTER)
+        self.entry_2.place(rely = .5, relx = .55, anchor = CENTER)
 
         self.logbtn = ttk.Button(self, text="Login", command=self._login_btn_clicked)
         self.logbtn.place(rely = .555, relx = .5, anchor = CENTER)
