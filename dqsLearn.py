@@ -463,76 +463,90 @@ class test_1(Frame):    #Dom Routley
         button1.grid(padx=10, pady=10)
 
     def submitTest(self):
+        # make self.questions ****?
         questions = {
-               'Q1': ('t1', self.varQ1A.get()),
-               'Q2': ('t2', self.varQ2A.get()),
-               'Q3': ('t3', self.varQ3A.get()),
-               'Q4': ('1:1:0:0', str(self.varQ4T1.get()) + ':' + str(self.varQ4T2.get()) + ':' + str(self.varQ4F1.get()) + ':' + str(self.varQ4F2.get())),
-               'Q5': ('T:F:F:F', str(self.varQ5T.get()) + ':' + str(self.varQ5F1.get()) + ':' + str(self.varQ5F2.get()) + ':' + str(self.varQ5F3.get()))
-            }
+           'Q1': ('t1', self.varQ1A.get()),
+           'Q2': ('t2', self.varQ2A.get()),
+           'Q3': ('t3', self.varQ3A.get()),
+           'Q4': ('1:1:0:0', str(self.varQ4T1.get()) + ':' + str(self.varQ4T2.get()) + ':' + str(self.varQ4F1.get()) + ':' + str(self.varQ4F2.get())),
+           'Q5': ('T:F:F:F', str(self.varQ5T.get()) + ':' + str(self.varQ5F1.get()) + ':' + str(self.varQ5F2.get()) + ':' + str(self.varQ5F3.get()))
+        }
 
-        q1 = ""
-        q2 = ""
-        q3 = ""
-        q4 = ""
-        q5 = ""
+        alertMsg = ""
 
-        if questions['Q1'][0] == questions['Q1'][1]:
-            q1 = "correct"
+
+        if questions['Q1'] == "":
+            alertMsg = "You must answer the first question"
+        if questions['Q2'] == "":
+            alertMsg = "You must answer the second question"
+        if questions['Q3'] == "":
+            alertMsg = "You must answer the third question"
+        if questions['Q4'] == "":
+            alertMsg = "You must answer the fourth question"
+        if questions['Q5'] == "":
+            alertMsg = "You must answer the fifth question"
+
+        # if alertMsg is blank, all questions been completed
+        if alertMsg == "":
+            q1 = ""
+            q2 = ""
+            q3 = ""
+            q4 = ""
+            q5 = ""
+
+            if questions['Q1'][0] == questions['Q1'][1]:
+                q1 = "correct"
+            else:
+                q1 = "incorrect"
+
+            if questions['Q2'][0] == questions['Q2'][1]:
+                q2 = "correct"
+            else:
+                q2 = "incorrect"
+
+            if questions['Q3'][0] == questions['Q3'][1]:
+                q3 = "correct"
+            else:
+                q3 = "incorrect"
+
+            if questions['Q4'][0] == questions['Q4'][1]:
+                q4 = "correct"
+            else:
+                q4 = "incorrect"
+
+            if questions['Q5'][0] == questions['Q5'][1]:
+                q5 = "correct"
+            else:
+                q5 = "incorrect"
+
+            messagebox.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3 + "\n" + q4 + "\n" + q5)
+
+            #print(questions['Q1'], questions['Q2'], questions['Q3'], questions['Q4'], questions['Q5'])
+
+            tfinish = datetime.now()
+            timeElapsed = tfinish - self.tstart
+            # timeElapsed = "00:00:00"
+
+            newResult = dqsClass.UserResult("0001", "0001", timeElapsed, questions)
+
+            print(newResult.lessonID)
+            print(newResult.userID)
+            print(newResult.timeElapsed)
+            print(newResult.questions)
+
+            #creating object
+            db = shelve.open("responses.dat", 'n')
+            # storing object in Pickle db
+            db[newResult.lessonID] = newResult
+            db.close()
+            #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
+            #db = shelve.open("shelved.dat", 'r')
+            #db['0001'] = newResult
+            #d.close()
+
+            controller.show_frame(studentMenu)
         else:
-            q1 = "incorrect"
-
-        if questions['Q2'][0] == questions['Q2'][1]:
-            q2 = "correct"
-        else:
-            q2 = "incorrect"
-
-        if questions['Q3'][0] == questions['Q3'][1]:
-            q3 = "correct"
-        else:
-            q3 = "incorrect"
-
-        if questions['Q4'][0] == questions['Q4'][1]:
-            q4 = "correct"
-        else:
-            q4 = "incorrect"
-
-        if questions['Q5'][0] == questions['Q5'][1]:
-            q5 = "correct"
-        else:
-            q5 = "incorrect"
-
-        messagebox.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3 + "\n" + q4 + "\n" + q5)
-
-        print(questions['Q1'], questions['Q2'], questions['Q3'], questions['Q4'], questions['Q5'])
-
-        tfinish = datetime.now()
-        timeElapsed = tfinish - self.tstart
-        # timeElapsed = "00:00:00"
-
-        newResult = dqsClass.UserResult("0001", "0001", timeElapsed, questions)
-
-        print(newResult.lessonID)
-        print(newResult.userID)
-        print(newResult.timeElapsed)
-        print(newResult.questions)
-
-        #creating object
-        db = shelve.open("responses.dat", 'n')
-
-        db[newResult.lessonID] = newResult
-
-        db.close()
-
-        #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
-
-        #db = shelve.open("shelved.dat", 'r')
-
-        #db['0001'] = newResult
-
-        #d.close()
-
-        controller.show_frame(studentMenu)
+            messagebox.showwarning("Entry Error", alertMsg)
 
 class test_2(Frame):    #Dom Routley
     def __init__(self, parent, controller):
