@@ -5,13 +5,13 @@ class UserResult:
         self.timeElapsed = timeElapsed
         self.questions = questions
 
-    def getTotalMarks():
+    def getTotalMarks(self):
         total = 0
         for question, answers in questions:
             total += answers[1]
         return total
 
-    def getTimeElapsed():
+    def getTimeElapsed(self):
         return timeElapsed
 
 """
