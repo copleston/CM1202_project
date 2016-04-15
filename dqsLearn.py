@@ -54,29 +54,35 @@ class login(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
         label = Label(self, text="Login Page", font=LARGE_FONT, bg=BACKGROUND_COLOUR_DARKER, fg="white")
-        label.grid(row=0, sticky=N, padx=10, pady=10)
+        label.place(rely = .425, relx = .5, anchor = CENTER)
 
-        self.label_1 = Label(self, text="Username", fg="white", bg=BACKGROUND_COLOUR_DARKER)
-        self.label_2 = Label(self, text="Password", fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        line1 = Frame()
 
-        self.entry_1 = Entry(self)
-        self.entry_2 = Entry(self, show="*")
+        self.label_1 = Label(line1, text="Username", fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        self.entry_1 = Entry(line1)
+        self.label_1.pack(side = LEFT)
+        self.entry_1.pack(side = LEFT)
+        line1.place(in_ =self,rely = .47, relx = .5, anchor = CENTER)
 
-        self.label_1.grid(row=1, sticky=E)
-        self.label_2.grid(row=2, sticky=E)
-        self.entry_1.grid(row=1, column=1)
-        self.entry_2.grid(row=2, column=1)
+        line2 = Frame()
 
+        self.label_2 = Label(line2, text="Password", fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        self.entry_2 = Entry(line2, show="*")     
+        self.label_2.pack(side = LEFT)
+        self.entry_2.pack(side = LEFT)
+
+        line2.place(in_ = self, rely = .5, relx = .5, anchor = CENTER)
+        
         self.checkbox = Checkbutton(self, text="Keep me logged in", fg="white", bg=BACKGROUND_COLOUR_DARKER)
-        self.checkbox.grid(row=3, columnspan=2)
+        self.checkbox.place(rely = .525, relx = .5, anchor = CENTER)
 
         self.logbtn = ttk.Button(self, text="Login", command=self._login_btn_clickked)
-        self.logbtn.grid(row=4, rowspan=1, columnspan=2)
+        self.logbtn.place(rely = .555, relx = .5, anchor = CENTER)
 
-        button1 = ttk.Button(self, text="Student Login", command=lambda: controller.show_frame(studentMenu)) # only calls the function when the button is pressed
-        button1.grid(row=5, rowspan=1, column=1)
+        """button1 = ttk.Button(self, text="Student Login", command=lambda: controller.show_frame(studentMenu)) # only calls the function when the button is pressed
+        button1.pack()
         button2 = ttk.Button(self, text="Lecturer Login", command=lambda: controller.show_frame(lecturerMenu))  # only calls the function when the button is pressed
-        button2.grid(row=5, rowspan=1, column=2)
+        button2.pack()"""
 
         self.pack()
 
@@ -445,47 +451,17 @@ class test_1(Frame):    #Dom Routley
         # the variables are saved as question numbers, they contain a number that pertains to the number of points that the user has scored from that question.
         # variables you want are question1, question2, question3, question4, question5, time
 
-        if self.varQ1A == "t1":
-            self.question1 = 1
-        else:
-            self.question1 = 0
-
-        if self.varQ2A == "t2":
-            self.question2 = 1
-        else:
-            self.question2 = 0
-
-        if self.varQ3A == "t3":
-            self.question3 = 1
-        else:
-            self.question3 = 0
-
-        question4 = 0
-        if self.varQ4T1.get() == 1:
-            self.question4 = 1
-        if self.varQ4T2.get() == 1:
-            self.question4 = question4 + 1
-        if self.varQ4F1.get() == 1:
-            self.question4 = question4 - 1
-        if self.varQ4F2.get() == 1:
-            self.question4 = question4 - 1
-        if question4 < 0:
-            self.question4 = 0
-
-        if self.varQ5T == "T" and self.varQ5F1 == "F" and self.varQ5F2 == "F" and self.varQ5F3 == "F":
-            self.question5 = 4
-        else:
-            self.question5 = 0
 
         button = ttk.Button(self, text="Finish", command=self.submitTest())
         button.grid(padx=10, pady=10)
 
     def submitTest(self):
         questions = {
-               'Q1': ('t1', self.varQ1A),
-               'Q2': ('t2', self.varQ2A),
-               'Q3': ('t3', self.varQ3A),
-               'Q4': ('1:1:1:1', str(self.varQ4T1) + ':' + str(self.varQ4T2) + ':' + str(self.varQ4F1) + ':' + str(self.varQ4F2))
+                'Q1': ['t1', self.varQ1A],
+                'Q2': ['t2', self.varQ2A],
+                'Q3': ['t3', self.varQ3A],
+                'Q4': ['1:1:1:1', str(self.varQ4T1) + ':' + str(self.varQ4T2) + ':' + str(self.varQ4F1) + ':' + str(self.varQ4F2)],
+                'Q5' : ['T:F:F:F',str(self.varQ5T)+":"+str(self.varQ5F1)+":"+str(self.varQ5F2)+":"+str(self.varQ5F3)]
             }
 
         tfinish = datetime.now()
