@@ -532,7 +532,7 @@ class test_1(Frame):    #Dom Routley
             else:
                 q5 = "incorrect"
 
-            messagebox.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3 + "\n" + q4 + "\n" + q5)
+            self.messagebox.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3 + "\n" + q4 + "\n" + q5)
 
             #print(questions['Q1'], questions['Q2'], questions['Q3'], questions['Q4'], questions['Q5'])
 
@@ -559,7 +559,7 @@ class test_1(Frame):    #Dom Routley
 
             controller.show_frame(studentMenu)
         else:
-            messagebox.showwarning("Entry Error", alertMsg)
+            self.messagebox.showwarning("Entry Error", alertMsg)
 
 class test_2(Frame):    #Dom Routley
     def __init__(self, parent, controller):
