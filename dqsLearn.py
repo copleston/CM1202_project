@@ -710,7 +710,7 @@ class view_average(Frame):  # Alex Mumford
         button3 = ttk.Button(self, text="View Logic Average", command=lambda: controller.show_frame(view_average_logic)) 
         button3.pack(padx=10, pady=10)
 
-class view_average_sets(Frame):  # Alex Mumford
+class view_average_sets(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
@@ -723,7 +723,7 @@ class view_average_sets(Frame):  # Alex Mumford
 
 
 
-class view_average_logic(Frame):  # Alex Mumford
+class view_average_logic(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
