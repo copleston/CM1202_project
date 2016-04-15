@@ -510,7 +510,19 @@ class test_1(Frame):    #Dom Routley
         timeElapsed = tfinish - self.tstart
         # timeElapsed = "00:00:00"
 
-        newResult = dqsClass.UserResult("0001", "0001", timeElapsed)
+        newResult = dqsClass.UserResult("0001", "0001", timeElapsed, questions)
+
+        print(newResult.lessonID)
+        print(newResult.userID)
+        print(newResult.timeElapsed)
+        print(newResult.questions)
+
+        db = shelve.open("responses.dat", 'n')
+
+        db[newResult.lessonID] = newResult
+
+        db.close()
+
         #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
 
         #db = shelve.open("shelved.dat", 'r')
@@ -519,7 +531,7 @@ class test_1(Frame):    #Dom Routley
 
         #d.close()
 
-        #controller.show_frame(studentMenu)
+        controller.show_frame(studentMenu)
 
 class test_2(Frame):    #Dom Routley
     def __init__(self, parent, controller):
