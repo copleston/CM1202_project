@@ -737,8 +737,12 @@ class view_average_sets(Frame):
 
         label = Label(self, text="Average Sets Menu", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
         label.pack(padx=10, pady=10) 
-        label = Label(self, text="45%", font=LARGE_FONT)# temp placement
+
+        var = StringVar()
+        label = Label(self, textvariable=var, font=LARGE_FONT)
+        var.set(dqsClass.Sets_Average())
         label.pack(padx=10, pady=10) 
+
         button1 = ttk.Button(self, text="Logic Average", command=lambda: controller.show_frame(view_average_logic))  
         button1.pack(padx=10, pady=10)
         button1 = ttk.Button(self, text="Back to Average Menu", command=lambda: controller.show_frame(view_average))  
@@ -752,8 +756,12 @@ class view_average_logic(Frame):
 
         label = Label(self, text="Average Logic Menu", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
         label.pack(padx=10, pady=10) 
-        label = Label(self, text="78%", font=LARGE_FONT) # temp placement
+
+        var = StringVar()
+        label = Label(self, textvariable=var, font=LARGE_FONT)
+        var.set(dqsClass.Logic_Average())
         label.pack(padx=10, pady=10) 
+
         button1 = ttk.Button(self, text="Sets Average", command=lambda: controller.show_frame(view_average_sets))  
         button1.pack(padx=10, pady=10)
         button1 = ttk.Button(self, text="Back to Average Menu", command=lambda: controller.show_frame(view_average))  
