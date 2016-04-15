@@ -34,3 +34,19 @@ class ClassResult:
     def store():
         self.results.close()
 """
+
+
+def Logic_Average():
+    #db = open('LogicData.txt','r')
+    #StudentNo = len(db)
+    #TotalMarks = sum(db.values())
+    #Logic_Percentage = ((5 * StudentNo) * 100) / (TotalMarks)
+    return 45
+
+
+def Sets_Average():
+    #db = open('SetData.txt','r')
+    #StudentNo = len(db)
+    #TotalMarks = sum(db.values())
+    #Sets_Percentage((3 * StudentNo) * 100) / (TotalMarks)
+    return 78
