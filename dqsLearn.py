@@ -3,6 +3,7 @@ from tkinter import ttk  # css for tkinter
 from tkinter import messagebox as tm
 from datetime import datetime
 import dqsClass
+import shelve
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -12,8 +13,6 @@ LARGE_FONT = ("Verdana", 16, "bold")
 BACKGROUND_COLOUR_DARK = "#283F44"
 BACKGROUND_COLOUR_DARKER = "#393B3F"
 BACKGROUND_RED = "#AD423E"
-
-username = ""
 
 class dqsLearn(Frame): # include inheritance as parameters
     def __init__(self, *args, **kwargs): # args(arguments) = any number of variables kwargs(kewyword arguments) = passing dictionaries/data structures
@@ -100,7 +99,7 @@ class login(Frame):
                 self.line1.destroy()
                 self.line2.destroy()
             else:
-                tm.showerror("Login error", "This user does not exist, perhaps you've entered the wrong user ID")
+                tm.showerror("Login error", "Incorrect information")
         elif username in teacher_usernames and password in teacher_passwords:
             if (teacher_usernames.index(username) == teacher_passwords.index(password)):
                 tm.showinfo("Login info", "Welcome Teacher")
@@ -108,9 +107,9 @@ class login(Frame):
                 self.line1.destroy()
                 self.line2.destroy()
             else:
-                tm.showerror("Login error", "This user does not exist, perhaps you've entered the wrong user ID")
+                tm.showerror("Login error", "Incorrect information")
         else:
-            tm.showerror("Login error", "These details are incorrectly formatted, please enter your user ID and corresponding password before clicking 'Login'")
+            tm.showerror("Login error", "Incorrect information")
 
 
         # button1 = Button(self, text="Student Login", command=studentMenu) # calls the function immediately
@@ -341,7 +340,6 @@ class test_1(Frame):    #Dom Routley
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
         self.tstart = datetime.now()  # get current time
-        self.lessonID = "0001"
 
         label = Label(self, text="Logic - Test", font=LARGE_FONT)
         label.grid(row=0, column=1, padx=10, pady=10)
@@ -470,7 +468,6 @@ class test_1(Frame):    #Dom Routley
         button1.grid(padx=10, pady=10)
 
     def submitTest(self, controller):
-        # adding each response to a dictionary
         questions = {
                'Q1': ('t1', self.varQ1A.get()),
                'Q2': ('t2', self.varQ2A.get()),
@@ -479,19 +476,18 @@ class test_1(Frame):    #Dom Routley
                'Q5': ('T:F:F:F', str(self.varQ5T.get()) + ':' + str(self.varQ5F1.get()) + ':' + str(self.varQ5F2.get()) + ':' + str(self.varQ5F3.get()))
             }
 
-        # variable to possible error message
         alertMsg = ""
 
-        # check if each individual question has been answered
-        if questions['Q1'][1] == "":
+
+        if questions['Q1'] == "":
             alertMsg = "You must answer the first question"
-        if questions['Q2'][1] == "":
+        if questions['Q2'] == "":
             alertMsg = "You must answer the second question"
-        if questions['Q3'][1] == "":
+        if questions['Q3'] == "":
             alertMsg = "You must answer the third question"
-        if questions['Q4'][1] == "0:0:0:0":
+        if questions['Q4'] == "":
             alertMsg = "You must answer the fourth question"
-        if questions['Q5'][1] == ":::":
+        if questions['Q5'] == "":
             alertMsg = "You must answer the fifth question"
 
         # if alertMsg is blank, all questions been completed
@@ -531,7 +527,8 @@ class test_1(Frame):    #Dom Routley
 
             #print(questions['Q1'], questions['Q2'], questions['Q3'], questions['Q4'], questions['Q5'])
 
-            timeElapsed = datetime.now() - self.tstart
+            tfinish = datetime.now()
+            timeElapsed = tfinish - self.tstart
             # timeElapsed = "00:00:00"
 
             class_result = dqsClass.ClassResult(self.lessonID)
@@ -546,7 +543,7 @@ class test_1(Frame):    #Dom Routley
             print(newResult.questions)
 
             #creating object
-            db = shelve.open("responses1.dat", 'n')
+            db = shelve.open("responses.dat", 'n')
             # storing object in Pickle db
             db[newResult.lessonID] = newResult
             db.close()
@@ -557,7 +554,8 @@ class test_1(Frame):    #Dom Routley
 
             controller.show_frame(studentMenu)
         else:
-            tm.showwarning("Entry Error", alertMsg)
+            self.messagebox.showwarning("Entry Error", alertMsg)
+            controller.show_frame(studentMenu)
 
 
 class test_2(Frame):    #Dom Routley
@@ -625,72 +623,59 @@ class test_2(Frame):    #Dom Routley
         sep.grid(row=9, columnspan=4, sticky=EW)
 
 
-        button = ttk.Button(self, text="Finish", command=lambda: self.submitTest2(controller))
+        button = ttk.Button(self, text="Finish", command=self.submitTest2)
         button.grid(padx=10, pady=10)
 
         button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))
         button1.grid(padx=10, pady=10)
 
 
-    def submitTest2(self, controller):
+    def submitTest2(self):
         questions = {
-                'Q1': ['t1', self.SvarQ1A.get()],
-                'Q2': ['t2', self.SvarQ2A.get()],
-                'Q3': ['t3', self.SvarQ3A.get()]
+                'Q1': ['t1', self.SvarQ1A],
+                'Q2': ['t2', self.SvarQ2A],
+                'Q3': ['t3', self.SvarQ3A]
             }
 
-        alertMsg = ""
+        tfinish = datetime.now()
+        timeElapsed = tfinish - self.tstart2
 
-        if questions['Q1'][1] == "":
-            alertMsg = "You must answer the first question"
-        if questions['Q2'][1] == "":
-            alertMsg = "You must answer the second question"
-        if questions['Q3'][1] == "":
-            alertMsg = "You must answer the third question"
+        q1 = ""
+        q2 = ""
+        q3 = ""
 
-        # if alertMsg is blank, all questions been completed
-        if alertMsg == "":
-            q1 = ""
-            q2 = ""
-            q3 = ""
-
-            if questions['Q1'][0] == questions['Q1'][1]:
-                q1 = "correct"
-            else:
-                q1 = "incorrect"
-
-            if questions['Q2'][0] == questions['Q2'][1]:
-                q2 = "correct"
-            else:
-                q2 = "incorrect"
-
-            if questions['Q3'][0] == questions['Q3'][1]:
-                q3 = "correct"
-            else:
-                q3 = "incorrect"
-
-            tm.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3)
-
-            #print(questions['Q1'], questions['Q2'], questions['Q3'])
-
-            # get tiem teken on test
-            tfinish = datetime.now()
-            timeElapsed = tfinish - self.tstart2
-
-            newResult = dqsClass.UserResult("0001", "0001", timeElapsed, questions)
-
-            print(newResult.lessonID)
-            print(newResult.userID)
-            print(newResult.timeElapsed)
-            print(newResult.questions)
-
-            db = shelve.open("responses2.dat", "n")
-            db[newResult.lessonID] = newResult
-            db.close()
-
-            controller.show_frame(studentMenu)
+        if questions['Q1'][0] == questions['Q1'][1]:
+            q1 = "correct"
         else:
-            tm.showwarning("Entry Error", alertMsg)
+            q1 = "incorrect"
+
+        if questions['Q2'][0] == questions['Q2'][1]:
+            q2 = "correct"
+        else:
+            q2 = "incorrect"
+
+        if questions['Q3'][0] == questions['Q3'][1]:
+            q3 = "correct"
+        else:
+            q3 = "incorrect"
+
+
+        tm.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3)
+
+        print(questions['Q1'], questions['Q2'], questions['Q3'])
+
+
+
+        #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
+
+
+        #db = shelve.open("shelved.dat", 'r')
+
+        #db['0001'] = newResult
+
+        #d.close()
+
+        #controller.show_frame(studentMenu)
 
 
 
@@ -730,24 +715,32 @@ class view_average(Frame):  # Alex Mumford
         button3 = ttk.Button(self, text="View Logic Average", command=lambda: controller.show_frame(view_average_logic)) 
         button3.pack(padx=10, pady=10)
 
-class view_average_sets(Frame):  # Alex Mumford
+class view_average_sets(Frame): 
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
         label = Label(self, text="Average Sets Menu", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
         label.pack(padx=10, pady=10) 
+        label = Label(self, text="45%", font=LARGE_FONT)
+        label.pack(padx=10, pady=10) # temp number
         button1 = ttk.Button(self, text="Back to Average Menu", command=lambda: controller.show_frame(view_average))  
+        button1.pack(padx=10, pady=10)
+        button1 = ttk.Button(self, text="Logic average", command=lambda: controller.show_frame(view_average_logic))  
         button1.pack(padx=10, pady=10)
 
 
 
-class view_average_logic(Frame):  # Alex Mumford
+class view_average_logic(Frame): 
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
         label = Label(self, text="Average Logic Menu", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
         label.pack(padx=10, pady=10) 
+        label = Label(self, text="78%", font=LARGE_FONT)
+        label.pack(padx=10, pady=10) # temp number
         button1 = ttk.Button(self, text="Back to Average Menu", command=lambda: controller.show_frame(view_average))  
+        button1.pack(padx=10, pady=10)
+        button1 = ttk.Button(self, text="Sets average", command=lambda: controller.show_frame(view_average_sets))  
         button1.pack(padx=10, pady=10)
 
 
@@ -758,9 +751,9 @@ class view_results1(Frame):  #Dom Routley
         #PLACEHOLDER DATA
         userIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         score = [4, 6, 2, 8, 9, 0, 5, 6, 5, 6]
-        testId = "1"
         #PLACEHOLDER DATA
 
+        testId = "1"
         db = shelve.open("responses1.dat", 'n')
         for x in db:
             print(x)
@@ -808,9 +801,9 @@ class view_results2(Frame):  #Dom Routley
         #PLACEHOLDER DATA
         userIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         score = [4, 6, 2, 8, 9, 0, 5, 6, 5, 6]
-        testId = "2"
         #PLACEHOLDER DATA
-
+        
+        testId = "2"
         maxGrade = 3
         userIdLength = len(userIds)
         plt.bar(userIds, score, align="center")
