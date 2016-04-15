@@ -97,15 +97,15 @@ class login(Frame):
                 tm.showinfo("Login info", "Welcome Student")
                 self.controller.show_frame(studentMenu)
             else:
-                tm.showerror("Login error", "Incorrect information")
+                tm.showerror("Login error", "This user does not exist, perhaps you've entered the wrong user ID")
         elif username in teacher_usernames and password in teacher_passwords:
             if (teacher_usernames.index(username) == teacher_passwords.index(password)):
                 tm.showinfo("Login info", "Welcome Teacher")
                 self.controller.show_frame(lecturerMenu)
             else:
-                tm.showerror("Login error", "Incorrect information")
+                tm.showerror("Login error", "This user does not exist, perhaps you've entered the wrong user ID")
         else:
-            tm.showerror("Login error", "Incorrect information")
+            tm.showerror("Login error", "These details are incorrectly formatted, please enter your user ID and corresponding password before clicking 'Login'")
 
 
         # button1 = Button(self, text="Student Login", command=studentMenu) # calls the function immediately
