@@ -471,9 +471,6 @@ class test_1(Frame):    #Dom Routley
                'Q5': ('T:F:F:F', str(self.varQ5T) + ':' + str(self.varQ5F1) + ':' + str(self.varQ5F2) + ':' + str(self.varQ5F3))
             }
 
-        tfinish = datetime.now()
-        timeElapsed = tfinish - self.tstart
-
         q1 = ""
         q2 = ""
         q3 = ""
@@ -509,6 +506,11 @@ class test_1(Frame):    #Dom Routley
 
         print(self.varQ1A, self.varQ2A, self.varQ3A, questions['Q4'], questions['Q5'])
 
+        tfinish = datetime.now()
+        timeElapsed = tfinish - self.tstart
+        # timeElapsed = "00:00:00"
+
+        newResult = dqsClass.UserResult("0001", "0001", timeElapsed)
         #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
 
         #db = shelve.open("shelved.dat", 'r')
