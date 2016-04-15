@@ -540,6 +540,7 @@ class test_1(Frame):    #Dom Routley
 
             #class_result.addResult(username, timeElapsed, questions)
 
+            # testing object
             print(newResult.testID)
             print(newResult.studentID)
             print(newResult.timeElapsed)
