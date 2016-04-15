@@ -5,32 +5,28 @@ class UserResult:
         self.timeElapsed = timeElapsed
         self.questions = questions
 
-    def getTotalMarks():
+    def getTotalMarks(self):
         total = 0
         for question, answers in questions:
             if answers[0] == answers[1]:
-            	total+=1
+                total = total + 1
         return total
 
-    def getTimeElapsed():
+    def getTimeElapsed(self):
         return timeElapsed
 
 
-class ClassResult:
-    def __init__(self, userResultIn):
-        self.userResult = userResultIn
+def Logic_Average():
+    #db = open('LogicData.txt','r')
+    #StudentNo = len(db)
+    #TotalMarks = sum(db.values())
+    #Logic_Percentage = ((5 * StudentNo) * 100) / (TotalMarks)
+    return 45
 
-        self.lessonID = lessonID
-        if self.lessonID == "Logic":
-            self.results = shelve.open("responses1.dat", "n")
-        elif self.lessonID == "Tests":
-            self.results = shelve.open("responses2.dat", "n")
 
-    def getResults():
-        return self.results
-
-    def addResult(self, userID, timeElapsed, questions):
-        self.results[userID] = new_result
-
-    def store():
-        self.results.close()
+def Sets_Average():
+    #db = open('SetData.txt','r')
+    #StudentNo = len(db)
+    #TotalMarks = sum(db.values())
+    #Sets_Percentage((3 * StudentNo) * 100) / (TotalMarks)
+    return 78

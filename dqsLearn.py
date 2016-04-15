@@ -31,7 +31,7 @@ class dqsLearn(Frame): # include inheritance as parameters
         # collection of frames i.e. login, menu, lesson, test
         self.frames = {}
 
-        for page in (login, studentMenu, lesson_1, lesson_2, test_1, test_2, lecturerMenu, view_results1, view_results2, view_average, view_average_sets, view_average_logic):
+        for page in (login, studentMenu, lesson_1, lesson_2, test_1, test_2, lecturerMenu, view_results1, view_results2, view_average, view_average_sets, view_average_logic, view_logic_list, view_sets_list):
             # set the current frame
             frame = page(container, self) # Assign the login screen to the first frame to be passed
 
@@ -87,10 +87,10 @@ class login(Frame):
 
         # print(username, password)
 
-        student_usernames = ("C100", "C200", "C300")
+        student_usernames = ("C1", "C2", "C3")
         student_passwords = ("PASS", "PASS1", "PASS2")
 
-        teacher_usernames = ("T100", "T200", "T300")
+        teacher_usernames = ("T1", "T2", "T3")
         teacher_passwords = ("TPASS", "TPASS1", "TPASS3")
 
         if username in student_usernames and password in student_passwords:
@@ -181,7 +181,7 @@ class lesson_1(Frame):
             self.slide_index = temp_tuple[0]+1 #J: set slide index
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
+            #print(self.slide_index)
 
         def previous_slide(self):
             # if on last slide, re-activate "next" button
@@ -198,7 +198,7 @@ class lesson_1(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
+            #print(self.slide_index)
 
         def next_slide(self):
             # if on first slide, re-activate "previous" button
@@ -215,7 +215,7 @@ class lesson_1(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
+            #print(self.slide_index)
 
         Lb1.bind('<<ListboxSelect>>', set_slide) # J: bind set_slide function to listbox onclick event
         button2 = ttk.Button(self, text="Previous", command=lambda: previous_slide(self))
@@ -282,7 +282,7 @@ class lesson_2(Frame):
             self.slide_index = temp_tuple[0]+1 #J: set slide index
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
+            #print(self.slide_index)
 
         def previous_slide(self):
             # if on last slide, re-activate "next" button
@@ -299,7 +299,7 @@ class lesson_2(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
+            #print(self.slide_index)
 
         def next_slide(self):
             # if on first slide, re-activate "previous" button
@@ -316,7 +316,7 @@ class lesson_2(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
+            #print(self.slide_index)
 
 
         Lb1.bind('<<ListboxSelect>>', set_slide) # J: bind set_slide function to listbox onclick event
@@ -498,29 +498,34 @@ class test_1(Frame):    #Dom Routley
             q3 = ""
             q4 = ""
             q5 = ""
-
+            totalMarks = 0
             if questions['Q1'][0] == questions['Q1'][1]:
                 q1 = "correct"
+                totalMarks += 1
             else:
                 q1 = "incorrect"
 
             if questions['Q2'][0] == questions['Q2'][1]:
                 q2 = "correct"
+                totalMarks += 1
             else:
                 q2 = "incorrect"
 
             if questions['Q3'][0] == questions['Q3'][1]:
                 q3 = "correct"
+                totalMarks += 1
             else:
                 q3 = "incorrect"
 
             if questions['Q4'][0] == questions['Q4'][1]:
                 q4 = "correct"
+                totalMarks += 1
             else:
                 q4 = "incorrect"
 
             if questions['Q5'][0] == questions['Q5'][1]:
                 q5 = "correct"
+                totalMarks += 1
             else:
                 q5 = "incorrect"
 
@@ -530,21 +535,16 @@ class test_1(Frame):    #Dom Routley
 
             timeElapsed = datetime.now() - self.tstart
             # timeElapsed = "00:00:00"
-
-            newResult = dqsClass.UserResult("Logic", username, timeElapsed, questions)
-            #class_result.addResult(username, timeElapsed, questions)
-
-            # testing object
-            print(newResult.testID)
-            print(newResult.studentID)
-            print(newResult.timeElapsed)
-            print(newResult.questions)
-
-            # opening logic response database
-            db = shelve.open("responses1.dat", 'n')
-            # storing object in Pickle db
-            db[username] = newResult
+            stringStr = "%" + str(username) + "&" + str(totalMarks)
+            db = open('logicData.txt', 'r')
+            data = db.read()
             db.close()
+            
+            if username in data:
+                tm.showinfo("Error", "You cannot complete the test multiple times.")
+            else:
+                db = open('logicData.txt', 'a')
+                db.write(stringStr)
 
             controller.show_frame(studentMenu)
         else:
@@ -644,19 +644,22 @@ class test_2(Frame):    #Dom Routley
             q1 = ""
             q2 = ""
             q3 = ""
-
+            totalMarks = 0
             if questions['Q1'][0] == questions['Q1'][1]:
                 q1 = "correct"
+                totalMarks += 1
             else:
                 q1 = "incorrect"
 
             if questions['Q2'][0] == questions['Q2'][1]:
                 q2 = "correct"
+                totalMarks += 1
             else:
                 q2 = "incorrect"
 
             if questions['Q3'][0] == questions['Q3'][1]:
                 q3 = "correct"
+                totalMarks += 1
             else:
                 q3 = "incorrect"
 
@@ -668,16 +671,17 @@ class test_2(Frame):    #Dom Routley
             tfinish = datetime.now()
             timeElapsed = tfinish - self.tstart2
 
-            newResult = dqsClass.UserResult("Sets", "0001", timeElapsed, questions)
+            stringStr = "%" + str(username) + "&" + str(totalMarks)
 
-            print(newResult.lessonID)
-            print(newResult.userID)
-            print(newResult.timeElapsed)
-            print(newResult.questions)
-
-            db = shelve.open("responses2.dat", "n")
-            db[newResult.lessonID] = newResult
+            db = open('setsData.txt', 'r')
+            data = db.read()
             db.close()
+            
+            if username in data:
+                tm.showinfo("Error", "You cannot complete the test multiple times.")
+            else:
+                db = open('setsData.txt', 'a')
+                db.write(stringStr)
 
             controller.show_frame(studentMenu)
         else:
@@ -704,6 +708,12 @@ class lecturerMenu(Frame):
         
         button4 = ttk.Button(self, text="View Average Mark ", command=lambda: controller.show_frame(view_average))
         button4.pack(padx=10, pady=10)
+
+        button5 = ttk.Button(self, text="View results results list ", command=lambda: controller.show_frame(view_logic_list))
+        button5.pack(padx=10, pady=10)
+
+        button6 = ttk.Button(self, text="View sets results list ", command=lambda: controller.show_frame(view_sets_list))
+        button6.pack(padx=10, pady=10)
         
 class view_average(Frame):  # Alex Mumford
     def __init__(self, parent, controller):
@@ -721,23 +731,39 @@ class view_average(Frame):  # Alex Mumford
         button3 = ttk.Button(self, text="View Logic Average", command=lambda: controller.show_frame(view_average_logic)) 
         button3.pack(padx=10, pady=10)
 
-class view_average_sets(Frame):  # Alex Mumford
+class view_average_sets(Frame): 
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
         label = Label(self, text="Average Sets Menu", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
         label.pack(padx=10, pady=10) 
+
+        var = StringVar()
+        label = Label(self, textvariable=var, font=LARGE_FONT)
+        var.set(dqsClass.Sets_Average())
+        label.pack(padx=10, pady=10) 
+
+        button1 = ttk.Button(self, text="Logic Average", command=lambda: controller.show_frame(view_average_logic))  
+        button1.pack(padx=10, pady=10)
         button1 = ttk.Button(self, text="Back to Average Menu", command=lambda: controller.show_frame(view_average))  
         button1.pack(padx=10, pady=10)
 
 
 
-class view_average_logic(Frame):  # Alex Mumford
+class view_average_logic(Frame):  
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
         label = Label(self, text="Average Logic Menu", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
         label.pack(padx=10, pady=10) 
+
+        var = StringVar()
+        label = Label(self, textvariable=var, font=LARGE_FONT)
+        var.set(dqsClass.Logic_Average())
+        label.pack(padx=10, pady=10) 
+
+        button1 = ttk.Button(self, text="Sets Average", command=lambda: controller.show_frame(view_average_sets))  
+        button1.pack(padx=10, pady=10)
         button1 = ttk.Button(self, text="Back to Average Menu", command=lambda: controller.show_frame(view_average))  
         button1.pack(padx=10, pady=10)
 
@@ -746,19 +772,35 @@ class view_results1(Frame):  #Dom Routley
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
+        userIds = []
+        score = []
+
         #PLACEHOLDER DATA
-        userIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        score = [4, 6, 2, 8, 9, 0, 5, 6, 5, 6]
-        testId = "1"
+        db = open('logicData.txt', 'r')
+        data = db.read()
+        print(data)
+        data_list = data.split("%")
+        print(data_list)
+        for item in data_list:
+            if item == "":
+                continue
+            items = item.split("&")
+            items[0] = items[0][1:]
+            userIds.append(int(items[0]))
+            score.append(int(items[1]))
         #PLACEHOLDER DATA
 
-        maxGrade = 9
+        print(score)
+        print(userIds)
+
+        testId = "1"
+        maxGrade = 5
         userIdLength = len(userIds)
         plt.bar(userIds, score, align="center")
 
         plt.xlabel("Students")
         plt.ylabel("Score in test")
-        #plt.xticks(userIds)
+        plt.xticks(userIds)
         plt.title("Results from test " + str(testId))
         plt.axis([1, userIdLength, 0, maxGrade])
         plt.grid(True)
@@ -785,15 +827,29 @@ class view_results1(Frame):  #Dom Routley
         buttonL2 = ttk.Button(self, text="Sets test results", command=lambda: controller.show_frame(view_results2))
         buttonL2.pack(padx=10, pady=6)
 
+
 class view_results2(Frame):  #Dom Routley
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
+        userIds = []
+        score = []
+
         #PLACEHOLDER DATA
-        userIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        score = [4, 6, 2, 8, 9, 0, 5, 6, 5, 6]
+        db = open('setsData.txt', 'r')
+        data = db.read()
+        print(data)
+        data_list = data.split("%")
+        print(data_list)
+        for item in data_list:
+            if item == "":
+                continue
+            items = item.split("&")
+            items[0] = items[0][1:]
+            userIds.append(int(items[0]))
+            score.append(int(items[1]))
+
         testId = "2"
-        #PLACEHOLDER DATA
 
         maxGrade = 3
         userIdLength = len(userIds)
@@ -801,7 +857,7 @@ class view_results2(Frame):  #Dom Routley
 
         plt.xlabel("Students")
         plt.ylabel("Score in test")
-        #plt.xticks(userIds)
+        plt.xticks(userIds)
         plt.title("Results from test " + str(testId))
         plt.axis([1, userIdLength, 0, maxGrade])
         plt.grid(True)
@@ -827,6 +883,58 @@ class view_results2(Frame):  #Dom Routley
 
         buttonL1 = ttk.Button(self, text="Logic test results", command=lambda: controller.show_frame(view_results1))
         buttonL1.pack(padx=10, pady=6)
+
+
+class view_logic_list(Frame): # Ollie Copleston
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
+
+        self.txtDisplay = Text(self, height=14, width=85)
+        self.txtDisplay.tag_configure('boldfont', font=('MS', 8, 'bold'))
+        self.txtDisplay.tag_configure('normfont', font=('MS', 8))
+        self.tabResults = ""
+        self.tabResults += ("\t" + "\t" + "\t" + "\t" + "\t")
+        """
+        db = shelve.open('responses1.dat')
+
+        results_box = Listbox(self, bg=BACKGROUND_RED, selectmode=SINGLE, selectbackground="#AD423E")  # create listbox object,
+
+        for i in db:
+            testID = db.get(i).testID
+            studentID = db.get(i).studentID
+            timeElapsed = db.get(i).timeElapsed
+            questions = db.get(i).questions
+            resp = db.get(i).questions
+
+            results_box.insert(resp)
+
+
+
+        Lb1.insert(1, "Propositional Logic")
+        Lb1.insert(2, "Combining Propositions")  # add the listbox options
+        Lb1.insert(3, "Truth Tables")
+        Lb1.insert(4, "Implication")
+        Lb1.insert(5, "Tautologies")
+        Lb1.insert(6, "De Morgan's Laws")
+        Lb1.pack(side=RIGHT, anchor=N, padx=10, pady=10)  # display listbox to screen, hug left of lesson slide
+        """
+"""
+db = shelve.open('responses1.dat', 'r')
+respNo = len(db)
+
+for i in range(0, respNo):
+resp = i + 1
+Ans = db.get(str(resp))
+
+self."""
+
+
+class view_sets_list(Frame): # Ollie Copleston
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
+
+        #db = shelve.open('responses2.dat', 'r')
+
 
 
 
