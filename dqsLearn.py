@@ -467,6 +467,7 @@ class test_1(Frame):    #Dom Routley
         button1.grid(padx=10, pady=10)
 
     def submitTest(self, controller):
+        # adding each response to a dictionary
         questions = {
                'Q1': ('t1', self.varQ1A.get()),
                'Q2': ('t2', self.varQ2A.get()),
@@ -475,8 +476,10 @@ class test_1(Frame):    #Dom Routley
                'Q5': ('T:F:F:F', str(self.varQ5T.get()) + ':' + str(self.varQ5F1.get()) + ':' + str(self.varQ5F2.get()) + ':' + str(self.varQ5F3.get()))
             }
 
+        # variable to possible error message
         alertMsg = ""
 
+        # check if each individual question has been answered
         if questions['Q1'][1] == "":
             alertMsg = "You must answer the first question"
         if questions['Q2'][1] == "":
