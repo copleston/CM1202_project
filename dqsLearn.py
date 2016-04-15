@@ -64,23 +64,22 @@ class login(Frame):
         self.entry_1.place(rely = .47, relx = .55, anchor = CENTER)
 
         self.label_2 = Label(self, text="Password", fg="white", bg=BACKGROUND_COLOUR_DARKER)
-        self.entry_2 = Entry(self, show="*")     
+        self.entry_2 = Entry(self, show="*")
         self.label_2.place(rely = .5, relx = .45, anchor = CENTER)
         self.entry_2.place(rely = .5, relx = .55, anchor = CENTER)
 
         self.logbtn = ttk.Button(self, text="Login", command=self._login_btn_clicked)
         self.logbtn.place(rely = .555, relx = .5, anchor = CENTER)
 
-        """button1 = ttk.Button(self, text="Student Login", command=lambda: controller.show_frame(studentMenu)) # only calls the function when the button is pressed
+        button1 = ttk.Button(self, text="Student Login", command=lambda: controller.show_frame(studentMenu)) # only calls the function when the button is pressed
         button1.pack()
         button2 = ttk.Button(self, text="Lecturer Login", command=lambda: controller.show_frame(lecturerMenu))  # only calls the function when the button is pressed
-        button2.pack()"""
+        button2.pack()
 
         self.pack()
 
     def _login_btn_clicked(self):
         # print("Clicked")
-        global username
         username = self.entry_1.get()
         password = self.entry_2.get()
 
@@ -96,12 +95,16 @@ class login(Frame):
             if (student_usernames.index(username) == student_passwords.index(password)):
                 tm.showinfo("Login info", "Welcome Student")
                 self.controller.show_frame(studentMenu)
+                self.line1.destroy()
+                self.line2.destroy()
             else:
                 tm.showerror("Login error", "This user does not exist, perhaps you've entered the wrong user ID")
         elif username in teacher_usernames and password in teacher_passwords:
             if (teacher_usernames.index(username) == teacher_passwords.index(password)):
                 tm.showinfo("Login info", "Welcome Teacher")
                 self.controller.show_frame(lecturerMenu)
+                self.line1.destroy()
+                self.line2.destroy()
             else:
                 tm.showerror("Login error", "This user does not exist, perhaps you've entered the wrong user ID")
         else:
@@ -180,6 +183,7 @@ class lesson_1(Frame):
             self.slide_index = temp_tuple[0]+1 #J: set slide index
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
+            print(self.slide_index)
 
         def previous_slide(self):
             # if on last slide, re-activate "next" button
@@ -196,6 +200,7 @@ class lesson_1(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
+            print(self.slide_index)
 
         def next_slide(self):
             # if on first slide, re-activate "previous" button
@@ -212,6 +217,7 @@ class lesson_1(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
+            print(self.slide_index)
 
         Lb1.bind('<<ListboxSelect>>', set_slide) # J: bind set_slide function to listbox onclick event
         button2 = ttk.Button(self, text="Previous", command=lambda: previous_slide(self))
@@ -247,6 +253,7 @@ class lesson_2(Frame):
         canvas = Canvas(self, width=canvas_width, height=canvas_height, bg=BACKGROUND_COLOUR_DARK)
         canvas.pack(expand=YES, fill=Y, side=LEFT, padx=10, pady=10)
         #canvas.grid(row=2, column=0, rowspan=1)
+        #
 
         Lb1 = Listbox(self, bg=BACKGROUND_RED, selectmode=SINGLE, selectbackground="#AD423E")#create listbox object,
         Lb1.insert(1, "Sets")
@@ -277,6 +284,7 @@ class lesson_2(Frame):
             self.slide_index = temp_tuple[0]+1 #J: set slide index
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
+            print(self.slide_index)
 
         def previous_slide(self):
             # if on last slide, re-activate "next" button
@@ -293,6 +301,7 @@ class lesson_2(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
+            print(self.slide_index)
 
         def next_slide(self):
             # if on first slide, re-activate "previous" button
@@ -309,6 +318,7 @@ class lesson_2(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
+            print(self.slide_index)
 
 
         Lb1.bind('<<ListboxSelect>>', set_slide) # J: bind set_slide function to listbox onclick event
@@ -450,13 +460,13 @@ class test_1(Frame):    #Dom Routley
         Q5I.grid(row=17, column=3, sticky=E)
 
 
-        button = ttk.Button(self, text="Finish", command=self.submitTest)
+        button = ttk.Button(self, text="Finish", command=lambda: self.submitTest(controller))
         button.grid(padx=10, pady=10)
 
         button1 = ttk.Button(self, text="Back to menu", command=lambda: controller.show_frame(studentMenu))
         button1.grid(padx=10, pady=10)
 
-    def submitTest(self):
+    def submitTest(self, controller):
         questions = {
                'Q1': ('t1', self.varQ1A.get()),
                'Q2': ('t2', self.varQ2A.get()),
@@ -465,60 +475,83 @@ class test_1(Frame):    #Dom Routley
                'Q5': ('T:F:F:F', str(self.varQ5T.get()) + ':' + str(self.varQ5F1.get()) + ':' + str(self.varQ5F2.get()) + ':' + str(self.varQ5F3.get()))
             }
 
-        q1 = ""
-        q2 = ""
-        q3 = ""
-        q4 = ""
-        q5 = ""
+        alertMsg = ""
 
-        if questions['Q1'][0] == questions['Q1'][1]:
-            q1 = "correct"
+
+        if questions['Q1'] == "":
+            alertMsg = "You must answer the first question"
+        if questions['Q2'] == "":
+            alertMsg = "You must answer the second question"
+        if questions['Q3'] == "":
+            alertMsg = "You must answer the third question"
+        if questions['Q4'] == "":
+            alertMsg = "You must answer the fourth question"
+        if questions['Q5'] == "":
+            alertMsg = "You must answer the fifth question"
+
+        # if alertMsg is blank, all questions been completed
+        if alertMsg == "":
+            q1 = ""
+            q2 = ""
+            q3 = ""
+            q4 = ""
+            q5 = ""
+
+            if questions['Q1'][0] == questions['Q1'][1]:
+                q1 = "correct"
+            else:
+                q1 = "incorrect"
+
+            if questions['Q2'][0] == questions['Q2'][1]:
+                q2 = "correct"
+            else:
+                q2 = "incorrect"
+
+            if questions['Q3'][0] == questions['Q3'][1]:
+                q3 = "correct"
+            else:
+                q3 = "incorrect"
+
+            if questions['Q4'][0] == questions['Q4'][1]:
+                q4 = "correct"
+            else:
+                q4 = "incorrect"
+
+            if questions['Q5'][0] == questions['Q5'][1]:
+                q5 = "correct"
+            else:
+                q5 = "incorrect"
+
+            tm.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3 + "\n" + q4 + "\n" + q5)
+
+            #print(questions['Q1'], questions['Q2'], questions['Q3'], questions['Q4'], questions['Q5'])
+
+            tfinish = datetime.now()
+            timeElapsed = tfinish - self.tstart
+            # timeElapsed = "00:00:00"
+
+            newResult = dqsClass.UserResult("0001", "0001", timeElapsed, questions)
+
+            print(newResult.lessonID)
+            print(newResult.userID)
+            print(newResult.timeElapsed)
+            print(newResult.questions)
+
+            #creating object
+            db = shelve.open("responses.dat", 'n')
+            # storing object in Pickle db
+            db[newResult.lessonID] = newResult
+            db.close()
+            #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
+            #db = shelve.open("shelved.dat", 'r')
+            #db['0001'] = newResult
+            #d.close()
+
+            controller.show_frame(studentMenu)
         else:
-            q1 = "incorrect"
+            self.messagebox.showwarning("Entry Error", alertMsg)
+            controller.show_frame(studentMenu)
 
-        if questions['Q2'][0] == questions['Q2'][1]:
-            q2 = "correct"
-        else:
-            q2 = "incorrect"
-
-        if questions['Q3'][0] == questions['Q3'][1]:
-            q3 = "correct"
-        else:
-            q3 = "incorrect"
-
-        if questions['Q4'][0] == questions['Q4'][1]:
-            q4 = "correct"
-        else:
-            q4 = "incorrect"
-
-        if questions['Q5'][0] == questions['Q5'][1]:
-            q5 = "correct"
-        else:
-            q5 = "incorrect"
-
-        tm.showinfo("Results", "Your results are\n" + q1 + "\n" + q2 + "\n" + q3 + "\n" + q4 + "\n" + q5)
-
-        print(questions['Q1'], questions['Q2'], questions['Q3'], questions['Q4'], questions['Q5'])
-
-        tfinish = datetime.now()
-        timeElapsed = tfinish - self.tstart
-        # timeElapsed = "00:00:00"
-
-        newResult = dqsClass.UserResult("0001", "0001", timeElapsed, questions)
-
-        print(newResult.lessonID)
-        print(newResult.userID)
-        print(newResult.timeElapsed)
-        print(newResult.questions)
-
-        #creating object
-        db = shelve.open("responses.dat", 'n')
-
-        db[newResult.lessonID] = newResult
-
-        db.close()
-
-        controller.show_frame(studentMenu)
 
 class test_2(Frame):    #Dom Routley
     def __init__(self, parent, controller):
@@ -704,7 +737,7 @@ class view_results(Frame):  #Dom Routley
 
 
 widthpixels = "1280"
-heightpixels = "750"
+heightpixels = "800"
 
 root = Tk()
 root.iconbitmap(default="favicon.ico") # Team 12 Yeahhhh Boiiiii
