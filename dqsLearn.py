@@ -58,25 +58,15 @@ class login(Frame):
         label = Label(self, text="Login Page", font=LARGE_FONT, bg=BACKGROUND_COLOUR_DARKER, fg="white")
         label.place(rely = .425, relx = .5, anchor = CENTER)
 
-        self.line1 = Frame()
+        self.label_1 = Label(self, text="Username", fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        self.entry_1 = Entry(self)
+        self.label_1.place(rely = .47, relx = .45, anchor = CENTER)
+        self.entry_1.place(rely = .47, relx = .55, anchor = CENTER)
 
-        self.label_1 = Label(self.line1, text="Username", fg="white", bg=BACKGROUND_COLOUR_DARKER)
-        self.entry_1 = Entry(self.line1)
-        self.label_1.pack(side = LEFT)
-        self.entry_1.pack(side = LEFT)
-        self.line1.place(in_ =self,rely = .47, relx = .5, anchor = CENTER)
-
-        self.line2 = Frame()
-
-        self.label_2 = Label(self.line2, text="Password", fg="white", bg=BACKGROUND_COLOUR_DARKER)
-        self.entry_2 = Entry(self.line2, show="*")     
-        self.label_2.pack(side = LEFT)
-        self.entry_2.pack(side = LEFT)
-
-        self.line2.place(in_ = self, rely = .5, relx = .5, anchor = CENTER)
-        
-        self.checkbox = Checkbutton(self, text="Keep me logged in", fg="white", bg=BACKGROUND_COLOUR_DARKER)
-        self.checkbox.place(rely = .525, relx = .5, anchor = CENTER)
+        self.label_2 = Label(self, text="Password", fg="white", bg=BACKGROUND_COLOUR_DARKER)
+        self.entry_2 = Entry(self, show="*")     
+        self.label_2.place(rely = .5, relx = .45, anchor = CENTER)
+        self.entry_2.place(rely = .5, relx = .55, anchor = CENTER)
 
         self.logbtn = ttk.Button(self, text="Login", command=self._login_btn_clicked)
         self.logbtn.place(rely = .555, relx = .5, anchor = CENTER)
@@ -90,6 +80,7 @@ class login(Frame):
 
     def _login_btn_clicked(self):
         # print("Clicked")
+        global username
         username = self.entry_1.get()
         password = self.entry_2.get()
 
@@ -105,16 +96,12 @@ class login(Frame):
             if (student_usernames.index(username) == student_passwords.index(password)):
                 tm.showinfo("Login info", "Welcome Student")
                 self.controller.show_frame(studentMenu)
-                self.line1.destroy()
-                self.line2.destroy()
             else:
                 tm.showerror("Login error", "Incorrect information")
         elif username in teacher_usernames and password in teacher_passwords:
             if (teacher_usernames.index(username) == teacher_passwords.index(password)):
                 tm.showinfo("Login info", "Welcome Teacher")
                 self.controller.show_frame(lecturerMenu)
-                self.line1.destroy()
-                self.line2.destroy()
             else:
                 tm.showerror("Login error", "Incorrect information")
         else:
@@ -193,7 +180,6 @@ class lesson_1(Frame):
             self.slide_index = temp_tuple[0]+1 #J: set slide index
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
 
         def previous_slide(self):
             # if on last slide, re-activate "next" button
@@ -210,7 +196,6 @@ class lesson_1(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
 
         def next_slide(self):
             # if on first slide, re-activate "previous" button
@@ -227,7 +212,6 @@ class lesson_1(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
 
         Lb1.bind('<<ListboxSelect>>', set_slide) # J: bind set_slide function to listbox onclick event
         button2 = ttk.Button(self, text="Previous", command=lambda: previous_slide(self))
@@ -293,7 +277,6 @@ class lesson_2(Frame):
             self.slide_index = temp_tuple[0]+1 #J: set slide index
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
 
         def previous_slide(self):
             # if on last slide, re-activate "next" button
@@ -310,7 +293,6 @@ class lesson_2(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
 
         def next_slide(self):
             # if on first slide, re-activate "previous" button
@@ -327,7 +309,6 @@ class lesson_2(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
 
 
         Lb1.bind('<<ListboxSelect>>', set_slide) # J: bind set_slide function to listbox onclick event
@@ -537,14 +518,6 @@ class test_1(Frame):    #Dom Routley
 
         db.close()
 
-        #newResult = dqsClass.UserResult("0001", '0001', timeElapsed, questions)
-
-        #db = shelve.open("shelved.dat", 'r')
-
-        #db['0001'] = newResult
-
-        #d.close()
-
         controller.show_frame(studentMenu)
 
 class test_2(Frame):    #Dom Routley
@@ -731,7 +704,7 @@ class view_results(Frame):  #Dom Routley
 
 
 widthpixels = "1280"
-heightpixels = "800"
+heightpixels = "750"
 
 root = Tk()
 root.iconbitmap(default="favicon.ico") # Team 12 Yeahhhh Boiiiii
