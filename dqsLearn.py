@@ -32,7 +32,7 @@ class dqsLearn(Frame): # include inheritance as parameters
         # collection of frames i.e. login, menu, lesson, test
         self.frames = {}
 
-        for page in (login, studentMenu, lesson_1, lesson_2, test_1, test_2, lecturerMenu, view_results1, view_results2, view_average, view_average_sets, view_average_logic):
+        for page in (login, studentMenu, lesson_1, lesson_2, test_1, test_2, lecturerMenu, view_results1, view_results2, view_average, view_average_sets, view_average_logic, view_logic_list, view_sets_list):
             # set the current frame
             frame = page(container, self) # Assign the login screen to the first frame to be passed
 
@@ -182,7 +182,7 @@ class lesson_1(Frame):
             self.slide_index = temp_tuple[0]+1 #J: set slide index
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
+            #print(self.slide_index)
 
         def previous_slide(self):
             # if on last slide, re-activate "next" button
@@ -199,7 +199,7 @@ class lesson_1(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
+            #print(self.slide_index)
 
         def next_slide(self):
             # if on first slide, re-activate "previous" button
@@ -216,7 +216,7 @@ class lesson_1(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
+            #print(self.slide_index)
 
         Lb1.bind('<<ListboxSelect>>', set_slide) # J: bind set_slide function to listbox onclick event
         button2 = ttk.Button(self, text="Previous", command=lambda: previous_slide(self))
@@ -283,7 +283,7 @@ class lesson_2(Frame):
             self.slide_index = temp_tuple[0]+1 #J: set slide index
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
+            #print(self.slide_index)
 
         def previous_slide(self):
             # if on last slide, re-activate "next" button
@@ -300,7 +300,7 @@ class lesson_2(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
+            #print(self.slide_index)
 
         def next_slide(self):
             # if on first slide, re-activate "previous" button
@@ -317,7 +317,7 @@ class lesson_2(Frame):
 
             self.img = PhotoImage(file=self.slides.get(self.slide_index))
             canvas.create_image(0, 0, anchor=NW, image=self.img)
-            print(self.slide_index)
+            #print(self.slide_index)
 
 
         Lb1.bind('<<ListboxSelect>>', set_slide) # J: bind set_slide function to listbox onclick event
@@ -716,6 +716,12 @@ class lecturerMenu(Frame):
         
         button4 = ttk.Button(self, text="View Average Mark ", command=lambda: controller.show_frame(view_average))
         button4.pack(padx=10, pady=10)
+
+        button5 = ttk.Button(self, text="View results results list ", command=lambda: controller.show_frame(view_logic_list))
+        button5.pack(padx=10, pady=10)
+
+        button6 = ttk.Button(self, text="View sets results list ", command=lambda: controller.show_frame(view_sets_list))
+        button6.pack(padx=10, pady=10)
         
 class view_average(Frame):  # Alex Mumford
     def __init__(self, parent, controller):
@@ -733,23 +739,39 @@ class view_average(Frame):  # Alex Mumford
         button3 = ttk.Button(self, text="View Logic Average", command=lambda: controller.show_frame(view_average_logic)) 
         button3.pack(padx=10, pady=10)
 
-class view_average_sets(Frame):  # Alex Mumford
+class view_average_sets(Frame): 
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
         label = Label(self, text="Average Sets Menu", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
         label.pack(padx=10, pady=10) 
+
+        var = StringVar()
+        label = Label(self, textvariable=var, font=LARGE_FONT)
+        var.set(dqsClass.Sets_Average())
+        label.pack(padx=10, pady=10) 
+
+        button1 = ttk.Button(self, text="Logic Average", command=lambda: controller.show_frame(view_average_logic))  
+        button1.pack(padx=10, pady=10)
         button1 = ttk.Button(self, text="Back to Average Menu", command=lambda: controller.show_frame(view_average))  
         button1.pack(padx=10, pady=10)
 
 
 
-class view_average_logic(Frame):  # Alex Mumford
+class view_average_logic(Frame):  
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
 
         label = Label(self, text="Average Logic Menu", font=LARGE_FONT, fg="white", bg=BACKGROUND_COLOUR_DARKER)
         label.pack(padx=10, pady=10) 
+
+        var = StringVar()
+        label = Label(self, textvariable=var, font=LARGE_FONT)
+        var.set(dqsClass.Logic_Average())
+        label.pack(padx=10, pady=10) 
+
+        button1 = ttk.Button(self, text="Sets Average", command=lambda: controller.show_frame(view_average_sets))  
+        button1.pack(padx=10, pady=10)
         button1 = ttk.Button(self, text="Back to Average Menu", command=lambda: controller.show_frame(view_average))  
         button1.pack(padx=10, pady=10)
 
@@ -813,6 +835,7 @@ class view_results1(Frame):  #Dom Routley
         buttonL2 = ttk.Button(self, text="Sets test results", command=lambda: controller.show_frame(view_results2))
         buttonL2.pack(padx=10, pady=6)
 
+
 class view_results2(Frame):  #Dom Routley
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
@@ -868,6 +891,58 @@ class view_results2(Frame):  #Dom Routley
 
         buttonL1 = ttk.Button(self, text="Logic test results", command=lambda: controller.show_frame(view_results1))
         buttonL1.pack(padx=10, pady=6)
+
+
+class view_logic_list(Frame): # Ollie Copleston
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
+
+        self.txtDisplay = Text(self, height=14, width=85)
+        self.txtDisplay.tag_configure('boldfont', font=('MS', 8, 'bold'))
+        self.txtDisplay.tag_configure('normfont', font=('MS', 8))
+        self.tabResults = ""
+        self.tabResults += ("\t" + "\t" + "\t" + "\t" + "\t")
+        """
+        db = shelve.open('responses1.dat')
+
+        results_box = Listbox(self, bg=BACKGROUND_RED, selectmode=SINGLE, selectbackground="#AD423E")  # create listbox object,
+
+        for i in db:
+            testID = db.get(i).testID
+            studentID = db.get(i).studentID
+            timeElapsed = db.get(i).timeElapsed
+            questions = db.get(i).questions
+            resp = db.get(i).questions
+
+            results_box.insert(resp)
+
+
+
+        Lb1.insert(1, "Propositional Logic")
+        Lb1.insert(2, "Combining Propositions")  # add the listbox options
+        Lb1.insert(3, "Truth Tables")
+        Lb1.insert(4, "Implication")
+        Lb1.insert(5, "Tautologies")
+        Lb1.insert(6, "De Morgan's Laws")
+        Lb1.pack(side=RIGHT, anchor=N, padx=10, pady=10)  # display listbox to screen, hug left of lesson slide
+        """
+"""
+db = shelve.open('responses1.dat', 'r')
+respNo = len(db)
+
+for i in range(0, respNo):
+resp = i + 1
+Ans = db.get(str(resp))
+
+self."""
+
+
+class view_sets_list(Frame): # Ollie Copleston
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg=BACKGROUND_COLOUR_DARKER)
+
+        #db = shelve.open('responses2.dat', 'r')
+
 
 
 
